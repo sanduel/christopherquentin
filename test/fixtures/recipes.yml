@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  submitter_name: MyString
+  title: MyString
+  ingredients: MyText
+  instructions: MyText
+  story: MyText
+  status: 1
+
+two:
+  submitter_name: MyString
+  title: MyString
+  ingredients: MyText
+  instructions: MyText
+  story: MyText
+  status: 1
