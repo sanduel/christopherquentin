@@ -1,0 +1,2 @@
+# Tests create their own data; fixtures intentionally empty so default scopes
+# don't surprise list assertions.

@@ -1,0 +1,70 @@
+<%= form_with model: [ :admin, event ], local: true, multipart: true, class: "space-y-5 max-w-2xl" do |f| %>
+  <% if event.errors.any? %>
+    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+      <ul class="text-red-700 text-sm list-disc list-inside">
+        <% event.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_field :title, required: true, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :event_type, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.select :event_type, Event.event_types.keys.map { |k| [ k.titleize, k ] }, { include_blank: "Choose…" }, { required: true, class: "w-full px-3 py-2 border border-stone-300 rounded" } %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :starts_at, "Starts at (UTC)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.datetime_local_field :starts_at, required: true, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+      <p class="text-xs text-stone-500 mt-1">Stored in UTC. Displayed in ET, London, and Berlin time on the public site.</p>
+    </div>
+    <div>
+      <%= f.label :ends_at, "Ends at (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.datetime_local_field :ends_at, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :location, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_field :location, placeholder: "Carnegie Hall, NYC", class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :url, "External URL (tickets, livestream, RSVP)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.url_field :url, placeholder: "https://…", class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :description, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_area :description, rows: 6, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :cover_image, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <% if event.cover_image.attached? %>
+      <div class="mb-2">
+        <%= image_tag event.cover_image, class: "h-32 rounded" %>
+      </div>
+    <% end %>
+    <%= f.file_field :cover_image, accept: "image/*" %>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <%= f.check_box :published, class: "h-4 w-4" %>
+    <%= f.label :published, "Published (visible on public site)", class: "text-sm text-stone-700" %>
+  </div>
+
+  <%= render "admin/shared/pin_overrides", f: f, record: event %>
+
+  <div class="flex gap-3">
+    <%= f.submit class: "px-4 py-2 bg-stone-800 text-white rounded hover:bg-stone-700 transition cursor-pointer" %>
+    <%= link_to "Cancel", admin_events_path, class: "px-4 py-2 border border-stone-300 text-stone-700 rounded hover:bg-stone-100 transition" %>
+  </div>
+<% end %>

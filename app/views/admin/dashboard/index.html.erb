@@ -1,0 +1,43 @@
+<h1 class="text-3xl font-title text-stone-800 mb-8">Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <%= link_to admin_tributes_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @pending_tributes %></p>
+    <p class="text-stone-500">Pending Tributes</p>
+  <% end %>
+
+  <%= link_to admin_memories_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @pending_memories %></p>
+    <p class="text-stone-500">Pending Memories</p>
+  <% end %>
+
+  <%= link_to admin_trees_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @pending_trees %></p>
+    <p class="text-stone-500">Pending Trees</p>
+  <% end %>
+
+  <%= link_to admin_recipes_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @pending_recipes %></p>
+    <p class="text-stone-500">Pending Recipes</p>
+  <% end %>
+
+  <%= link_to admin_photo_submissions_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @pending_photos %></p>
+    <p class="text-stone-500">Pending Photos</p>
+  <% end %>
+
+  <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+    <p class="text-3xl font-bold text-stone-700"><%= @total_subscribers %></p>
+    <p class="text-stone-500">Newsletter Subscribers</p>
+  </div>
+
+  <%= link_to admin_events_path, class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @upcoming_events_count %></p>
+    <p class="text-stone-500">Upcoming Events</p>
+  <% end %>
+
+  <%= link_to admin_bee_hives_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-blue-800"><%= @pending_bee_hives %></p>
+    <p class="text-stone-500">Pending Bee Hives</p>
+  <% end %>
+</div>

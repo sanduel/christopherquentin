@@ -1,0 +1,23 @@
+<%= link_to "← Back", admin_tributes_path, class: "text-blue-800 hover:text-blue-700 mb-4 inline-block" %>
+
+<div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <h1 class="text-2xl font-title text-stone-800"><%= @tribute.name %></h1>
+      <% if @tribute.relationship.present? %>
+        <p class="text-stone-400"><%= @tribute.relationship %></p>
+      <% end %>
+    </div>
+    <%= render "admin/shared/status_badge", status: @tribute.status %>
+  </div>
+
+  <% if @tribute.photo.attached? %>
+    <div class="mb-4">
+      <%= image_tag @tribute.photo.variant(resize_to_limit: [400, 300]), class: "rounded-lg" %>
+    </div>
+  <% end %>
+
+  <p class="text-stone-600 leading-relaxed mb-6 whitespace-pre-wrap"><%= @tribute.content %></p>
+
+  <%= render "admin/shared/moderation_actions", record: @tribute %>
+</div>

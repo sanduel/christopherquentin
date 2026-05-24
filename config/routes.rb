@@ -1,15 +1,40 @@
 Rails.application.routes.draw do
+  mount RailsIcons::Engine, at: '/rails_icons'
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  root "pages#home"
+
+  get "chris", to: "pages#chris"
+  get "projects", to: "pages#projects"
+  get "updates", to: "pages#news", as: :updates
+  get "funds", to: "pages#funds"
+  get "zero-waste", to: "pages#zero_waste", as: :zero_waste
+  get "news", to: "pages#news"
+
+  # Keep old routes working
+  get "bio", to: redirect("/chris")
+
+  resources :tributes, only: [ :index, :new, :create, :show ]
+  resources :memories, only: [ :index, :new, :create, :show ], path: "timeline"
+  resources :trees, only: [ :index, :new, :create, :show ]
+  resources :recipes, only: [ :index, :new, :create, :show ]
+  resources :photo_submissions, only: [ :new, :create ], path: "submit-photos"
+  resources :newsletter_subscribers, only: [ :create ]
+  resources :events, only: [ :index, :show ]
+  resources :bee_hives, only: [ :index, :new, :create, :show ]
+  get "map", to: "map#index", as: :map
+
+  namespace :admin do
+    root "dashboard#index"
+    resources :tributes, only: [ :index, :show, :update, :destroy ]
+    resources :memories, only: [ :index, :show, :update, :destroy ]
+    resources :trees, only: [ :index, :show, :update, :destroy ]
+    resources :recipes, only: [ :index, :show, :update, :destroy ]
+    resources :photo_submissions, only: [ :index, :show, :update, :destroy ]
+    resources :gallery_photos
+    resources :events
+    resources :bee_hives, only: [ :index, :show, :edit, :update, :destroy ]
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

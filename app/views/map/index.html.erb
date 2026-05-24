@@ -1,0 +1,29 @@
+<% content_for(:title, "Map — Christopher Quentin") %>
+<% content_for(:head) do %>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<% end %>
+
+<div class="max-w-6xl mx-auto" data-controller="unified-map" data-unified-map-pins-value="<%= @pins.to_json %>">
+  <h1 class="text-4xl font-title text-stone-800 mb-2">Map</h1>
+  <p class="text-stone-600 mb-6">Trees, events, memories, and bee hives that carry Christopher&rsquo;s memory forward.</p>
+
+  <div class="flex flex-wrap gap-3 mb-4">
+    <% @category_meta.each do |meta| %>
+      <label class="inline-flex items-center gap-2 text-sm text-stone-700 bg-white px-3 py-1 rounded border border-stone-200 cursor-pointer">
+        <input type="checkbox"
+               checked
+               data-action="change->unified-map#toggleCategory"
+               data-unified-map-target="filter"
+               data-category="<%= meta[:key] %>">
+        <span class="inline-block w-3 h-3 rounded-full" style="background-color: <%= meta[:default_color] %>"></span>
+        <%= meta[:label] %>
+      </label>
+    <% end %>
+  </div>
+
+  <div id="unified-map" class="w-full h-[600px] rounded-lg shadow-sm border border-stone-200" data-unified-map-target="map"></div>
+
+  <% if @pins.empty? %>
+    <p class="text-stone-400 italic text-center py-4">No mapped items yet. Add a tree, event, memory, or bee hive to populate the map.</p>
+  <% end %>
+</div>

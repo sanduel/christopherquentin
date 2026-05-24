@@ -1,0 +1,12 @@
+<div class="flex gap-2">
+  <% unless record.published? %>
+    <%= button_to "Approve", url_for([:admin, record]), params: { status: :published }, method: :patch, class: "px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-500 transition" %>
+  <% end %>
+  <% unless record.rejected? %>
+    <%= button_to "Reject", url_for([:admin, record]), params: { status: :rejected }, method: :patch, class: "px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-500 transition" %>
+  <% end %>
+  <% unless record.pending? %>
+    <%= button_to "Set Pending", url_for([:admin, record]), params: { status: :pending }, method: :patch, class: "px-3 py-1 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-500 transition" %>
+  <% end %>
+  <%= button_to "Delete", url_for([:admin, record]), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "px-3 py-1 bg-stone-600 text-white text-sm rounded hover:bg-stone-500 transition" %>
+</div>

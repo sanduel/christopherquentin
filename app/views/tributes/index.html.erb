@@ -1,0 +1,37 @@
+<% content_for(:title, "Tributes — Christopher Quentin") %>
+
+<div class="max-w-4xl mx-auto">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-4xl font-title text-stone-800">Tributes</h1>
+    <%= link_to "Share a Tribute", new_tribute_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
+  </div>
+
+  <p class="text-stone-600 leading-relaxed mb-8">
+    In such loving memory of our dearest Christopher Quentin McMullen-Laird.
+    Christopher died June 18th of an acute aortic dissection. This page serves as a collection
+    of memories, stories, and kind words from people whose lives he touched.
+  </p>
+
+  <% if @tributes.any? %>
+    <div class="space-y-6">
+      <% @tributes.each do |tribute| %>
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+          <% if tribute.photo.attached? %>
+            <div class="float-right ml-4 mb-2">
+              <%= image_tag tribute.photo.variant(resize_to_limit: [200, 200]), class: "rounded-lg" %>
+            </div>
+          <% end %>
+          <p class="text-stone-600 leading-relaxed mb-4 whitespace-pre-wrap"><%= tribute.content %></p>
+          <div class="clear-both">
+            <p class="text-blue-900 font-medium">&mdash; <%= tribute.name %></p>
+            <% if tribute.relationship.present? %>
+              <p class="text-sm text-stone-400"><%= tribute.relationship %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-stone-400 italic text-center py-12">No tributes yet. Be the first to share one.</p>
+  <% end %>
+</div>

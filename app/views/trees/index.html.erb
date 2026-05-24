@@ -1,0 +1,80 @@
+<% content_for(:title, "Memorial Trees — Christopher Quentin") %>
+<% content_for(:head) do %>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<% end %>
+
+<div class="max-w-6xl mx-auto">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-4xl font-title text-stone-800">Memorial Trees</h1>
+    <%= link_to "Plant a Tree", new_tree_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
+  </div>
+
+  <div class="space-y-4 text-stone-600 leading-relaxed mb-8">
+    <p>
+      Grow a tribute to Chris and help restore our beautiful planet by planting a tree of your own.
+    </p>
+    <p>
+      Trees, of course, move a great deal of water from the earth out into the air via transpiration,
+      cleaning it in the process. Trees also are a great carbon sponge. And some are particularly
+      good for bees, like linden or tuliptree. The first Chris tree was planted by his parents on
+      their cabin property in Michigan.
+    </p>
+  </div>
+
+  <!-- Map -->
+  <div id="tree-map" class="w-full h-96 rounded-lg shadow-sm border border-stone-200 mb-8" data-controller="tree-map"
+       data-tree-map-trees-value="<%= @trees.where.not(latitude: nil).select(:id, :name, :latitude, :longitude, :tree_count, :story).to_json %>">
+  </div>
+
+  <!-- Resources -->
+  <details class="bg-white p-6 rounded-lg shadow-sm border border-stone-200 mb-8">
+    <summary class="text-blue-900 font-medium cursor-pointer">Tree planting resources &amp; guidance</summary>
+    <div class="mt-4 space-y-4 text-stone-600 text-sm">
+      <div>
+        <h4 class="font-medium text-stone-700 mb-1">UK Resources</h4>
+        <ul class="space-y-1 ml-4 list-disc">
+          <li><a href="https://www.forestresearch.gov.uk/tools-and-resources/urban-tree-manual/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Forest Research Urban Tree Manual</a></li>
+          <li><a href="http://righttrees4cc.org.uk/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Right Trees for Climate Change</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-medium text-stone-700 mb-1">US Resources</h4>
+        <ul class="space-y-1 ml-4 list-disc">
+          <li><a href="https://www.arborday.org/shopping/trees/treewizard/intro.cfm" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Arbor Day Tree Wizard</a></li>
+          <li><a href="https://www.thespruce.com/world-hardiness-zones-3269822" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Hardiness Zones</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-medium text-stone-700 mb-1">Global Planting Organizations</h4>
+        <ul class="space-y-1 ml-4 list-disc">
+          <li><a href="https://www.greenbeltmovement.org/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Green Belt Movement</a></li>
+          <li><a href="https://onetreeplanted.org/pages/about-us" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">One Tree Planted</a></li>
+          <li><a href="https://www.nature.org/en-us/get-involved/how-to-help/plant-a-billion/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Nature Conservancy &mdash; Plant a Billion</a></li>
+          <li><a href="https://www.reforestaction.com/offrir-un-arbre" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">ReforestAction (France)</a></li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <% if @trees.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <% @trees.each do |tree| %>
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+          <% if tree.photo.attached? %>
+            <div class="mb-3">
+              <%= image_tag tree.photo.variant(resize_to_limit: [400, 250]), class: "rounded-lg w-full object-cover" %>
+            </div>
+          <% end %>
+          <h3 class="text-lg font-medium text-stone-800"><%= tree.name %></h3>
+          <p class="text-sm text-blue-800"><%= pluralize(tree.tree_count, "tree") %> planted</p>
+          <p class="text-sm text-stone-400 mb-2"><%= tree.address %></p>
+          <% if tree.story.present? %>
+            <p class="text-stone-600 text-sm"><%= truncate(tree.story, length: 200) %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-stone-400 italic text-center py-8">No trees planted yet. Be the first to plant a tree in Christopher&rsquo;s memory.</p>
+  <% end %>
+</div>

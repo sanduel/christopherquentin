@@ -1,0 +1,27 @@
+<h1 class="text-3xl font-title text-stone-800 mb-4">Memories</h1>
+
+<%= render "admin/shared/filter_tabs" %>
+
+<div class="space-y-4">
+  <% @memories.each do |memory| %>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+      <div class="flex justify-between items-start mb-3">
+        <div>
+          <span class="font-medium text-blue-800"><%= memory.date.strftime("%b %d, %Y") %></span>
+          <% if memory.title.present? %>
+            <span class="font-medium text-stone-800 ml-2"><%= memory.title %></span>
+          <% end %>
+          <span class="ml-2"><%= render "admin/shared/status_badge", status: memory.status %></span>
+        </div>
+        <span class="text-xs text-stone-400">by <%= memory.user&.name || "Anonymous" %></span>
+      </div>
+      <% if memory.content.present? %>
+        <p class="text-stone-600 text-sm mb-4"><%= truncate(memory.content, length: 300) %></p>
+      <% end %>
+      <div class="flex justify-between items-center">
+        <%= render "admin/shared/moderation_actions", record: memory %>
+        <%= link_to "Edit pin", edit_admin_memory_path(memory), class: "text-xs text-blue-700 hover:text-blue-600 underline" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --font-title: "Josefin Sans", sans-serif;
+}
+
+/* Map pin (Leaflet divIcon) */
+.map-pin-wrapper { background: transparent; border: none; }
+.map-pin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.map-pin svg { width: 16px; height: 16px; transform: rotate(45deg); stroke: currentColor; }

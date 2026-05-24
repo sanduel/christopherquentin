@@ -1,0 +1,40 @@
+<% content_for(:title, "Timeline — Christopher Quentin") %>
+
+<div class="max-w-4xl mx-auto">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-4xl font-title text-stone-800">Timeline</h1>
+    <%= link_to "Add a Memory", new_memory_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
+  </div>
+
+  <% if @memories.any? %>
+    <div class="relative border-l-2 border-blue-300 ml-4 space-y-8">
+      <% @memories.each do |memory| %>
+        <div class="ml-8 relative">
+          <div class="absolute -left-[2.6rem] top-1 w-4 h-4 bg-blue-600 rounded-full border-2 border-white"></div>
+          <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+            <p class="text-sm text-blue-800 font-medium mb-1"><%= memory.date.strftime("%B %d, %Y") %></p>
+            <% if memory.title.present? %>
+              <h3 class="text-lg font-medium text-stone-800 mb-2"><%= memory.title %></h3>
+            <% end %>
+            <% if memory.content.present? %>
+              <p class="text-stone-600 leading-relaxed mb-3"><%= truncate(memory.content, length: 300) %></p>
+            <% end %>
+            <% if memory.photos.attached? %>
+              <div class="flex gap-2 flex-wrap mb-3">
+                <% memory.photos.each do |photo| %>
+                  <%= image_tag photo.variant(resize_to_limit: [200, 150]), class: "rounded" %>
+                <% end %>
+              </div>
+            <% end %>
+            <div class="flex justify-between items-center text-sm text-stone-400">
+              <span>Shared by <%= memory.user&.name || "Anonymous" %></span>
+              <%= link_to "Read more →", memory_path(memory), class: "text-blue-800 hover:text-blue-700" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-stone-400 italic text-center py-12">No memories on the timeline yet. Be the first to share one.</p>
+  <% end %>
+</div>

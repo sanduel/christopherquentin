@@ -1,0 +1,18 @@
+<% content_for(:title, "Tribute from #{@tribute.name} — Christopher Quentin") %>
+
+<div class="max-w-3xl mx-auto">
+  <%= link_to "← All Tributes", tributes_path, class: "text-blue-800 hover:text-blue-700 mb-6 inline-block" %>
+
+  <div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+    <% if @tribute.photo.attached? %>
+      <div class="mb-6">
+        <%= image_tag @tribute.photo.variant(resize_to_limit: [600, 400]), class: "rounded-lg" %>
+      </div>
+    <% end %>
+    <p class="text-stone-600 leading-relaxed text-lg mb-6"><%= @tribute.content %></p>
+    <p class="text-blue-900 font-medium text-lg">&mdash; <%= @tribute.name %></p>
+    <% if @tribute.relationship.present? %>
+      <p class="text-stone-400"><%= @tribute.relationship %></p>
+    <% end %>
+  </div>
+</div>

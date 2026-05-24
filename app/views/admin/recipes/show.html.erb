@@ -1,0 +1,29 @@
+<%= link_to "← Back", admin_recipes_path, class: "text-blue-800 hover:text-blue-700 mb-4 inline-block" %>
+
+<div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <h1 class="text-2xl font-title text-stone-800"><%= @recipe.title %></h1>
+      <p class="text-stone-400">by <%= @recipe.submitter_name %></p>
+    </div>
+    <%= render "admin/shared/status_badge", status: @recipe.status %>
+  </div>
+
+  <% if @recipe.photo.attached? %>
+    <%= image_tag @recipe.photo.variant(resize_to_limit: [400, 300]), class: "rounded-lg mb-4" %>
+  <% end %>
+
+  <% if @recipe.story.present? %>
+    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+      <p class="text-stone-600 italic"><%= @recipe.story %></p>
+    </div>
+  <% end %>
+
+  <h2 class="text-lg font-medium text-stone-700 mb-2">Ingredients</h2>
+  <div class="text-stone-600 mb-4 whitespace-pre-wrap"><%= @recipe.ingredients %></div>
+
+  <h2 class="text-lg font-medium text-stone-700 mb-2">Instructions</h2>
+  <div class="text-stone-600 mb-6 whitespace-pre-wrap"><%= @recipe.instructions %></div>
+
+  <%= render "admin/shared/moderation_actions", record: @recipe %>
+</div>

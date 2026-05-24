@@ -1,0 +1,18 @@
+<% content_for(:title, "#{@bee_hive.name} — Bee Hive") %>
+
+<div class="max-w-3xl mx-auto">
+  <%= link_to "← All hives", bee_hives_path, class: "text-sm text-blue-800 hover:text-blue-700" %>
+
+  <% if @bee_hive.photo.attached? %>
+    <div class="mt-6 mb-6 overflow-hidden rounded-lg">
+      <%= image_tag @bee_hive.photo, class: "w-full max-h-96 object-cover" %>
+    </div>
+  <% end %>
+
+  <h1 class="text-4xl font-title text-stone-800 mt-6 mb-2"><%= @bee_hive.name %></h1>
+  <p class="text-stone-500 mb-6"><%= @bee_hive.address %></p>
+
+  <% if @bee_hive.story.present? %>
+    <p class="text-stone-700 leading-relaxed whitespace-pre-line"><%= @bee_hive.story %></p>
+  <% end %>
+</div>

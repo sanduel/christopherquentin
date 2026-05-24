@@ -46,6 +46,12 @@ gem "devise"
 # Geocoding for tree locations
 gem "geocoder"
 
+# Heroicons rendering for map pins and admin pickers
+gem "rails_icons"
+
+# S3-compatible storage (Cloudflare R2)
+gem "aws-sdk-s3", require: false
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

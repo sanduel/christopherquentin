@@ -1,0 +1,47 @@
+<% content_for(:title, "Projects — Christopher Quentin") %>
+
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-4xl font-title text-stone-800 mb-4">Christopher&rsquo;s Projects</h1>
+  <p class="text-stone-600 leading-relaxed mb-10">
+    Christopher gave so much in his 36 years. These projects continue his impact through
+    environmental action, community, and music.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <%= link_to trees_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
+      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Memorial Trees</h2>
+      <p class="text-stone-600">
+        Plant a tree in Christopher&rsquo;s memory and add it to the global map.
+        Trees clean water, capture carbon, and support bees.
+      </p>
+      <p class="text-blue-800 text-sm mt-3 font-medium">View the map &rarr;</p>
+    <% end %>
+
+    <%= link_to recipes_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
+      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Recipes</h2>
+      <p class="text-stone-600">
+        Chris was as enthusiastic an eater as he was a cook! Recipes and the stories behind them,
+        so he can have a home in our kitchens.
+      </p>
+      <p class="text-blue-800 text-sm mt-3 font-medium">Browse recipes &rarr;</p>
+    <% end %>
+
+    <%= link_to zero_waste_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
+      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Zero Waste Week</h2>
+      <p class="text-stone-600">
+        32 of Christopher&rsquo;s friends and family pledged to go zero waste for a week,
+        celebrating his commitment to sustainability.
+      </p>
+      <p class="text-blue-800 text-sm mt-3 font-medium">Learn more &rarr;</p>
+    <% end %>
+
+    <%= link_to funds_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
+      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Memorial Funds</h2>
+      <p class="text-stone-600">
+        Support beekeeping, water conservation, zero waste, and the Dartmouth Conducting
+        Endowment in Christopher&rsquo;s memory.
+      </p>
+      <p class="text-blue-800 text-sm mt-3 font-medium">Contribute &rarr;</p>
+    <% end %>
+  </div>
+</div>

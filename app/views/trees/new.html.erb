@@ -1,0 +1,51 @@
+<% content_for(:title, "Plant a Tree — Christopher Quentin") %>
+
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-4xl font-title text-stone-800 mb-2">Plant a Tree</h1>
+  <p class="text-stone-500 mb-8">Plant a tree in Christopher's memory and add it to our global map.</p>
+
+  <%= form_with model: @tree, class: "space-y-6" do |f| %>
+    <% if @tree.errors.any? %>
+      <div class="bg-red-50 border-l-4 border-red-400 p-4">
+        <ul class="text-red-700 text-sm">
+          <% @tree.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :name, "Your Name", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :name, required: true, class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :email, "Your Email", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.email_field :email, required: true, class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :address, "Where did you plant?", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :address, required: true, placeholder: "e.g. 123 Main St, Ann Arbor, MI", class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+      <p class="text-xs text-stone-400 mt-1">Address, city, and state/country. This will be geocoded to place a pin on the map.</p>
+    </div>
+
+    <div>
+      <%= f.label :tree_count, "Number of Trees", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.number_field :tree_count, value: 1, min: 1, class: "w-32 px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :story, "Tell us about this tree (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_area :story, rows: 4, placeholder: "Why did you plant this tree? What does it mean to you?", class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :photo, "Photo (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.file_field :photo, accept: "image/*", class: "text-sm text-stone-600" %>
+    </div>
+
+    <%= f.submit "Submit Tree", class: "w-full px-4 py-3 bg-blue-800 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer font-medium" %>
+  <% end %>
+</div>

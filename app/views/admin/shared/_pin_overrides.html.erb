@@ -1,0 +1,63 @@
+<%#
+  Locals:
+    f       - form builder
+    record  - the model instance (must respond to default_pin_color/default_pin_icon at class level)
+%>
+<div class="border border-stone-200 rounded-lg p-4 space-y-4 bg-stone-50">
+  <h3 class="text-sm font-medium text-stone-700">Map pin (optional override)</h3>
+
+  <div data-controller="color-picker" class="space-y-2">
+    <div class="flex items-center gap-3">
+      <%= f.label :pin_color, "Color", class: "text-sm text-stone-600 w-16" %>
+      <%# Submitted when the visible color input is disabled (empty = "use default") %>
+      <%= f.hidden_field :pin_color, value: "" %>
+      <%= f.color_field :pin_color,
+            value: (record.pin_color.presence || record.class.default_pin_color),
+            disabled: record.pin_color.blank?,
+            data: { "color-picker-target": "input" },
+            class: "h-9 w-14 border border-stone-300 rounded cursor-pointer disabled:opacity-50" %>
+      <label class="text-sm text-stone-600 inline-flex items-center gap-1">
+        <input type="checkbox"
+               data-color-picker-target="useDefault"
+               data-action="change->color-picker#toggle"
+               <%= "checked" if record.pin_color.blank? %>>
+        Use default
+      </label>
+      <span class="text-xs text-stone-400 ml-auto">Default: <code class="font-mono"><%= record.class.default_pin_color %></code></span>
+    </div>
+  </div>
+
+  <div data-controller="icon-picker"
+       data-icon-picker-default-value="<%= record.class.default_pin_icon %>">
+    <%= f.label :pin_icon, "Icon", class: "block text-sm text-stone-600 mb-1" %>
+    <%= f.hidden_field :pin_icon, data: { "icon-picker-target": "input" } %>
+    <div class="flex items-center gap-3 mb-3">
+      <span data-icon-picker-target="preview"
+            class="inline-flex w-9 h-9 rounded border border-stone-300 bg-white items-center justify-center text-stone-700"></span>
+      <span data-icon-picker-target="label" class="text-sm text-stone-600 font-mono"></span>
+      <button type="button"
+              data-action="icon-picker#reset"
+              class="text-xs text-stone-500 hover:text-stone-700 underline ml-auto">Use default</button>
+    </div>
+    <input type="text"
+           data-icon-picker-target="search"
+           data-action="input->icon-picker#filter"
+           placeholder="Search lucide icons (e.g. tree, music, heart)…"
+           class="w-full px-3 py-2 border border-stone-300 rounded text-sm">
+    <div data-icon-picker-target="grid"
+         class="mt-2 grid grid-cols-8 sm:grid-cols-12 gap-1 max-h-64 overflow-y-auto p-2 bg-white border border-stone-200 rounded">
+      <% Dir[Rails.root.join("app/assets/svg/icons/lucide/outline/*.svg")].sort.each do |path| %>
+        <% icon_name = File.basename(path, ".svg") %>
+        <button type="button"
+                data-icon-picker-target="option"
+                data-icon-name="<%= icon_name %>"
+                data-action="click->icon-picker#select"
+                title="<%= icon_name %>"
+                class="aspect-square p-1 rounded hover:bg-blue-50 border border-transparent text-stone-600 flex items-center justify-center">
+          <%= icon icon_name, library: "lucide", class: "w-5 h-5" %>
+        </button>
+      <% end %>
+    </div>
+    <p class="text-xs text-stone-400 mt-1">Default: <code class="font-mono"><%= record.class.default_pin_icon %></code></p>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<% content_for(:title, "In the News — Christopher Quentin") %>
+
+<div class="max-w-3xl mx-auto">
+  <h1 class="text-4xl font-title text-stone-800 mb-8">In the News</h1>
+
+  <ul class="space-y-4">
+    <%
+      news_links = [
+        { publication: "Dartmouth Music Department", url: "https://music.dartmouth.edu/news/2020/06/christopher-quentin-mcmullen-laird-05" },
+        { publication: "The Violin Channel", url: "https://new.theviolinchannel.com/american-conductor-christopher-quentin-mcmullen-laird-died-passed-away-obituary/" },
+        { publication: "Remembr.com Memorial", url: "https://www.remembr.com/en/christopher.ml.rcm" },
+        { publication: "The Dartmouth", url: "https://www.thedartmouth.com/article/2004/09/death-brings-literary-experience-to-moore" },
+        { publication: "Dartmouth Class of 2005", url: "https://2005.dartmouth.org/s/1353/clubs-classes15/index.aspx?sid=1353&gid=188&pgid=23501" },
+        { publication: "Royal College of Music", url: "https://www.rcm.ac.uk/upbeat/articles/inmemorysummer2020.aspx" },
+        { publication: "KCLSO In Memoriam", url: "https://www.kclso.com/in-memoriam" },
+        { publication: "Dartmouth German Studies", url: "https://german.dartmouth.edu/news/2020/06/passing-german-studies-alum" },
+        { publication: "Slippedisc", url: "https://slippedisc.com/2020/06/tragic-death-of-young-us-conductor-36/" },
+        { publication: "Pizzicato", url: "https://www.pizzicato.lu/american-conductor-christopher-quentin-mcmullen-laird-dies-at-36/" },
+        { publication: "The Dartmouth Staff Page", url: "https://www.thedartmouth.com/staff/christopher-q-mcmullen-laird" },
+        { publication: "MIO Munich", url: "https://www.mio-home.de/de/dirigent-christopher-mcmullen-laird" },
+      ]
+    %>
+    <% news_links.each do |link| %>
+      <li class="bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+        <a href="<%= link[:url] %>" target="_blank" rel="noopener" class="text-blue-900 hover:text-blue-700 font-medium transition">
+          <%= link[:publication] %> &rarr;
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>

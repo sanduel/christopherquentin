@@ -1,0 +1,49 @@
+<% content_for(:title, "Share a Recipe — Christopher Quentin") %>
+
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-4xl font-title text-stone-800 mb-8">Share a Recipe</h1>
+
+  <%= form_with model: @recipe, class: "space-y-6" do |f| %>
+    <% if @recipe.errors.any? %>
+      <div class="bg-red-50 border-l-4 border-red-400 p-4">
+        <ul class="text-red-700 text-sm">
+          <% @recipe.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :submitter_name, "Your Name", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :submitter_name, required: true, class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :title, "Recipe Name", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :title, required: true, class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :ingredients, "Ingredients", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_area :ingredients, required: true, rows: 6, placeholder: "One ingredient per line", class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :instructions, "Instructions", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_area :instructions, required: true, rows: 8, class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :story, "Connection to Christopher (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_area :story, rows: 3, placeholder: "Why is this recipe special?", class: "w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600" %>
+    </div>
+
+    <div>
+      <%= f.label :photo, "Photo (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.file_field :photo, accept: "image/*", class: "text-sm text-stone-600" %>
+    </div>
+
+    <%= f.submit "Submit Recipe", class: "w-full px-4 py-3 bg-blue-800 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer font-medium" %>
+  <% end %>
+</div>

@@ -1,0 +1,19 @@
+<% content_for(:title, "Tree planted by #{@tree.name} — Christopher Quentin") %>
+
+<div class="max-w-3xl mx-auto">
+  <%= link_to "← All Trees", trees_path, class: "text-blue-800 hover:text-blue-700 mb-6 inline-block" %>
+
+  <div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+    <% if @tree.photo.attached? %>
+      <div class="mb-6">
+        <%= image_tag @tree.photo.variant(resize_to_limit: [600, 400]), class: "rounded-lg w-full object-cover" %>
+      </div>
+    <% end %>
+    <h1 class="text-2xl font-title text-stone-800 mb-2"><%= @tree.name %></h1>
+    <p class="text-blue-800"><%= pluralize(@tree.tree_count, "tree") %> planted</p>
+    <p class="text-stone-400 mb-4"><%= @tree.address %></p>
+    <% if @tree.story.present? %>
+      <p class="text-stone-600 leading-relaxed"><%= @tree.story %></p>
+    <% end %>
+  </div>
+</div>

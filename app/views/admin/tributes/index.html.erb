@@ -1,0 +1,22 @@
+<h1 class="text-3xl font-title text-stone-800 mb-4">Tributes</h1>
+
+<%= render "admin/shared/filter_tabs" %>
+
+<div class="space-y-4">
+  <% @tributes.each do |tribute| %>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+      <div class="flex justify-between items-start mb-3">
+        <div>
+          <span class="font-medium text-stone-800"><%= tribute.name %></span>
+          <% if tribute.relationship.present? %>
+            <span class="text-stone-400 text-sm">(<%= tribute.relationship %>)</span>
+          <% end %>
+          <span class="ml-2"><%= render "admin/shared/status_badge", status: tribute.status %></span>
+        </div>
+        <span class="text-xs text-stone-400"><%= tribute.created_at.strftime("%b %d, %Y") %></span>
+      </div>
+      <p class="text-stone-600 text-sm mb-4"><%= truncate(tribute.content, length: 300) %></p>
+      <%= render "admin/shared/moderation_actions", record: tribute %>
+    </div>
+  <% end %>
+</div>

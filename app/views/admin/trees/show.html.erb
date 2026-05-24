@@ -1,0 +1,31 @@
+<%= link_to "← Back", admin_trees_path, class: "text-blue-800 hover:text-blue-700 mb-4 inline-block" %>
+
+<div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <h1 class="text-2xl font-title text-stone-800"><%= @tree.name %></h1>
+      <p class="text-stone-400"><%= @tree.address %></p>
+      <p class="text-blue-800"><%= pluralize(@tree.tree_count, "tree") %> planted</p>
+      <p class="text-stone-400 text-sm"><%= @tree.email %></p>
+    </div>
+    <%= render "admin/shared/status_badge", status: @tree.status %>
+  </div>
+
+  <% if @tree.latitude && @tree.longitude %>
+    <p class="text-xs text-stone-400 mb-4">Coordinates: <%= @tree.latitude %>, <%= @tree.longitude %></p>
+  <% else %>
+    <p class="text-blue-600 text-sm mb-4">Geocoding failed — coordinates need to be set manually.</p>
+  <% end %>
+
+  <% if @tree.photo.attached? %>
+    <div class="mb-4">
+      <%= image_tag @tree.photo.variant(resize_to_limit: [400, 300]), class: "rounded-lg" %>
+    </div>
+  <% end %>
+
+  <% if @tree.story.present? %>
+    <p class="text-stone-600 leading-relaxed mb-6"><%= @tree.story %></p>
+  <% end %>
+
+  <%= render "admin/shared/moderation_actions", record: @tree %>
+</div>

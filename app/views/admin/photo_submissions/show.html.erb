@@ -1,0 +1,21 @@
+<%= link_to "← Back", admin_photo_submissions_path, class: "text-blue-800 hover:text-blue-700 mb-4 inline-block" %>
+
+<div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <h1 class="text-2xl font-title text-stone-800"><%= @submission.name %></h1>
+      <p class="text-stone-400"><%= @submission.email %></p>
+    </div>
+    <%= render "admin/shared/status_badge", status: @submission.status %>
+  </div>
+
+  <% if @submission.photos.attached? %>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+      <% @submission.photos.each do |photo| %>
+        <%= image_tag photo.variant(resize_to_limit: [300, 300]), class: "rounded-lg" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render "admin/shared/moderation_actions", record: @submission %>
+</div>

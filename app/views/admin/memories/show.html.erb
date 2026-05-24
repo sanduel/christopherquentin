@@ -1,0 +1,28 @@
+<%= link_to "← Back", admin_memories_path, class: "text-blue-800 hover:text-blue-700 mb-4 inline-block" %>
+
+<div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <p class="text-blue-800 font-medium"><%= @memory.date.strftime("%B %d, %Y") %></p>
+      <% if @memory.title.present? %>
+        <h1 class="text-2xl font-title text-stone-800"><%= @memory.title %></h1>
+      <% end %>
+      <p class="text-stone-400 text-sm">by <%= @memory.user&.name || "Anonymous" %></p>
+    </div>
+    <%= render "admin/shared/status_badge", status: @memory.status %>
+  </div>
+
+  <% if @memory.content.present? %>
+    <p class="text-stone-600 leading-relaxed mb-6 whitespace-pre-wrap"><%= @memory.content %></p>
+  <% end %>
+
+  <% if @memory.photos.attached? %>
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <% @memory.photos.each do |photo| %>
+        <%= image_tag photo.variant(resize_to_limit: [300, 200]), class: "rounded" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render "admin/shared/moderation_actions", record: @memory %>
+</div>

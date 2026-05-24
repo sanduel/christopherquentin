@@ -1,0 +1,6 @@
+<div class="flex gap-2 mb-6">
+  <%= link_to "All", url_for(status: nil), class: "px-3 py-1 rounded text-sm #{params[:status].blank? ? 'bg-stone-800 text-white' : 'bg-white text-stone-600 hover:bg-stone-200'}" %>
+  <%= link_to "Pending", url_for(status: :pending), class: "px-3 py-1 rounded text-sm #{params[:status] == 'pending' ? 'bg-yellow-600 text-white' : 'bg-white text-stone-600 hover:bg-stone-200'}" %>
+  <%= link_to "Published", url_for(status: :published), class: "px-3 py-1 rounded text-sm #{params[:status] == 'published' ? 'bg-green-600 text-white' : 'bg-white text-stone-600 hover:bg-stone-200'}" %>
+  <%= link_to "Rejected", url_for(status: :rejected), class: "px-3 py-1 rounded text-sm #{params[:status] == 'rejected' ? 'bg-red-600 text-white' : 'bg-white text-stone-600 hover:bg-stone-200'}" %>
+</div>
