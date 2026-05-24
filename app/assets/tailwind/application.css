@@ -1,10 +1,49 @@
 @import "tailwindcss";
 
 @theme {
-  --font-title: "Josefin Sans", sans-serif;
+  /* Garden palette */
+  --color-cream: #faf6ee;
+  --color-linen: #f1ebde;
+  --color-ink:   #1c2620;
+  --color-sage:  #5a7a5e;
+  --color-moss:  #3a5240;
+  --color-rose:  #a8584c;
+
+  /* Type families */
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans:  "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-mono:  "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Card shadow */
+  --shadow-card: 0 1px 0 rgba(28,38,32,0.03), 0 20px 40px -28px rgba(28,38,32,0.18);
 }
 
-/* Map pin (Leaflet divIcon) */
+/* Eyebrow — small mono uppercase label used for opus numbers, movement
+   markers, and metadata. Tailwind has no preset that captures the
+   exact letter-spacing convention, so we define one utility. */
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-sage);
+}
+
+/* Faint horizontal-rule "staff lines" texture, used in hero + section
+   dividers. Apply to an absolutely-positioned child element. */
+@utility staff-lines-bg {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 17px,
+    var(--color-moss) 17px,
+    var(--color-moss) 18px,
+    transparent 18px,
+    transparent 35px
+  );
+}
+
+/* Map pin (Leaflet divIcon) — kept from prior styles */
 .map-pin-wrapper { background: transparent; border: none; }
 .map-pin {
   width: 32px;
