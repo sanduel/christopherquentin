@@ -1,0 +1,19 @@
+<%#
+  Movement label row used as a section heading on the homepage and
+  inner pages: "MVT. I  Honor his memory  — andante con moto"
+
+  Locals:
+    no: opus/movement number, e.g. "MVT. I" or "Op. III"
+    title: section title, e.g. "Honor his memory"
+    marking: italic tempo marking, e.g. "andante con moto"
+    id: optional DOM id for the <h2>
+%>
+<% id ||= nil %>
+<div class="flex flex-col md:flex-row md:items-baseline md:gap-6 mb-8">
+  <span class="text-eyebrow mb-2 md:mb-0"><%= no %></span>
+  <h2 <%= "id=\"#{id}\"".html_safe if id %>
+      class="font-serif text-4xl md:text-[56px] font-normal leading-none tracking-tight text-ink m-0">
+    <%= title %>
+  </h2>
+  <%= tempo_marking(marking) %>
+</div>
