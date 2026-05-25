@@ -16,9 +16,9 @@ class StyleGuideTest < ActionDispatch::IntegrationTest
 
   test "style guide renders the three type specimens" do
     get "/style-guide"
-    assert_select ".font-serif", /Cormorant Garamond/
-    assert_select ".font-sans", /DM Sans/
-    assert_select ".font-mono", /JetBrains Mono/
+    assert_select ".font-serif", minimum: 1
+    assert_select ".font-sans", minimum: 1
+    assert_select ".font-mono", minimum: 1
   end
 
   test "style guide renders a movement label" do

@@ -13,7 +13,7 @@ module MusicalHelper
 
     content_tag(:div,
       safe_join(parts),
-      class: "text-eyebrow flex items-center"
+      class: "text-eyebrow text-sage flex items-center"
     )
   end
 

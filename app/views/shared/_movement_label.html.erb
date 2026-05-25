@@ -10,10 +10,7 @@
 %>
 <% id ||= nil %>
 <div class="flex flex-col md:flex-row md:items-baseline md:gap-6 mb-8">
-  <span class="text-eyebrow mb-2 md:mb-0"><%= no %></span>
-  <h2 <%= "id=\"#{id}\"".html_safe if id %>
-      class="font-serif text-4xl md:text-[56px] font-normal leading-none tracking-tight text-ink m-0">
-    <%= title %>
-  </h2>
+  <span class="text-eyebrow text-sage mb-2 md:mb-0"><%= no %></span>
+  <%= tag.h2 title, id: id, class: "font-serif text-4xl md:text-[56px] font-normal leading-none tracking-tight text-ink m-0" %>
   <%= tempo_marking(marking) %>
 </div>
