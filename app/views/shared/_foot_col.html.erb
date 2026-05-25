@@ -1,0 +1,23 @@
+<%#
+  Footer link column. Used three times by _site_footer.
+
+  Locals:
+    title: column heading, e.g. "Christopher"
+    items: array of [label, path] pairs, e.g. [["Biography", "/chris"], ...]
+%>
+<div>
+  <div class="text-eyebrow opacity-55 mb-3.5"><%= title %></div>
+  <ul class="list-none p-0 m-0 space-y-1.5">
+    <% items.each do |label, path| %>
+      <li class="text-sm opacity-90">
+        <% if path.is_a?(String) && path.start_with?("http", "mailto") %>
+          <%= link_to label, path, class: "text-cream no-underline hover:opacity-100",
+              target: (path.start_with?("http") ? "_blank" : nil),
+              rel: (path.start_with?("http") ? "noopener" : nil) %>
+        <% else %>
+          <%= link_to label, path, class: "text-cream no-underline hover:opacity-100" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
