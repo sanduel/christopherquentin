@@ -9,10 +9,10 @@ module MusicalHelper
     if with_rule
       parts << content_tag(:span, "", class: "inline-block w-7 h-px bg-sage mr-3.5 align-middle")
     end
-    parts << ERB::Util.h(text)
+    parts << text
 
     content_tag(:div,
-      raw(parts.join),
+      safe_join(parts),
       class: "text-eyebrow flex items-center"
     )
   end

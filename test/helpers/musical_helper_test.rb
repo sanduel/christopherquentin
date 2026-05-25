@@ -37,4 +37,11 @@ class MusicalHelperTest < ActionView::TestCase
     assert_match %r{text-rose}, html
     assert_match %r{andante con moto}, html
   end
+
+  test "tempo_marking escapes HTML in the text" do
+    html = tempo_marking("<script>alert('xss')</script>")
+
+    refute_match %r{<script>}, html
+    assert_match %r{&lt;script&gt;}, html
+  end
 end
