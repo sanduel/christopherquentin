@@ -1,0 +1,35 @@
+require "test_helper"
+
+class StyleGuideTest < ActionDispatch::IntegrationTest
+  test "style guide is reachable in test environment" do
+    get "/style-guide"
+    assert_response :success
+    assert_select "h1", /Style Guide/
+  end
+
+  test "style guide renders all palette swatches" do
+    get "/style-guide"
+    %w[cream linen ink sage moss rose].each do |color|
+      assert_select "[data-swatch=?]", color
+    end
+  end
+
+  test "style guide renders the three type specimens" do
+    get "/style-guide"
+    assert_select ".font-serif", /Cormorant Garamond/
+    assert_select ".font-sans", /DM Sans/
+    assert_select ".font-mono", /JetBrains Mono/
+  end
+
+  test "style guide renders a movement label" do
+    get "/style-guide"
+    assert_select "h2", /Honor his memory/
+    assert_select "span", /andante con moto/
+  end
+
+  test "style guide renders eyebrows, both plain and with-rule" do
+    get "/style-guide"
+    assert_select ".text-eyebrow", minimum: 2
+    assert_select "span.bg-sage"
+  end
+end

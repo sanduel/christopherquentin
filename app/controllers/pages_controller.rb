@@ -22,4 +22,8 @@ class PagesController < ApplicationController
 
   def news
   end
+
+  def style_guide
+    # View exercises all design tokens + shared partials.
+  end
 end

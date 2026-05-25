@@ -36,5 +36,9 @@ Rails.application.routes.draw do
     resources :bee_hives, only: [ :index, :show, :edit, :update, :destroy ]
   end
 
+  if Rails.env.development? || Rails.env.test?
+    get "style-guide", to: "pages#style_guide", as: :style_guide
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

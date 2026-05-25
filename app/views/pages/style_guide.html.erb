@@ -1,0 +1,120 @@
+<% content_for :title, "Style Guide" %>
+
+<div class="px-6 lg:px-14 py-16 max-w-[1100px] mx-auto space-y-20">
+  <header>
+    <%= musical_eyebrow("Phase 1 · Garden direction", with_rule: true) %>
+    <h1 class="font-serif text-5xl md:text-6xl font-normal text-ink mt-3">Style Guide</h1>
+    <p class="font-serif italic text-xl text-sage mt-3">
+      A working reference for every token, font, partial, and helper in the redesigned chrome.
+    </p>
+  </header>
+
+  <%# Palette %>
+  <section>
+    <%= render "shared/movement_label", no: "I", title: "Palette", marking: "sostenuto" %>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <% [
+        ["cream", "#faf6ee", "page background"],
+        ["linen", "#f1ebde", "section bg, chips"],
+        ["ink",   "#1c2620", "body text"],
+        ["sage",  "#5a7a5e", "metadata"],
+        ["moss",  "#3a5240", "primary CTA"],
+        ["rose",  "#a8584c", "musical accent"],
+      ].each do |name, hex, role| %>
+        <div class="flex flex-col gap-2" data-swatch="<%= name %>">
+          <div class="aspect-square rounded-md shadow-card border border-ink/8"
+               style="background: <%= hex %>;"></div>
+          <div>
+            <div class="font-medium text-sm capitalize"><%= name %></div>
+            <div class="font-mono text-xs text-sage"><%= hex %></div>
+            <div class="text-xs text-ink/60"><%= role %></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <%# Type %>
+  <section>
+    <%= render "shared/movement_label", no: "II", title: "Type", marking: "cantabile" %>
+    <div class="space-y-10">
+      <div>
+        <%= musical_eyebrow("Display · Cormorant Garamond 96") %>
+        <div class="font-serif text-[96px] leading-none mt-3">
+          Christopher <em class="text-moss">Quentin</em>
+        </div>
+        <span class="font-serif sr-only">Cormorant Garamond</span>
+      </div>
+      <div>
+        <%= musical_eyebrow("Section · Cormorant Garamond 56") %>
+        <div class="font-serif text-[56px] leading-none mt-3">A life, kept by many hands.</div>
+      </div>
+      <div>
+        <%= musical_eyebrow("Body · DM Sans 17") %>
+        <p class="font-sans text-[17px] leading-relaxed max-w-[640px] mt-3">
+          DM Sans — The new design intentionally moves to Cormorant + DM Sans for legibility
+          and warmth — paired with JetBrains Mono for tiny musical metadata.
+        </p>
+      </div>
+      <div>
+        <%= musical_eyebrow("Meta · JetBrains Mono 11") %>
+        <div class="font-mono text-[11px] tracking-[0.22em] uppercase text-sage mt-3">
+          JetBrains Mono — Op. 1984 — In Memoriam · MVT. III — adagio
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Eyebrows + Tempo %>
+  <section>
+    <%= render "shared/movement_label", no: "III", title: "Eyebrow + Tempo", marking: "parlando" %>
+    <div class="space-y-6">
+      <%= musical_eyebrow("Plain eyebrow") %>
+      <%= musical_eyebrow("With rule", with_rule: true) %>
+      <div class="font-serif text-3xl">
+        Honor his memory <%= tempo_marking("andante con moto") %>
+      </div>
+    </div>
+  </section>
+
+  <%# Movement label %>
+  <section>
+    <%= render "shared/movement_label", no: "MVT. IV", title: "Honor his memory", marking: "andante con moto" %>
+    <p class="text-sm text-ink/60">↑ That is the movement label partial in action.</p>
+  </section>
+
+  <%# Buttons %>
+  <section>
+    <%= render "shared/movement_label", no: "V", title: "Buttons", marking: "con brio" %>
+    <div class="flex flex-wrap gap-4 items-center">
+      <button class="bg-moss text-cream rounded-full px-6 py-3.5 text-sm font-medium hover:bg-ink">Read his story →</button>
+      <button class="bg-transparent text-ink border border-ink/20 rounded-full px-6 py-3.5 text-sm hover:border-moss hover:text-moss">+ Share a memory</button>
+      <a href="#" class="text-moss text-sm font-medium hover:underline">View full timeline →</a>
+    </div>
+  </section>
+
+  <%# Card preview %>
+  <section>
+    <%= render "shared/movement_label", no: "VI", title: "Card", marking: "dolce" %>
+    <div class="max-w-[360px] bg-white rounded-md border border-ink/8 shadow-card p-7">
+      <div class="font-serif text-[32px] text-moss leading-none mb-1.5">❦</div>
+      <%= musical_eyebrow("I. Plant") %>
+      <h3 class="font-serif text-3xl mt-2.5">Plant a Tree</h3>
+      <p class="text-sm leading-relaxed text-ink/70 mt-3">
+        Add a tree to the living map of saplings planted in his memory.
+      </p>
+      <a href="#" class="text-moss text-sm font-medium mt-4 inline-block">Plant a tree →</a>
+    </div>
+  </section>
+
+  <%# Staff lines %>
+  <section>
+    <%= render "shared/movement_label", no: "VII", title: "Staff lines", marking: "lento" %>
+    <div class="relative h-32 bg-cream border border-ink/8 rounded-md">
+      <%= render "shared/staff_lines", top: 0, height: 128, opacity: 0.18 %>
+      <div class="absolute inset-0 flex items-center justify-center text-sage font-mono text-xs">
+        Faint musical wallpaper, rendered at 18% opacity to show.
+      </div>
+    </div>
+  </section>
+</div>
