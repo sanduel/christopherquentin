@@ -1,0 +1,26 @@
+<%# Inline reply form. Hidden until ↩ Reply button is clicked.
+    Local: memory %>
+<div data-reply-toggle-target="composer" hidden class="mt-4 p-4 bg-linen rounded-md">
+  <%= form_with model: [memory, Reply.new], local: true, class: "space-y-3" do |f| %>
+    <%= f.text_area :body, required: true, rows: 3,
+          class: "w-full border border-ink/15 rounded-md p-3 text-sm focus:border-moss outline-none bg-white",
+          placeholder: "Write a reply..." %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <%= f.text_field :name, required: true,
+            value: current_user&.name,
+            placeholder: "Your name",
+            class: "border border-ink/15 rounded-md p-2 text-sm focus:border-moss outline-none bg-white" %>
+      <% unless user_signed_in? %>
+        <%= f.email_field :email, required: true,
+              placeholder: "Email (kept private)",
+              class: "border border-ink/15 rounded-md p-2 text-sm focus:border-moss outline-none bg-white" %>
+      <% end %>
+    </div>
+    <div class="flex justify-end gap-3">
+      <button type="button" data-action="reply-toggle#close"
+              class="text-sm text-ink/60 hover:text-moss cursor-pointer">Cancel</button>
+      <%= f.submit "Post reply",
+            class: "bg-moss text-cream rounded-full px-4 py-2 text-sm font-medium cursor-pointer hover:bg-ink" %>
+    </div>
+  <% end %>
+</div>

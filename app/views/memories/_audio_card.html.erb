@@ -1,6 +1,7 @@
 <%# Audio memory card — moss header strip with play button + waveform, then body.
     Local: memory %>
 <article data-memory-id="<%= memory.id %>" data-kind="audio"
+         data-controller="reply-toggle"
          class="bg-white rounded-md border border-ink/8 shadow-card overflow-hidden max-w-[480px] mx-auto mb-12 lg:mb-16 lg:<%= memory.id.odd? ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0' %>">
   <% if memory.audio_clip.attached? %>
     <div class="bg-moss text-cream p-4 flex items-center gap-3"
@@ -35,5 +36,9 @@
       <p class="font-serif text-[19px] leading-snug text-ink mt-3"><%= memory.content %></p>
     <% end %>
     <%= render "memories/card_footer", memory: memory %>
+    <% memory.replies.published.each do |reply| %>
+      <%= render "memories/reply", reply: reply %>
+    <% end %>
+    <%= render "memories/reply_composer", memory: memory %>
   </div>
 </article>

@@ -105,4 +105,29 @@ class TimelineTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller~='audio-player']"
     assert_select "[data-memory-id='#{audio_memory.id}'][data-kind='audio']"
   end
+
+  test "memory card with replies renders only published ones" do
+    memory = Memory.create!(
+      date: Date.today, content: "A note.",
+      name: "Author", email: "a@b.com", kind: :text, status: :published
+    )
+    memory.replies.create!(name: "Visitor", email: "v@b.com", body: "Beautiful.", status: :published)
+    memory.replies.create!(name: "Other", email: "o@b.com", body: "PendingShouldNotShow", status: :pending)
+
+    get memories_path
+
+    assert_match "Beautiful.", response.body
+    assert_no_match "PendingShouldNotShow", response.body
+  end
+
+  test "memory card has a hidden reply composer that toggles" do
+    Memory.create!(date: Date.today, content: "x", name: "A", email: "a@b.com", kind: :text, status: :published)
+
+    get memories_path
+
+    # Composer markup present but hidden by default
+    assert_select "[data-reply-toggle-target='composer'][hidden]"
+    # Form for reply submission targets the nested route
+    assert_select "form[action*='/replies']"
+  end
 end
