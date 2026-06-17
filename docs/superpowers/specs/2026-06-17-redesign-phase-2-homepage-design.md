@@ -337,5 +337,5 @@ The reason these go under `pages/home/` rather than `shared/`: they're specific 
 
 1. Event model fields — `category`, `time_zones`, `venue`. I'll inspect the model in the plan phase. If `category` isn't a field but `kind` is (an enum), the spec adapts.
 2. Memory `user.relationship_to_chris` — doesn't exist. Phase 2 falls back to `"Friend"`. Phase 3's schema work adds the field; Phase 2's homepage view will automatically pick it up when the column exists. No spec deviation needed.
-3. Whether the hero portrait placeholder should swap to a real `GalleryPhoto` if `GalleryPhoto.where(hero: true).first` exists — defaulting to no (Phase 2 is placeholder-only, content task handles photos).
+3. ~~Whether the hero portrait placeholder should swap to a real `GalleryPhoto`~~ — **resolved**: hero is hardcoded markup with the placeholder gradient. No GalleryPhoto lookup, no schema change. A future content task can swap the partial's markup to reference a specific image path or `GalleryPhoto` record directly.
 4. Whether MVT. IV's "every 4th card spans 2 rows" rule should be data-driven (e.g., a `prominent` flag) or purely positional (every 4th by index). Defaulting to positional for Phase 2.
