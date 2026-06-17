@@ -108,4 +108,34 @@ class HomepageTest < ActionDispatch::IntegrationTest
   ensure
     Memory.update_all(status: Memory.statuses[:published])
   end
+
+  test "MVT III renders movement label with vivace marking" do
+    Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
+    get root_path
+    assert_select "[data-section='events-preview'] .text-eyebrow", text: /MVT\. III/
+    assert_select "[data-section='events-preview'] h2", text: /Upcoming gatherings/
+    assert_select "[data-section='events-preview'] span", text: /vivace/
+  end
+
+  test "MVT III renders one event card per upcoming event" do
+    Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
+    get root_path
+    assert_select "[data-section='events-preview'] article", minimum: 1, maximum: 3
+  end
+
+  test "MVT III event card shows category chip" do
+    Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
+    get root_path
+    assert_select "[data-section='events-preview'] article" do
+      assert_select "span.bg-linen.text-moss", text: /Webinar|Concert|Service/i
+    end
+  end
+
+  test "MVT III hides article cards when no upcoming events" do
+    Event.update_all(published: false)
+    get root_path
+    assert_select "[data-section='events-preview'] article", 0
+  ensure
+    Event.update_all(published: true)
+  end
 end

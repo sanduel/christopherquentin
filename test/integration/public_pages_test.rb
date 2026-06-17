@@ -110,14 +110,15 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
     Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 5.days.from_now, published: true)
     get root_path
     assert_response :success
-    assert_select "#upcoming-events-heading"
-    assert_select "a", text: /Memorial Webinar/
+    assert_select "[data-section='events-preview']" do
+      assert_select "article", minimum: 1
+    end
   end
 
   test "home page hides upcoming events section when none" do
     get root_path
     assert_response :success
-    assert_select "#upcoming-events-heading", count: 0
+    assert_select "[data-section='events-preview'] article", count: 0
   end
 
   test "bee hives index loads" do

@@ -1,0 +1,17 @@
+<article class="bg-white rounded-md border border-ink/8 p-6 relative">
+  <span class="absolute top-5 right-5 px-2.5 py-1 rounded-full bg-linen text-moss text-eyebrow whitespace-nowrap">
+    <%= event.event_type.to_s.capitalize %>
+  </span>
+  <h3 class="font-serif text-[22px] font-medium leading-snug text-ink pr-24">
+    <%= event.title %>
+  </h3>
+  <div class="text-eyebrow text-sage mt-3 mb-2">
+    <%= l(event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
+  </div>
+  <div class="text-sm text-ink/70 leading-relaxed">
+    <% Event::DISPLAY_ZONES.each do |zone, label| %>
+      <div><%= label %> · <%= l(event.starts_at.in_time_zone(zone), format: :event_time) %></div>
+    <% end %>
+    <div class="text-moss mt-1.5"><%= event.location %></div>
+  </div>
+</article>
