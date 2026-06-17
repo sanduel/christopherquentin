@@ -69,4 +69,40 @@ class TimelineTest < ActionDispatch::IntegrationTest
     assert_match(/No memories for 2099/, response.body)
     assert_select "a[href=?]", memories_path, text: /Clear filter/i
   end
+
+  test "photo memory card renders the photo slot" do
+    photo_memory = Memory.new(
+      date: Date.new(2014, 6, 15), content: "On stage.",
+      name: "Photographer", email: "p@a.com", kind: :photo, status: :published
+    )
+    photo_memory.photos.attach(
+      io: StringIO.new("fake image bytes"),
+      filename: "test.jpg",
+      content_type: "image/jpeg"
+    )
+    photo_memory.save!
+
+    get memories_path
+
+    assert_select "[data-memory-id='#{photo_memory.id}'][data-kind='photo']"
+  end
+
+  test "audio memory card renders the audio player controller" do
+    audio_memory = Memory.new(
+      date: Date.new(2018, 7, 1), content: "A clip.",
+      name: "Recorder", email: "r@a.com", kind: :audio, audio_label: "Cape Cod, summer 2018",
+      audio_length: "1:42", status: :published
+    )
+    audio_memory.audio_clip.attach(
+      io: StringIO.new("fake audio bytes"),
+      filename: "test.mp3",
+      content_type: "audio/mpeg"
+    )
+    audio_memory.save!
+
+    get memories_path
+
+    assert_select "[data-controller~='audio-player']"
+    assert_select "[data-memory-id='#{audio_memory.id}'][data-kind='audio']"
+  end
 end

@@ -1,0 +1,12 @@
+<%# Text memory card — quoted serif body, meta footer.
+    Local: memory %>
+<article data-memory-id="<%= memory.id %>" data-kind="text"
+         class="bg-white rounded-md border border-ink/8 shadow-card p-7 max-w-[480px] mx-auto mb-12 lg:mb-16 lg:<%= memory.id.odd? ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0' %>">
+  <div class="text-eyebrow text-sage">
+    <%= l(memory.date, format: :memory) %><% if memory.location.present? %> · <%= memory.location %><% end %>
+  </div>
+  <blockquote class="font-serif text-[20px] leading-relaxed text-ink mt-4 mb-0">
+    <%= simple_format("“#{memory.content}”") %>
+  </blockquote>
+  <%= render "memories/card_footer", memory: memory %>
+</article>
