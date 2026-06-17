@@ -1,5 +1,5 @@
-<section class="bg-linen px-6 lg:px-14 py-20 lg:py-24" data-section="gallery-preview">
-  <%= render "shared/movement_label", no: "MVT. IV", title: "In photographs", marking: "lento e sereno" %>
+<section class="bg-linen px-6 lg:px-14 py-20 lg:py-24" data-section="gallery-preview" aria-labelledby="gallery-preview-heading">
+  <%= render "shared/movement_label", no: "MVT. IV", title: "In photographs", marking: "lento e sereno", id: "gallery-preview-heading" %>
 
   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     <% display_photos = photos.any? ? photos : Array.new(6) %>

@@ -155,6 +155,9 @@ class HomepageTest < ActionDispatch::IntegrationTest
     GalleryPhoto.delete_all
     get root_path
     assert_select "[data-section='gallery-preview'] [data-gallery-tile]", count: 6
+  ensure
+    # No-op restore (we don't reseed gallery photos within a transactional test).
+    # Pattern parity with peer tests.
   end
 
   test "MVT V renders movement label with cantabile marking" do

@@ -1,15 +1,15 @@
-<section class="bg-linen px-6 lg:px-14 py-20 lg:py-24 relative" data-section="timeline-preview">
+<section class="bg-linen px-6 lg:px-14 py-20 lg:py-24 relative" data-section="timeline-preview" aria-labelledby="timeline-preview-heading">
   <%= render "shared/staff_lines", top: 0, height: 80, opacity: 0.06 %>
 
   <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-9 relative">
     <div class="flex-1">
       <%= musical_eyebrow("MVT. II · from the timeline") %>
-      <h2 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-none tracking-tight text-ink mt-2.5">
+      <h2 id="timeline-preview-heading" class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-none tracking-tight text-ink mt-2.5">
         A life, kept by <em class="font-serif italic text-moss">many hands</em>.
       </h2>
       <% if memories.any? %>
         <p class="text-[17px] text-ink/65 mt-3.5 max-w-[560px]">
-          <%= pluralize(Memory.published.count, "memory", plural: "memories") %> so far. Browse them all, or add your own.
+          <%= pluralize(total_count, "memory", plural: "memories") %> so far. Browse them all, or add your own.
         </p>
       <% end %>
     </div>

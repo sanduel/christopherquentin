@@ -1,6 +1,6 @@
 <% if events.any? %>
-  <section class="px-6 lg:px-14 py-20 lg:py-24" data-section="events-preview">
-    <%= render "shared/movement_label", no: "MVT. III", title: "Upcoming gatherings", marking: "vivace" %>
+  <section class="px-6 lg:px-14 py-20 lg:py-24" data-section="events-preview" aria-labelledby="events-preview-heading">
+    <%= render "shared/movement_label", no: "MVT. III", title: "Upcoming gatherings", marking: "vivace", id: "events-preview-heading" %>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <% events.each do |event| %>

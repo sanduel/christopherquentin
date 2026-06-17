@@ -2,7 +2,7 @@
 
 <%= render "pages/home/hero" %>
 <%= render "pages/home/honor_grid" %>
-<%= render "pages/home/timeline_preview", memories: @timeline_preview_memories %>
+<%= render "pages/home/timeline_preview", memories: @timeline_preview_memories, total_count: @memories_count %>
 <%= render "pages/home/events_preview", events: @upcoming_events %>
 <%= render "pages/home/gallery_preview", photos: @gallery_photos %>
 <%= render "pages/home/tributes_preview", tributes: @recent_tributes, total_count: @tributes_count %>

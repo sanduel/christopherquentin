@@ -1,6 +1,6 @@
 <% if tributes.any? %>
-  <section class="px-6 lg:px-14 py-20 lg:py-24" data-section="tributes-preview">
-    <%= render "shared/movement_label", no: "MVT. V", title: "In their own words", marking: "cantabile" %>
+  <section class="px-6 lg:px-14 py-20 lg:py-24" data-section="tributes-preview" aria-labelledby="tributes-preview-heading">
+    <%= render "shared/movement_label", no: "MVT. V", title: "In their own words", marking: "cantabile", id: "tributes-preview-heading" %>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <% tributes.each do |tribute| %>
