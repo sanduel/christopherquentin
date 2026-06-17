@@ -71,4 +71,15 @@ class EventTest < ActiveSupport::TestCase
 
     assert_equal [ recent, older ], Event.past.to_a
   end
+
+  test "service is a valid event_type" do
+    event = Event.new(
+      title: "Annual Memorial Recital",
+      event_type: :service,
+      starts_at: 1.week.from_now,
+      published: true
+    )
+    assert event.valid?, event.errors.full_messages.inspect
+    assert event.service?
+  end
 end

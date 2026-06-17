@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   include Mappable
 
-  enum :event_type, { webinar: 0, concert: 1 }
+  enum :event_type, { webinar: 0, concert: 1, service: 2 }
 
   has_one_attached :cover_image
 

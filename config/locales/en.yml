@@ -29,3 +29,11 @@
 
 en:
   hello: "Hello world"
+
+  date:
+    formats:
+      memory: "%B %Y"               # e.g. "September 2002"
+  time:
+    formats:
+      event_date: "%A %b %-d, %Y"   # e.g. "Sunday Jun 14, 2026"
+      event_time: "%-l:%M %p %Z"    # e.g. "3:00 PM EDT"
