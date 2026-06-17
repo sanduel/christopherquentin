@@ -1,1 +1,17 @@
-# Empty - tests create their own data
+hanover:
+  content: Sept 2002, Mass Row dorm. Two weeks into freshman year, Christopher pulled out a baton and conducted our whole hallway.
+  date: 2002-09-15
+  location: Hanover, NH
+  status: 1
+
+munich:
+  content: I'll never forget the evening Christopher conducted the Beethoven cycle in Munich.
+  date: 2014-06-10
+  location: Munich, Germany
+  status: 1
+
+stavanger:
+  content: Watching Chris rehearse Mahler with the Jæren Symphony was unlike anything I'd seen before.
+  date: 2019-03-22
+  location: Stavanger, Norway
+  status: 1

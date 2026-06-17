@@ -74,4 +74,38 @@ class HomepageTest < ActionDispatch::IntegrationTest
       assert_match Regexp.new(Regexp.escape(glyph)), body, "Expected glyph #{glyph} in honor grid"
     end
   end
+
+  test "MVT II renders movement label with from-the-timeline eyebrow" do
+    get root_path
+    assert_select "[data-section='timeline-preview'] .text-eyebrow", text: /MVT\. II/
+    assert_select "[data-section='timeline-preview'] h2", text: /A life, kept by/
+    assert_select "[data-section='timeline-preview'] h2 em.text-moss", text: /many hands/
+  end
+
+  test "MVT II renders View full timeline pill linking to memories_path" do
+    get root_path
+    assert_select "[data-section='timeline-preview'] a[href=?]", memories_path, text: /View full timeline/
+  end
+
+  test "MVT II renders up to 3 preview cards from published memories" do
+    get root_path
+    assert_select "[data-section='timeline-preview'] article", minimum: 1
+    assert_select "[data-section='timeline-preview'] article", maximum: 3
+  end
+
+  test "MVT II preview card shows memory location, body" do
+    get root_path
+    assert_select "[data-section='timeline-preview']" do
+      assert_select ".text-eyebrow", text: /Hanover|Munich|Stavanger/
+      assert_select "p", text: /Mass Row|Beethoven|Mahler/
+    end
+  end
+
+  test "MVT II empty state — shows Be the first card when no memories" do
+    Memory.update_all(status: Memory.statuses[:pending])
+    get root_path
+    assert_select "[data-section='timeline-preview'] a[href=?]", new_memory_path, text: /Be the first/
+  ensure
+    Memory.update_all(status: Memory.statuses[:published])
+  end
 end

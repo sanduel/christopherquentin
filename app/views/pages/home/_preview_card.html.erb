@@ -1,0 +1,27 @@
+<%# Renders a single memory preview card. Photo variant if memory.photos.attached?,
+    otherwise the text-only variant. The audio variant is Phase 3. %>
+<article class="bg-white rounded-md overflow-hidden border border-ink/8 shadow-card flex flex-col">
+  <% if memory.photos.attached? %>
+    <div class="h-[200px] relative"
+         style="background: linear-gradient(135deg, rgba(90,122,94,0.2), rgba(58,82,64,0.3)), repeating-linear-gradient(45deg, rgba(90,122,94,0.08) 0 12px, transparent 12px 24px);">
+      <div class="absolute bottom-4 left-4 text-eyebrow text-cream mix-blend-difference">
+        [ photo · <%= memory.location.presence || "—" %> ]
+      </div>
+    </div>
+  <% end %>
+
+  <div class="p-6 flex flex-col flex-1">
+    <%= musical_eyebrow("#{l(memory.date, format: :memory)} · #{memory.location.presence || ''}".strip.chomp("·").strip) %>
+    <p class="font-serif text-[19px] leading-snug text-ink mt-3 flex-1">
+      <%= truncate(memory.content.to_s, length: 220) %>
+    </p>
+    <footer class="mt-4 pt-3.5 border-t border-ink/8 flex justify-between items-baseline">
+      <div>
+        <div class="text-sm font-medium text-ink"><%= memory.user&.name || "Anonymous" %></div>
+      </div>
+      <span class="text-eyebrow text-sage">
+        <%= memory.photos.attached? ? "photograph" : "letter" %>
+      </span>
+    </footer>
+  </div>
+</article>
