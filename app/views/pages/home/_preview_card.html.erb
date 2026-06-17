@@ -1,11 +1,22 @@
-<%# Renders a single memory preview card. Photo variant if memory.photos.attached?,
-    otherwise the text-only variant. The audio variant is Phase 3. %>
+<%# Renders a single memory preview card. Photo variant if memory.kind_photo?,
+    audio variant if memory.kind_audio?, otherwise the text-only variant. %>
 <article class="bg-white rounded-md overflow-hidden border border-ink/8 shadow-card flex flex-col">
-  <% if memory.photos.attached? %>
+  <% if memory.kind_photo? %>
     <div class="h-[200px] relative"
          style="background: linear-gradient(135deg, rgba(90,122,94,0.2), rgba(58,82,64,0.3)), repeating-linear-gradient(45deg, rgba(90,122,94,0.08) 0 12px, transparent 12px 24px);">
       <div class="absolute bottom-4 left-4 text-eyebrow text-cream mix-blend-difference">
         [ photo · <%= memory.location.presence || "—" %> ]
+      </div>
+    </div>
+  <% elsif memory.kind_audio? %>
+    <%# Audio preview — small static badge, not the full player. %>
+    <div class="bg-moss text-cream p-4 flex items-center gap-3">
+      <span class="w-10 h-10 rounded-full bg-cream text-moss flex items-center justify-center text-lg" aria-hidden="true">▶</span>
+      <div class="flex-1 min-w-0">
+        <% if memory.audio_label.present? %>
+          <div class="font-serif italic text-base truncate"><%= memory.audio_label %></div>
+        <% end %>
+        <div class="text-eyebrow text-cream/80 mt-1">Audio recording · listen on the timeline</div>
       </div>
     </div>
   <% end %>
@@ -20,7 +31,7 @@
         <div class="text-sm font-medium text-ink"><%= memory.user&.name || "Anonymous" %></div>
       </div>
       <span class="text-eyebrow text-sage">
-        <%= memory.photos.attached? ? "photograph" : "letter" %>
+        <%= { "text" => "letter", "photo" => "photograph", "audio" => "recording" }[memory.kind] %>
       </span>
     </footer>
   </div>
