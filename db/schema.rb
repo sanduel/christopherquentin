@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_10_150442) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_17_131349) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -80,18 +80,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_10_150442) do
   end
 
   create_table "memories", force: :cascade do |t|
+    t.string "audio_label"
+    t.string "audio_length"
     t.text "content"
     t.datetime "created_at", null: false
     t.date "date", null: false
+    t.string "email"
+    t.integer "kind", default: 0, null: false
     t.float "latitude"
     t.string "location"
     t.float "longitude"
+    t.string "name"
     t.string "pin_color"
     t.string "pin_icon"
+    t.string "relationship"
     t.integer "status", default: 0, null: false
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.index ["kind"], name: "index_memories_on_kind"
     t.index ["user_id"], name: "index_memories_on_user_id"
   end
 
@@ -120,6 +127,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_10_150442) do
     t.string "submitter_name", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.integer "memory_id", null: false
+    t.string "name", null: false
+    t.string "relationship"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["memory_id"], name: "index_replies_on_memory_id"
+    t.index ["status", "created_at"], name: "index_replies_on_status_and_created_at"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "trees", force: :cascade do |t|
@@ -163,4 +185,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_10_150442) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "memories", "users"
+  add_foreign_key "replies", "memories"
+  add_foreign_key "replies", "users"
 end
