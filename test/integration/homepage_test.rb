@@ -138,4 +138,22 @@ class HomepageTest < ActionDispatch::IntegrationTest
   ensure
     Event.update_all(published: true)
   end
+
+  test "MVT IV renders movement label with lento e sereno marking" do
+    get root_path
+    assert_select "[data-section='gallery-preview'] .text-eyebrow", text: /MVT\. IV/
+    assert_select "[data-section='gallery-preview'] h2", text: /In photographs/
+    assert_select "[data-section='gallery-preview'] span", text: /lento e sereno/
+  end
+
+  test "MVT IV renders Submit a photo link" do
+    get root_path
+    assert_select "[data-section='gallery-preview'] a[href=?]", new_photo_submission_path, text: /Submit a photo/
+  end
+
+  test "MVT IV renders 6 placeholder gradient blocks when GalleryPhoto is empty" do
+    GalleryPhoto.delete_all
+    get root_path
+    assert_select "[data-section='gallery-preview'] [data-gallery-tile]", count: 6
+  end
 end
