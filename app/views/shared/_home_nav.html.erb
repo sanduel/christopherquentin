@@ -25,8 +25,12 @@
       <%= nav_link "Projects", projects_path %>
       <%= nav_link "Funds",    funds_path %>
 
-      <%= link_to "Share a memory", new_memory_path,
-            class: "bg-moss text-cream rounded-full px-5 py-2.5 text-sm no-underline hover:bg-ink transition-colors" %>
+      <button type="button"
+              data-controller="share-modal-trigger"
+              data-action="share-modal-trigger#open"
+              class="bg-moss text-cream rounded-full px-5 py-2.5 text-sm cursor-pointer hover:bg-ink transition-colors">
+        Share a memory
+      </button>
 
       <div class="text-xs text-ink/60 flex items-center gap-2 ml-2">
         <% if user_signed_in? %>
@@ -62,8 +66,12 @@
     <%= nav_link "Trees",    trees_path, extra_class: "block py-1" %>
     <%= nav_link "Projects", projects_path, extra_class: "block py-1" %>
     <%= nav_link "Funds",    funds_path, extra_class: "block py-1" %>
-    <%= link_to "Share a memory", new_memory_path,
-          class: "block bg-moss text-cream rounded-full px-5 py-2.5 text-sm no-underline text-center mt-3" %>
+    <button type="button"
+            data-controller="share-modal-trigger"
+            data-action="share-modal-trigger#open"
+            class="block bg-moss text-cream rounded-full px-5 py-2.5 text-sm cursor-pointer text-center mt-3 w-full">
+      Share a memory
+    </button>
     <div class="text-xs text-ink/60 pt-3 border-t border-ink/10 mt-3">
       <% if user_signed_in? %>
         <% if current_user.admin? %>

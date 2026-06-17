@@ -15,6 +15,13 @@ class MemoriesController < ApplicationController
 
   def new
     @memory = Memory.new(kind: :text, date: Date.today)
+    scope = Memory.published.includes(:user, :replies).order(date: :desc)
+    @years = Memory.published.pluck(Arel.sql("strftime('%Y', date)")).uniq.sort.reverse.map(&:to_i)
+    @active_year = nil
+    @memories = scope
+    @memories_count = scope.count
+    @contributors_count = User.joins(:memories).distinct.count +
+                          Memory.where(user_id: nil).where.not(email: nil).select(:email).distinct.count
   end
 
   def create

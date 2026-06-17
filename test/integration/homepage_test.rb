@@ -33,7 +33,7 @@ class HomepageTest < ActionDispatch::IntegrationTest
   test "hero renders the two CTA pills with correct destinations" do
     get root_path
     assert_select "a[href=?]", chris_path, text: /Read his story/
-    assert_select "a[href=?]", new_memory_path, text: /Share a memory/
+    assert_select "button[data-controller~='share-modal-trigger']", text: /Share a memory/
   end
 
   test "hero renders portrait placeholder with caption" do

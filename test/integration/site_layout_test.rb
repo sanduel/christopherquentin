@@ -26,7 +26,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select "nav[data-controller='nav']" do
       assert_select "span", /Christopher Quentin/
-      assert_select "a[href=?]", new_memory_path, /Share a memory/
+      assert_select "button[data-controller~='share-modal-trigger']", text: /Share a memory/
     end
   end
 
