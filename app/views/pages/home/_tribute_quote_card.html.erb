@@ -1,0 +1,12 @@
+<blockquote class="bg-white rounded-md border border-ink/8 shadow-card p-7 relative">
+  <span class="absolute -top-3 left-6 font-serif text-[80px] text-rose leading-none select-none" aria-hidden="true">"</span>
+  <p class="font-serif text-[19px] italic leading-snug text-ink mt-6 m-0">
+    <%= truncate(tribute.content.to_s, length: 240) %>
+  </p>
+  <footer class="mt-5 pt-3.5 border-t border-ink/8">
+    <div class="text-sm font-medium text-ink">— <%= tribute.name %></div>
+    <% if tribute.relationship.present? %>
+      <div class="text-eyebrow text-sage mt-1"><%= tribute.relationship %></div>
+    <% end %>
+  </footer>
+</blockquote>

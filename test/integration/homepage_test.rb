@@ -156,4 +156,49 @@ class HomepageTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select "[data-section='gallery-preview'] [data-gallery-tile]", count: 6
   end
+
+  test "MVT V renders movement label with cantabile marking" do
+    Tribute.find_or_create_by!(name: "Test Tribute MVTV1") { |t| t.content = "Sample"; t.status = :published }
+    get root_path
+    assert_select "[data-section='tributes-preview'] .text-eyebrow", text: /MVT\. V/
+    assert_select "[data-section='tributes-preview'] h2", text: /In their own words/
+    assert_select "[data-section='tributes-preview'] span", text: /cantabile/
+  end
+
+  test "MVT V renders up to 3 tribute quote cards" do
+    3.times do |i|
+      Tribute.find_or_create_by!(name: "Test Tribute MVTV-#{i}") do |t|
+        t.content = "Sample tribute #{i}"
+        t.status = :published
+      end
+    end
+    get root_path
+    assert_select "[data-section='tributes-preview'] blockquote", minimum: 1, maximum: 3
+  end
+
+  test "MVT V cards show name" do
+    Tribute.find_or_create_by!(name: "Margaret Thompson MVTV") do |t|
+      t.content = "A long-time friend says hello."
+      t.relationship = "Family friend"
+      t.status = :published
+    end
+    get root_path
+    assert_select "[data-section='tributes-preview'] blockquote", text: /Margaret Thompson MVTV/
+  end
+
+  test "MVT V renders pluralized Read all N tributes link when 2+ tributes" do
+    2.times do |i|
+      Tribute.find_or_create_by!(name: "Plural Test #{i}") { |t| t.content = "x"; t.status = :published }
+    end
+    get root_path
+    assert_select "[data-section='tributes-preview'] a[href=?]", tributes_path, text: /Read all \d+ tributes/
+  end
+
+  test "MVT V hides section when no tributes" do
+    Tribute.update_all(status: Tribute.statuses[:pending])
+    get root_path
+    assert_select "[data-section='tributes-preview'] blockquote", 0
+  ensure
+    Tribute.update_all(status: Tribute.statuses[:published])
+  end
 end
