@@ -7,7 +7,7 @@ class Memory < ApplicationRecord
   enum :kind,   { text: 0, photo: 1, audio: 2 }, prefix: :kind
 
   belongs_to :user, optional: true
-  has_many   :replies, -> { published.order(:created_at) }, dependent: :destroy
+  has_many   :replies, -> { order(:created_at) }, dependent: :destroy
   has_many_attached :photos
   has_one_attached  :audio_clip
 
