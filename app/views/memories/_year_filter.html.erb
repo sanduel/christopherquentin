@@ -1,0 +1,8 @@
+<%# Sticky year-filter chip row. Locals: years (array of integers), active_year (int or nil) %>
+<div data-year-filter
+     class="sticky top-[68px] z-30 bg-cream/90 backdrop-blur-[10px] border-b border-ink/8 px-6 lg:px-14 py-3 flex gap-2 overflow-x-auto">
+  <%= link_to "All", memories_path, class: chip_class(active: active_year.nil?) %>
+  <% years.each do |y| %>
+    <%= link_to y.to_s, memories_path(year: y), class: chip_class(active: active_year == y) %>
+  <% end %>
+</div>

@@ -24,4 +24,13 @@ module MusicalHelper
       class: "font-serif italic text-[22px] text-rose"
     )
   end
+
+  def chip_class(active:)
+    base = "rounded-full px-4 py-1.5 text-sm whitespace-nowrap no-underline border transition-colors inline-block"
+    if active
+      "#{base} bg-moss text-cream border-moss"
+    else
+      "#{base} bg-transparent text-ink border-ink/20 hover:border-moss hover:text-moss"
+    end
+  end
 end

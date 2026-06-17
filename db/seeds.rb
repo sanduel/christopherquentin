@@ -9,13 +9,13 @@ puts "Admin user: #{admin.email} (password: password123)"
 if Rails.env.development?
   # ---- Memories ----
   memories_data = [
-    { date: Date.new(2002, 9, 1), title: "Mass Row, Dartmouth",
+    { date: Date.new(2002, 9, 1), title: "Mass Row, Dartmouth", kind: "text",
       content: "Sept 2002, Mass Row dorm. Two weeks into freshman year and Chris already had a chamber group meeting in his common room every Thursday. He'd score the parts by hand, then pass them out before dinner.",
       location: "Hanover, NH" },
-    { date: Date.new(2014, 6, 15), title: "Munich concert",
+    { date: Date.new(2014, 6, 15), title: "Munich concert", kind: "text",
       content: "I'll never forget the evening Christopher conducted Beethoven's 7th in Munich. The energy in the room was electric — and after the second movement he caught my eye in the balcony and grinned.",
       location: "Munich, Germany" },
-    { date: Date.new(2019, 5, 12), title: "Stavanger rehearsal",
+    { date: Date.new(2019, 5, 12), title: "Stavanger rehearsal", kind: "text",
       content: "Watching Chris rehearse Mahler with the Jæren Symfoniorkester. He stopped after eight bars to make a joke about the violas. Everyone laughed. Then the next phrase was perfect.",
       location: "Stavanger, Norway" },
   ]
@@ -25,6 +25,8 @@ if Rails.env.development?
       m.content = attrs[:content]
       m.location = attrs[:location]
       m.user = admin
+      m.name = admin.name
+      m.kind = attrs[:kind]
       m.status = :published
     end
   end

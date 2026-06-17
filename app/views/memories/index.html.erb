@@ -1,40 +1,43 @@
-<% content_for(:title, "Timeline — Christopher Quentin") %>
+<% content_for :title, "Timeline — Christopher Quentin McMullen-Laird" %>
 
-<div class="max-w-4xl mx-auto">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="text-4xl font-title text-stone-800">Timeline</h1>
-    <%= link_to "Add a Memory", new_memory_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
+<%# Header %>
+<section class="px-6 lg:px-14 pt-12 pb-6">
+  <%= musical_eyebrow("Op. III · The Timeline", with_rule: true) %>
+  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
+    A life, kept by <em class="font-serif italic text-moss">many hands</em>.
+  </h1>
+  <div class="mt-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <p class="text-[17px] text-ink/65">
+      <%= pluralize(@memories_count, "memory", plural: "memories") %> · <%= pluralize(@contributors_count, "contributor") %>
+    </p>
+    <button type="button"
+            data-controller="share-modal-trigger"
+            data-action="share-modal-trigger#open"
+            class="bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium self-start md:self-auto hover:bg-ink transition-colors cursor-pointer">
+      Share a memory
+    </button>
   </div>
+</section>
+
+<%= render "memories/year_filter", years: @years, active_year: @active_year %>
+
+<%# Timeline body %>
+<section class="relative px-6 lg:px-14 py-12 min-h-[400px]">
+  <%# Vertical spine — desktop only %>
+  <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-cream via-sage/30 to-cream"
+       aria-hidden="true"></div>
 
   <% if @memories.any? %>
-    <div class="relative border-l-2 border-blue-300 ml-4 space-y-8">
-      <% @memories.each do |memory| %>
-        <div class="ml-8 relative">
-          <div class="absolute -left-[2.6rem] top-1 w-4 h-4 bg-blue-600 rounded-full border-2 border-white"></div>
-          <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
-            <p class="text-sm text-blue-800 font-medium mb-1"><%= memory.date.strftime("%B %d, %Y") %></p>
-            <% if memory.title.present? %>
-              <h3 class="text-lg font-medium text-stone-800 mb-2"><%= memory.title %></h3>
-            <% end %>
-            <% if memory.content.present? %>
-              <p class="text-stone-600 leading-relaxed mb-3"><%= truncate(memory.content, length: 300) %></p>
-            <% end %>
-            <% if memory.photos.attached? %>
-              <div class="flex gap-2 flex-wrap mb-3">
-                <% memory.photos.each do |photo| %>
-                  <%= image_tag photo.variant(resize_to_limit: [200, 150]), class: "rounded" %>
-                <% end %>
-              </div>
-            <% end %>
-            <div class="flex justify-between items-center text-sm text-stone-400">
-              <span>Shared by <%= memory.user&.name || "Anonymous" %></span>
-              <%= link_to "Read more →", memory_path(memory), class: "text-blue-800 hover:text-blue-700" %>
-            </div>
-          </div>
-        </div>
+    <% @memories.group_by(&:year).each do |year, memories_in_year| %>
+      <%= render "memories/year_marker", year: year, age: year - Memory::CHRIS_BIRTH_YEAR %>
+      <% memories_in_year.each do |memory| %>
+        <%= render "memories/memory_card", memory: memory %>
       <% end %>
-    </div>
+    <% end %>
   <% else %>
-    <p class="text-stone-400 italic text-center py-12">No memories on the timeline yet. Be the first to share one.</p>
+    <div class="text-center py-20">
+      <p class="font-serif italic text-2xl text-ink/70 mb-4">No memories for <%= @active_year %>.</p>
+      <%= link_to "Clear filter →", memories_path, class: "text-moss text-sm font-medium hover:underline" %>
+    </div>
   <% end %>
-</div>
+</section>
