@@ -10,8 +10,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "home page shows action library with tree, memory, bee hive, and fund CTAs" do
     get root_path
     assert_response :success
-    assert_select "section[aria-labelledby=?]", "action-library-heading" do
-      assert_select "#action-library-heading"
+    assert_select "[data-section='honor-grid']" do
       assert_select "a[href=?]", new_tree_path
       assert_select "a[href=?]", new_memory_path
       assert_select "a[href=?]", new_bee_hive_path

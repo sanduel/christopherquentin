@@ -1,3 +1,30 @@
-<section class="px-6 lg:px-14 py-24" data-section="honor-grid">
-  <%# Phase 2 Task 5 fills this in. %>
+<section class="px-6 lg:px-14 py-16 lg:py-24" data-section="honor-grid">
+  <%= render "shared/movement_label", no: "MVT. I", title: "Honor his memory", marking: "andante con moto" %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <% [
+      { glyph: "❦", label: "I. Plant",      title: "Plant a Tree",
+        body: "Add a tree to the living map of saplings planted in his memory across nine countries.",
+        cta: "Plant a tree →",    path: new_tree_path,     accent: "text-moss" },
+      { glyph: "¶", label: "II. Remember",  title: "Share a Memory",
+        body: "A photo, a story, an audio clip — contribute to the timeline of his life.",
+        cta: "Share a memory →",  path: new_memory_path,   accent: "text-rose" },
+      { glyph: "♪", label: "III. Pollinate", title: "Adopt a Bee Hive",
+        body: "Register a hive on the unified map — pollinators were one of his loves.",
+        cta: "Adopt a hive →",    path: new_bee_hive_path, accent: "text-sage" },
+      { glyph: "♭", label: "IV. Sustain",   title: "Support a Fund",
+        body: "The Dartmouth Conducting Endowment and four other funds carry his work forward.",
+        cta: "Contribute →",      path: funds_path,        accent: "text-moss" },
+    ].each do |card| %>
+      <%= link_to card[:path], class: "group block no-underline" do %>
+        <article class="bg-white rounded-md border border-ink/8 shadow-card p-6 flex flex-col min-h-[280px] hover:border-ink/15 transition-colors">
+          <div class="font-serif text-[32px] <%= card[:accent] %> leading-none mb-1.5"><%= card[:glyph] %></div>
+          <%= musical_eyebrow(card[:label]) %>
+          <h3 class="font-serif text-3xl text-ink mt-2.5 leading-tight font-normal"><%= card[:title] %></h3>
+          <p class="text-sm leading-relaxed text-ink/70 mt-3 flex-1"><%= card[:body] %></p>
+          <span class="<%= card[:accent] %> text-sm font-medium mt-4 group-hover:underline"><%= card[:cta] %></span>
+        </article>
+      <% end %>
+    <% end %>
+  </div>
 </section>
