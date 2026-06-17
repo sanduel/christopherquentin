@@ -1,8 +1,10 @@
 class PagesController < ApplicationController
   def home
-    @recent_tributes = Tribute.published.order(created_at: :desc).limit(3)
-    @gallery_photos = GalleryPhoto.all.limit(12)
+    @timeline_preview_memories = Memory.published.order(date: :desc, created_at: :desc).limit(3)
     @upcoming_events = Event.published.upcoming.with_attached_cover_image.limit(3)
+    @gallery_photos = GalleryPhoto.all.limit(12)
+    @recent_tributes = Tribute.published.order(created_at: :desc).limit(3)
+    @tributes_count = Tribute.published.count
   end
 
   def chris
