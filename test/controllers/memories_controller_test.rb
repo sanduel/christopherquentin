@@ -67,4 +67,19 @@ class MemoriesControllerTest < ActionDispatch::IntegrationTest
     assert_match "2010", response.body
     assert_match "2020", response.body
   end
+
+  test "validation failure renders timeline with flash alert (no crash)" do
+    post memories_path, params: {
+      memory: {
+        date: nil,  # required field missing
+        content: "",
+        name: "Tester",
+        email: "t@t.com",
+        kind: "text"
+      }
+    }
+    assert_response :unprocessable_entity
+    # Flash alert rendered inline; apostrophe is HTML-encoded as &#39;
+    assert_match /can&#39;t be blank/i, response.body
+  end
 end

@@ -1,12 +1,6 @@
 class MemoriesController < ApplicationController
   def index
-    scope = Memory.published.includes(:user, :replies).order(date: :desc)
-    @years = Memory.published.pluck(Arel.sql("strftime('%Y', date)")).uniq.sort.reverse.map(&:to_i)
-    @active_year = params[:year]&.to_i
-    @memories = @active_year ? scope.where("strftime('%Y', date) = ?", @active_year.to_s) : scope
-    @memories_count = @memories.count
-    @contributors_count = User.joins(:memories).distinct.count +
-                          Memory.where(user_id: nil).where.not(email: nil).select(:email).distinct.count
+    load_timeline_locals
   end
 
   def show
@@ -15,13 +9,7 @@ class MemoriesController < ApplicationController
 
   def new
     @memory = Memory.new(kind: :text, date: Date.today)
-    scope = Memory.published.includes(:user, :replies).order(date: :desc)
-    @years = Memory.published.pluck(Arel.sql("strftime('%Y', date)")).uniq.sort.reverse.map(&:to_i)
-    @active_year = nil
-    @memories = scope
-    @memories_count = scope.count
-    @contributors_count = User.joins(:memories).distinct.count +
-                          Memory.where(user_id: nil).where.not(email: nil).select(:email).distinct.count
+    load_timeline_locals
   end
 
   def create
@@ -36,11 +24,23 @@ class MemoriesController < ApplicationController
         "Thank you. Your memory is queued for review and will appear on the timeline once approved."
       redirect_to memories_path, notice: msg
     else
+      load_timeline_locals
+      flash.now[:alert] = @memory.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
 
   private
+
+  def load_timeline_locals
+    scope = Memory.published.includes(:user, :replies).order(date: :desc)
+    @years = Memory.published.pluck(Arel.sql("strftime('%Y', date)")).uniq.sort.reverse.map(&:to_i)
+    @active_year = params[:year]&.to_i
+    @memories = @active_year ? scope.where("strftime('%Y', date) = ?", @active_year.to_s) : scope
+    @memories_count = @memories.count
+    @contributors_count = User.joins(:memories).merge(Memory.published).distinct.count +
+                          Memory.published.where(user_id: nil).where.not(email: nil).select(:email).distinct.count
+  end
 
   def memory_params
     params.require(:memory).permit(

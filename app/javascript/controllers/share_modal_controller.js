@@ -74,9 +74,14 @@ export default class extends Controller {
   }
 
   isDirty() {
-    const fd = new FormData(this.formTarget)
-    for (const [, v] of fd) {
-      if (v && v.toString().trim()) return true
+    // Inspect visible inputs/textareas; ignore hidden fields (kind, csrf, etc.).
+    const inputs = this.formTarget.querySelectorAll("input:not([type='hidden']), textarea")
+    for (const input of inputs) {
+      if (input.type === "file") {
+        if (input.files.length > 0) return true
+      } else if (input.value && input.value.trim()) {
+        return true
+      }
     }
     return false
   }

@@ -9,8 +9,6 @@ class Phase3MemoryAndReplies < ActiveRecord::Migration[8.1]
 
     add_index :memories, :kind
 
-    change_column_null :memories, :title, true
-
     create_table :replies do |t|
       t.references :memory, null: false, foreign_key: true, index: true
       t.references :user, foreign_key: true, index: true

@@ -19,7 +19,7 @@ class RepliesControllerTest < ActionDispatch::IntegrationTest
     reply = Reply.last
     assert_equal "pending", reply.status
     assert_nil reply.user
-    assert_redirected_to memory_path(@memory)
+    assert_redirected_to memories_path
   end
 
   test "signed-in POST creates a published reply" do
@@ -39,8 +39,7 @@ class RepliesControllerTest < ActionDispatch::IntegrationTest
     post memory_replies_path(@memory), params: {
       reply: { name: "Visitor" }  # missing body and email
     }
-    assert_redirected_to memory_path(@memory)
-    follow_redirect!
-    assert_match(/can't be blank/i, flash[:alert] || response.body)
+    assert_redirected_to memories_path
+    assert_match(/can't be blank/i, flash[:alert])
   end
 end

@@ -8,10 +8,10 @@ class RepliesController < ApplicationController
     @reply.name = current_user.name if user_signed_in? && @reply.name.blank?
 
     if @reply.save
-      redirect_to memory_path(@memory),
+      redirect_to memories_path,
         notice: user_signed_in? ? "Reply posted." : "Thanks. Your reply will appear after review."
     else
-      redirect_to memory_path(@memory),
+      redirect_to memories_path,
         alert: @reply.errors.full_messages.join(", "),
         status: :see_other
     end

@@ -1,6 +1,7 @@
 <%# Share-a-Memory dialog — rendered once at the bottom of the application layout.
     Opens via JS on any element with data-action="share-modal-trigger#open". %>
 <dialog id="share-modal"
+        aria-labelledby="share-modal-heading"
         data-controller="share-modal"
         data-share-modal-current-step-value="1"
         class="rounded-lg bg-cream max-w-[640px] w-[92vw] p-0 backdrop:bg-ink/40">
@@ -15,10 +16,10 @@
     </header>
 
     <div data-share-modal-target="step1" class="p-8 space-y-6">
-      <h2 class="font-serif text-4xl text-ink m-0">Tell us about a <em class="font-serif italic text-moss">moment</em>.</h2>
+      <h2 id="share-modal-heading" class="font-serif text-4xl text-ink m-0">Tell us about a <em class="font-serif italic text-moss">moment</em>.</h2>
 
       <div>
-        <label class="text-eyebrow text-sage block mb-1">Your memory</label>
+        <%= f.label :content, "Your memory", class: "text-eyebrow text-sage block mb-1" %>
         <%= f.text_area :content, rows: 6,
               class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white",
               placeholder: "A photo, a story, a recording — something specific you want to keep." %>
@@ -26,12 +27,12 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="text-eyebrow text-sage block mb-1">When did it happen?</label>
+          <%= f.label :date, "When did it happen?", class: "text-eyebrow text-sage block mb-1" %>
           <%= f.date_field :date, required: true,
                 class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
         </div>
         <div>
-          <label class="text-eyebrow text-sage block mb-1">Where?</label>
+          <%= f.label :location, "Where?", class: "text-eyebrow text-sage block mb-1" %>
           <%= f.text_field :location,
                 class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white",
                 placeholder: "Stavanger, Norway" %>
@@ -63,12 +64,12 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="text-eyebrow text-sage block mb-1">Your name</label>
+          <%= f.label :name, "Your name", class: "text-eyebrow text-sage block mb-1" %>
           <%= f.text_field :name, value: current_user&.name, required: true,
                 class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
         </div>
         <div>
-          <label class="text-eyebrow text-sage block mb-1">Relationship to Chris</label>
+          <%= f.label :relationship, "Relationship to Chris", class: "text-eyebrow text-sage block mb-1" %>
           <%= f.text_field :relationship,
                 class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white",
                 placeholder: "Friend · Colleague · Family · …" %>
@@ -77,7 +78,7 @@
 
       <% unless user_signed_in? %>
         <div>
-          <label class="text-eyebrow text-sage block mb-1">Email (kept private)</label>
+          <%= f.label :email, "Email (kept private)", class: "text-eyebrow text-sage block mb-1" %>
           <%= f.email_field :email, required: true,
                 class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
         </div>
