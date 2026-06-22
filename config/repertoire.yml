@@ -1,0 +1,35 @@
+conducted:
+  - composer: Mozart
+    works:
+      - Die Entführung aus dem Serail
+      - Le nozze di Figaro
+  - composer: Beethoven
+    works:
+      - Symphony No. 7
+      - Fidelio (excerpts)
+  - composer: Mahler
+    works:
+      - Symphony No. 4
+      - Lieder eines fahrenden Gesellen
+  - composer: Verdi
+    works:
+      - La traviata (Cape Cod Opera)
+      - Rigoletto (Opera Providence)
+  - composer: Wagner
+    works:
+      - Tristan und Isolde (excerpts, Bayerische Staatsoper)
+
+assisted:
+  - composer: Strauss
+    works:
+      - Der Rosenkavalier (with Kirill Petrenko)
+      - Salome (with Kent Nagano)
+  - composer: Britten
+    works:
+      - Peter Grimes (Royal Ballet adaptation)
+  - composer: Stravinsky
+    works:
+      - The Rite of Spring (Rambert Dance)
+  - composer: Puccini
+    works:
+      - La bohème (Bayerische Staatsoper Education)
