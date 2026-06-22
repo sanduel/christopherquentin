@@ -27,4 +27,23 @@ class TributeTest < ActiveSupport::TestCase
     assert_equal 1, Tribute.published.count
     assert_equal "Published", Tribute.published.first.name
   end
+
+  test "default category is friends" do
+    t = Tribute.new(name: "X", content: "y")
+    assert_equal "friends", t.category
+  end
+
+  test "category enum supports family/colleagues/musicians/students/friends" do
+    t = Tribute.new(name: "X", content: "y")
+    %w[family colleagues musicians students friends].each do |cat|
+      t.category = cat
+      assert_equal cat, t.category
+    end
+  end
+
+  test "category predicates use prefix" do
+    t = Tribute.new(name: "X", content: "y", category: :musicians)
+    assert t.category_musicians?
+    assert_not t.category_family?
+  end
 end

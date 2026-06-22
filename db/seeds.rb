@@ -58,13 +58,13 @@ if Rails.env.development?
 
   # ---- Tributes ----
   tributes_data = [
-    { name: "Margaret Thompson", relationship: "Family friend",
+    { name: "Margaret Thompson", relationship: "Family friend", category: "family",
       content: "Christopher was an extraordinary person who touched everyone he met with his warmth, humor, and incredible talent. His memory is a blessing." },
-    { name: "James Anderson", relationship: "Dartmouth classmate",
+    { name: "James Anderson", relationship: "Dartmouth classmate", category: "students",
       content: "We shared a dorm room our sophomore year and I learned what it meant to truly love what you do. Chris would conduct in his sleep — literally, hands moving above the blankets." },
-    { name: "Sigrid Olsen", relationship: "Colleague, Jæren Symfoniorkester",
+    { name: "Sigrid Olsen", relationship: "Colleague, Jæren Symfoniorkester", category: "musicians",
       content: "Chris's scintillating charisma and smiling authority inspired singers and musicians alike to surpass themselves. We carry his phrasings with us into every performance." },
-    { name: "Anna Lee", relationship: "Student",
+    { name: "Anna Lee", relationship: "Student", category: "students",
       content: "He'd write notes in the margins of my scores that were half pedagogy, half love letters to the music. I still have them all." },
   ]
 
@@ -72,6 +72,7 @@ if Rails.env.development?
     Tribute.find_or_create_by!(name: attrs[:name]) do |t|
       t.relationship = attrs[:relationship]
       t.content = attrs[:content]
+      t.category = attrs[:category]
       t.status = :published
     end
   end
