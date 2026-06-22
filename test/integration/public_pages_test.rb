@@ -44,7 +44,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "news page loads" do
     get news_path
     assert_response :success
-    assert_select "h1", "In the News"
+    assert_select "h1.font-serif", /world's/i
   end
 
   test "zero waste page loads" do

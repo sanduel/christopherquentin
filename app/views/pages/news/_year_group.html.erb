@@ -1,0 +1,14 @@
+<%# Year group: left column with the year (Cormorant 56px moss), right column with items.
+    Locals: year (int or nil), items (array of PressItem) %>
+<div data-year-group class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-6 lg:gap-12 py-8 border-t border-ink/8">
+  <div>
+    <h2 class="font-serif text-5xl md:text-[56px] font-normal text-moss leading-none m-0 lg:sticky lg:top-24">
+      <%= year || "—" %>
+    </h2>
+  </div>
+  <div>
+    <% items.each do |item| %>
+      <%= render "pages/news/press_item", item: item %>
+    <% end %>
+  </div>
+</div>

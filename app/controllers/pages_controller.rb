@@ -24,6 +24,9 @@ class PagesController < ApplicationController
   end
 
   def news
+    @items_by_year = PressItem.grouped_by_year
+    @total = PressItem.all.count
+    @years = PressItem.years
   end
 
   def style_guide
