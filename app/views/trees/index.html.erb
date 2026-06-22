@@ -1,80 +1,45 @@
-<% content_for(:title, "Memorial Trees — Christopher Quentin") %>
-<% content_for(:head) do %>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<% end %>
+<% content_for :title, "Trees — Christopher Quentin" %>
 
-<div class="max-w-6xl mx-auto">
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="text-4xl font-title text-stone-800">Memorial Trees</h1>
-    <%= link_to "Plant a Tree", new_tree_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
-  </div>
+<section class="px-6 lg:px-14 pt-12 pb-8">
+  <%= musical_eyebrow("Op. VI · The Trees", with_rule: true) %>
+  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
+    A living memorial in <em class="font-serif italic text-moss">nine countries</em>.
+  </h1>
+  <p class="font-serif italic text-xl md:text-2xl text-sage mt-4">lento e sereno</p>
+  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+    One tree per memory. Plant one in his honor.
+  </p>
+</section>
 
-  <div class="space-y-4 text-stone-600 leading-relaxed mb-8">
-    <p>
-      Grow a tribute to Chris and help restore our beautiful planet by planting a tree of your own.
-    </p>
-    <p>
-      Trees, of course, move a great deal of water from the earth out into the air via transpiration,
-      cleaning it in the process. Trees also are a great carbon sponge. And some are particularly
-      good for bees, like linden or tuliptree. The first Chris tree was planted by his parents on
-      their cabin property in Michigan.
-    </p>
-  </div>
+<%= render "trees/world_map_placeholder", trees: @trees, stats: @stats %>
 
-  <!-- Map -->
-  <div id="tree-map" class="w-full h-96 rounded-lg shadow-sm border border-stone-200 mb-8" data-controller="tree-map"
-       data-tree-map-trees-value="<%= @trees.where.not(latitude: nil).select(:id, :name, :latitude, :longitude, :tree_count, :story).to_json %>">
-  </div>
-
-  <!-- Resources -->
-  <details class="bg-white p-6 rounded-lg shadow-sm border border-stone-200 mb-8">
-    <summary class="text-blue-900 font-medium cursor-pointer">Tree planting resources &amp; guidance</summary>
-    <div class="mt-4 space-y-4 text-stone-600 text-sm">
-      <div>
-        <h4 class="font-medium text-stone-700 mb-1">UK Resources</h4>
-        <ul class="space-y-1 ml-4 list-disc">
-          <li><a href="https://www.forestresearch.gov.uk/tools-and-resources/urban-tree-manual/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Forest Research Urban Tree Manual</a></li>
-          <li><a href="http://righttrees4cc.org.uk/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Right Trees for Climate Change</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-medium text-stone-700 mb-1">US Resources</h4>
-        <ul class="space-y-1 ml-4 list-disc">
-          <li><a href="https://www.arborday.org/shopping/trees/treewizard/intro.cfm" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Arbor Day Tree Wizard</a></li>
-          <li><a href="https://www.thespruce.com/world-hardiness-zones-3269822" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Hardiness Zones</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-medium text-stone-700 mb-1">Global Planting Organizations</h4>
-        <ul class="space-y-1 ml-4 list-disc">
-          <li><a href="https://www.greenbeltmovement.org/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Green Belt Movement</a></li>
-          <li><a href="https://onetreeplanted.org/pages/about-us" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">One Tree Planted</a></li>
-          <li><a href="https://www.nature.org/en-us/get-involved/how-to-help/plant-a-billion/" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">Nature Conservancy &mdash; Plant a Billion</a></li>
-          <li><a href="https://www.reforestaction.com/offrir-un-arbre" target="_blank" rel="noopener" class="text-blue-800 hover:text-blue-700 underline">ReforestAction (France)</a></li>
-        </ul>
+<section class="px-6 lg:px-14 py-16">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+    <div>
+      <%= musical_eyebrow("Plant a tree") %>
+      <h2 class="font-serif text-4xl md:text-5xl text-ink mt-3 mb-6 font-normal leading-tight">
+        Add a tree to the map.
+      </h2>
+      <%= render "trees/add_tree_form", tree: @new_tree %>
+    </div>
+    <div class="aspect-[4/5] rounded-md border border-ink/8 relative overflow-hidden"
+         style="background: linear-gradient(160deg, rgba(58,82,64,0.20), rgba(168,88,76,0.16)), repeating-linear-gradient(45deg, rgba(58,82,64,0.08) 0 16px, transparent 16px 32px);">
+      <div class="absolute bottom-3 left-3 text-eyebrow text-cream mix-blend-difference">
+        [ the first Chris tree — Ann Arbor, planted by his parents ]
       </div>
     </div>
-  </details>
+  </div>
+</section>
 
-  <% if @trees.any? %>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <% @trees.each do |tree| %>
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
-          <% if tree.photo.attached? %>
-            <div class="mb-3">
-              <%= image_tag tree.photo.variant(resize_to_limit: [400, 250]), class: "rounded-lg w-full object-cover" %>
-            </div>
-          <% end %>
-          <h3 class="text-lg font-medium text-stone-800"><%= tree.name %></h3>
-          <p class="text-sm text-blue-800"><%= pluralize(tree.tree_count, "tree") %> planted</p>
-          <p class="text-sm text-stone-400 mb-2"><%= tree.address %></p>
-          <% if tree.story.present? %>
-            <p class="text-stone-600 text-sm"><%= truncate(tree.story, length: 200) %></p>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="text-stone-400 italic text-center py-8">No trees planted yet. Be the first to plant a tree in Christopher&rsquo;s memory.</p>
-  <% end %>
-</div>
+<section class="relative bg-moss text-cream px-6 lg:px-14 py-20 lg:py-28">
+  <%= render "shared/staff_lines", top: 0, height: 120, opacity: 0.10 %>
+  <div class="relative max-w-[860px] mx-auto text-center">
+    <div class="text-eyebrow text-cream/70 mb-6">Op. VI.ii · Why trees</div>
+    <blockquote class="font-serif italic text-3xl md:text-4xl lg:text-5xl leading-snug m-0">
+      "He'd plant a tree before he'd write a letter. So we plant trees."
+    </blockquote>
+    <footer class="text-eyebrow text-cream/70 mt-6">— McMullen family</footer>
+  </div>
+</section>
+
+<%= render "trees/other_ways_grid" %>

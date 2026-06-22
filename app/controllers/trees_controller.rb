@@ -1,6 +1,12 @@
 class TreesController < ApplicationController
   def index
     @trees = Tree.published.order(created_at: :desc)
+    @new_tree = Tree.new
+    @stats = {
+      trees: Tree.published.sum(:tree_count),
+      cities: Tree.published.where.not(address: nil).distinct.count(:address),
+      countries: 9,
+    }
   end
 
   def show
@@ -18,7 +24,14 @@ class TreesController < ApplicationController
     if @tree.save
       redirect_to trees_path, notice: "Thank you for planting a tree! It will appear on the map after review."
     else
-      render :new, status: :unprocessable_entity
+      @trees = Tree.published.order(created_at: :desc)
+      @new_tree = @tree
+      @stats = {
+        trees: Tree.published.sum(:tree_count),
+        cities: Tree.published.where.not(address: nil).distinct.count(:address),
+        countries: 9,
+      }
+      render :index, status: :unprocessable_entity
     end
   end
 

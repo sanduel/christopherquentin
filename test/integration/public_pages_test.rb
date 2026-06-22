@@ -68,7 +68,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "trees page loads" do
     get trees_path
     assert_response :success
-    assert_select "h1", "Memorial Trees"
+    assert_select "h1.font-serif", /A living memorial/
   end
 
   test "recipes page loads" do

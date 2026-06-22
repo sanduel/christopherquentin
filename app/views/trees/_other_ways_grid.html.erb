@@ -1,0 +1,23 @@
+<%# Three-card grid mirroring the homepage honor cards. No locals. %>
+<section data-section="other-ways" class="px-6 lg:px-14 py-16">
+  <%= render "shared/movement_label", no: "Op. VI.iii", title: "Other ways in", marking: "dolce" %>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <% [
+      { glyph: "♪", title: "Adopt a Bee Hive", body: "Pollinators were one of his loves. Register a hive on the unified map.",
+        cta: "Adopt a hive →", path: new_bee_hive_path, accent: "text-sage" },
+      { glyph: "¶", title: "Share a Memory", body: "A photo, a story, an audio clip — contribute to the timeline.",
+        cta: "Share a memory →", path: new_memory_path, accent: "text-rose" },
+      { glyph: "♭", title: "Support a Fund", body: "The Dartmouth Conducting Endowment and four other funds.",
+        cta: "Contribute →", path: funds_path, accent: "text-moss" },
+    ].each do |card| %>
+      <%= link_to card[:path], class: "group block no-underline" do %>
+        <article class="bg-white rounded-md border border-ink/8 shadow-card p-6 flex flex-col min-h-[200px] hover:border-ink/15 transition-colors">
+          <div class="font-serif text-[32px] <%= card[:accent] %> leading-none mb-1.5" aria-hidden="true"><%= card[:glyph] %></div>
+          <h3 class="font-serif text-3xl text-ink mt-1.5 leading-tight font-normal"><%= card[:title] %></h3>
+          <p class="text-sm leading-relaxed text-ink/70 mt-3 flex-1"><%= card[:body] %></p>
+          <span class="<%= card[:accent] %> text-sm font-medium mt-4 group-hover:underline"><%= card[:cta] %></span>
+        </article>
+      <% end %>
+    <% end %>
+  </div>
+</section>
