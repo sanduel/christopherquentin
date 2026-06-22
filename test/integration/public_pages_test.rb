@@ -74,7 +74,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "recipes page loads" do
     get recipes_path
     assert_response :success
-    assert_select "h1", "Recipes"
+    assert_select "h1.font-serif", /cooked/i
   end
 
   test "events index loads" do

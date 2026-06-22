@@ -1,0 +1,25 @@
+<%# Single recipe card. Local: recipe %>
+<article data-recipe-card class="bg-white rounded-md border border-ink/8 shadow-card overflow-hidden">
+  <% if recipe.photo.attached? %>
+    <%= image_tag recipe.photo, class: "w-full aspect-[4/3] object-cover", alt: recipe.title %>
+  <% else %>
+    <div class="w-full aspect-[4/3] relative"
+         style="background: linear-gradient(135deg, rgba(168,88,76,0.18), rgba(58,82,64,0.20)), repeating-linear-gradient(45deg, rgba(90,122,94,0.06) 0 12px, transparent 12px 24px);">
+      <div class="absolute bottom-3 left-3 text-eyebrow text-cream mix-blend-difference">
+        [ recipe ]
+      </div>
+    </div>
+  <% end %>
+  <div class="p-6">
+    <div class="flex items-center justify-between mb-3">
+      <span class="text-eyebrow text-sage"><%= l(recipe.created_at.to_date, format: :memory) %></span>
+    </div>
+    <h3 class="font-serif text-[24px] font-normal text-ink leading-tight m-0">
+      <%= link_to recipe.title, recipe_path(recipe), class: "no-underline text-ink hover:text-moss" %>
+    </h3>
+    <p class="font-serif italic text-sage text-base mt-2 m-0">from <%= recipe.submitter_name %></p>
+    <p class="text-sm text-ink/65 leading-relaxed mt-3 m-0"><%= truncate(recipe.ingredients.to_s, length: 100) %></p>
+    <%= link_to "Read the full recipe →", recipe_path(recipe),
+          class: "text-moss text-sm font-medium mt-4 inline-block no-underline hover:underline" %>
+  </div>
+</article>
