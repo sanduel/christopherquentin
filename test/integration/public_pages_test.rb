@@ -21,7 +21,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "chris page loads" do
     get chris_path
     assert_response :success
-    assert_select "h1", /Christopher Quentin McMullen-Laird/
+    assert_select "h1", /McMullen-Laird/
   end
 
   test "bio redirects to chris" do

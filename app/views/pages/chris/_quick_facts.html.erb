@@ -1,0 +1,15 @@
+<%# Sticky sidebar Quick Facts list. No locals — data hardcoded; family edits this partial. %>
+<dl class="quick-facts space-y-4">
+  <% [
+    ["Born", "November 1984, Boston MA"],
+    ["Education", "Royal College of Music · Dartmouth College"],
+    ["Music Director of", "Jæren Symfoniorkester, 2019 — 2020"],
+    ["Started career at", "Bayerische Staatsoper, Munich"],
+    ["Made Stavanger his home", "2019"],
+  ].each do |label, value| %>
+    <div>
+      <dt class="text-eyebrow text-sage mb-1"><%= label %></dt>
+      <dd class="font-serif text-[18px] text-ink m-0"><%= value %></dd>
+    </div>
+  <% end %>
+</dl>
