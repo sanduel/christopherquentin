@@ -2,11 +2,7 @@ class TreesController < ApplicationController
   def index
     @trees = Tree.published.order(created_at: :desc)
     @new_tree = Tree.new
-    @stats = {
-      trees: Tree.published.sum(:tree_count),
-      cities: Tree.published.where.not(address: nil).distinct.count(:address),
-      countries: 9,
-    }
+    @stats = tree_stats
   end
 
   def show
@@ -26,16 +22,20 @@ class TreesController < ApplicationController
     else
       @trees = Tree.published.order(created_at: :desc)
       @new_tree = @tree
-      @stats = {
-        trees: Tree.published.sum(:tree_count),
-        cities: Tree.published.where.not(address: nil).distinct.count(:address),
-        countries: 9,
-      }
+      @stats = tree_stats
       render :index, status: :unprocessable_entity
     end
   end
 
   private
+
+  def tree_stats
+    {
+      trees: Tree.published.sum(:tree_count),
+      cities: Tree.published.where.not(address: nil).distinct.count(:address),
+      countries: 9,
+    }
+  end
 
   def tree_params
     params.require(:tree).permit(:name, :email, :address, :tree_count, :story, :photo)

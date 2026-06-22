@@ -1,7 +1,8 @@
 class TributesController < ApplicationController
   def index
     scope = Tribute.published.order(created_at: :desc)
-    @active_category = params[:category].presence
+    requested = params[:category].presence
+    @active_category = (requested if Tribute.categories.key?(requested.to_s))
     @tributes = @active_category ? scope.where(category: @active_category) : scope
     @categories = Tribute.categories.keys
     @total_count = Tribute.published.count

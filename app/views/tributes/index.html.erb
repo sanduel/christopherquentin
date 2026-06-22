@@ -23,8 +23,14 @@
     </div>
   <% else %>
     <div class="text-center py-20">
-      <p class="font-serif italic text-2xl text-ink/70 mb-4">No tributes in this category yet.</p>
-      <%= link_to "Clear filter →", tributes_path, class: "text-moss text-sm font-medium hover:underline" %>
+      <% if @active_category.present? %>
+        <p class="font-serif italic text-2xl text-ink/70 mb-4">No tributes in this category yet.</p>
+        <%= link_to "Clear filter →", tributes_path, class: "text-moss text-sm font-medium hover:underline" %>
+      <% else %>
+        <p class="font-serif italic text-2xl text-ink/70 mb-4">No tributes yet. Be the first to share one.</p>
+        <%= link_to "+ Share a tribute", new_tribute_path,
+              class: "inline-block mt-2 bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium no-underline hover:bg-ink transition-colors" %>
+      <% end %>
     </div>
   <% end %>
 </section>

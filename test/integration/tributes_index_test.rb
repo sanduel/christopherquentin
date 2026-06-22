@@ -50,4 +50,15 @@ class TributesIndexTest < ActionDispatch::IntegrationTest
     assert_match(/No tributes in this category/, response.body)
     assert_select "a[href=?]", tributes_path, text: /Clear filter/i
   end
+
+  test "invalid category param does not raise — treats as no filter" do
+    Tribute.delete_all
+    Tribute.create!(name: "X", content: "y", category: :musicians, status: :published)
+
+    get tributes_path, params: { category: "not_a_real_category" }
+
+    assert_response :success
+    assert_select "[data-category-filter] .bg-moss.text-cream", text: "All"
+    assert_match "X", response.body
+  end
 end

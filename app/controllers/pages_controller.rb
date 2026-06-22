@@ -9,9 +9,7 @@ class PagesController < ApplicationController
   end
 
   def chris
-    @gallery_photos = GalleryPhoto.all.limit(20)
-    @memories = Memory.published.order(date: :desc).limit(10)
-    @tributes = Tribute.published.order(created_at: :desc)
+    # View renders hardcoded biography prose + Repertoire PORO; no instance vars needed.
   end
 
   def projects
