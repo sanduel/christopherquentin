@@ -1,37 +1,42 @@
-<% content_for(:title, "Tributes — Christopher Quentin") %>
+<% content_for :title, "Tributes — Christopher Quentin" %>
 
-<div class="max-w-4xl mx-auto">
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="text-4xl font-title text-stone-800">Tributes</h1>
-    <%= link_to "Share a Tribute", new_tribute_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
-  </div>
-
-  <p class="text-stone-600 leading-relaxed mb-8">
-    In such loving memory of our dearest Christopher Quentin McMullen-Laird.
-    Christopher died June 18th of an acute aortic dissection. This page serves as a collection
-    of memories, stories, and kind words from people whose lives he touched.
+<section class="px-6 lg:px-14 pt-12 pb-8">
+  <%= musical_eyebrow("Op. V · Tributes", with_rule: true) %>
+  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
+    In their <em class="font-serif italic text-moss">own words</em>.
+  </h1>
+  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+    <%= pluralize(@total_count, "tribute") %> from family, colleagues, students, and friends.
   </p>
+</section>
 
+<%= render "tributes/category_filter", categories: @categories, active: @active_category %>
+
+<section class="px-6 lg:px-14 py-12">
   <% if @tributes.any? %>
-    <div class="space-y-6">
+    <div class="columns-1 md:columns-2 lg:columns-3 gap-5">
       <% @tributes.each do |tribute| %>
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
-          <% if tribute.photo.attached? %>
-            <div class="float-right ml-4 mb-2">
-              <%= image_tag tribute.photo.variant(resize_to_limit: [200, 200]), class: "rounded-lg" %>
-            </div>
-          <% end %>
-          <p class="text-stone-600 leading-relaxed mb-4 whitespace-pre-wrap"><%= tribute.content %></p>
-          <div class="clear-both">
-            <p class="text-blue-900 font-medium">&mdash; <%= tribute.name %></p>
-            <% if tribute.relationship.present? %>
-              <p class="text-sm text-stone-400"><%= tribute.relationship %></p>
-            <% end %>
-          </div>
+        <div class="break-inside-avoid mb-5">
+          <%= render "shared/tribute_quote_card", tribute: tribute %>
         </div>
       <% end %>
     </div>
   <% else %>
-    <p class="text-stone-400 italic text-center py-12">No tributes yet. Be the first to share one.</p>
+    <div class="text-center py-20">
+      <p class="font-serif italic text-2xl text-ink/70 mb-4">No tributes in this category yet.</p>
+      <%= link_to "Clear filter →", tributes_path, class: "text-moss text-sm font-medium hover:underline" %>
+    </div>
   <% end %>
-</div>
+</section>
+
+<%# Share-a-tribute CTA strip %>
+<section class="bg-linen px-6 lg:px-14 py-16">
+  <div class="max-w-[720px] mx-auto text-center">
+    <h2 class="font-serif text-3xl md:text-4xl text-ink mt-0">
+      Have a story you'd like to share?
+    </h2>
+    <p class="text-[17px] text-ink/65 mt-3">Add a tribute to the collection.</p>
+    <%= link_to "+ Share a tribute", new_tribute_path,
+          class: "inline-block mt-6 bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium no-underline hover:bg-ink transition-colors" %>
+  </div>
+</section>

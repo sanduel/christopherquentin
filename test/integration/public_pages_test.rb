@@ -56,7 +56,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "tributes page loads" do
     get tributes_path
     assert_response :success
-    assert_select "h1", "Tributes"
+    assert_select "h1.font-serif", /In their/
   end
 
   test "timeline page loads" do

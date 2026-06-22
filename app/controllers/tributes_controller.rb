@@ -1,6 +1,10 @@
 class TributesController < ApplicationController
   def index
-    @tributes = Tribute.published.order(created_at: :desc)
+    scope = Tribute.published.order(created_at: :desc)
+    @active_category = params[:category].presence
+    @tributes = @active_category ? scope.where(category: @active_category) : scope
+    @categories = Tribute.categories.keys
+    @total_count = Tribute.published.count
   end
 
   def show
@@ -8,7 +12,7 @@ class TributesController < ApplicationController
   end
 
   def new
-    @tribute = Tribute.new
+    @tribute = Tribute.new(category: :friends)
   end
 
   def create
@@ -25,6 +29,6 @@ class TributesController < ApplicationController
   private
 
   def tribute_params
-    params.require(:tribute).permit(:name, :relationship, :content, :photo)
+    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo)
   end
 end

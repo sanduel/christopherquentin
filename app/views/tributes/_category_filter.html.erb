@@ -1,0 +1,8 @@
+<%# Sticky category filter chip row. Locals: categories (array of strings), active (string or nil) %>
+<div data-category-filter
+     class="sticky top-[68px] z-30 bg-cream/90 backdrop-blur-[10px] border-b border-ink/8 px-6 lg:px-14 py-3 flex gap-2 overflow-x-auto">
+  <%= link_to "All", tributes_path, class: chip_class(active: active.nil?) %>
+  <% categories.each do |c| %>
+    <%= link_to c.titleize, tributes_path(category: c), class: chip_class(active: active == c) %>
+  <% end %>
+</div>
