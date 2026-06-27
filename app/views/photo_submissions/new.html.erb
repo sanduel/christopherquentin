@@ -1,18 +1,26 @@
 <% content_for :title, "Submit Photos — Christopher Quentin" %>
 
-<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[760px] mx-auto">
-  <%= musical_eyebrow("Op. IV.ii · Submit photos", with_rule: true) %>
-  <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
-    Submit <em class="font-serif italic text-moss">photos</em>.
+<section class="max-w-[760px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%# Eyebrow %>
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Photos · Submit</span>
+  </div>
+
+  <%# Title %>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 64px); line-height: 1.0;">
+    Submit a photo.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[560px]">
+
+  <p class="text-[16px] text-muted mt-5 max-w-[560px]">
     Share your photos of Christopher. They will be reviewed before being added to the gallery.
   </p>
 
-  <%= form_with model: @photo_submission, class: "space-y-5 mt-10", multipart: true do |f| %>
+  <%= form_with model: @photo_submission, class: "space-y-6 mt-12", multipart: true do |f| %>
     <% if @photo_submission.errors.any? %>
-      <div class="bg-linen border-l-2 border-rose text-rose p-3 text-sm">
-        <ul>
+      <div class="bg-band border-l-2 border-[#b91c1c] text-[#b91c1c] px-4 py-3 text-sm">
+        <ul class="list-none m-0 p-0 space-y-1">
           <% @photo_submission.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
           <% end %>
@@ -20,27 +28,33 @@
       </div>
     <% end %>
 
-    <div>
-      <%= f.label :name, "Your name", class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.text_field :name, required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <%= f.label :name, "Your name", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+        <%= f.text_field :name, required: true,
+              placeholder: "Full name",
+              class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+      </div>
+      <div>
+        <%= f.label :email, "Email", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+        <%= f.email_field :email, required: true,
+              placeholder: "you@example.com",
+              class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+      </div>
     </div>
 
     <div>
-      <%= f.label :email, "Email", class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.email_field :email, required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+      <%= f.label :photos, "Photos", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+      <%= f.file_field :photos, multiple: true, accept: "image/*",
+            class: "block text-sm text-ink file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-ink/22 file:bg-white-bg file:text-ink file:font-medium hover:file:border-ink" %>
+      <p class="text-[13px] text-muted mt-1.5">You can select up to 25 photos at once.</p>
     </div>
 
-    <div>
-      <%= f.label :photos, "Photos", class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.file_field :photos, multiple: true, accept: "image/*", class: "block" %>
-      <p class="text-xs text-ink/40 mt-1">You can select up to 25 photos at once.</p>
-    </div>
-
-    <div class="flex gap-3">
-      <%= f.submit "Submit photos →",
-            class: "bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium hover:bg-ink transition-colors cursor-pointer" %>
+    <div class="flex flex-wrap gap-3 pt-2">
+      <%= f.submit "Submit photos",
+            class: "bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors cursor-pointer border-0" %>
+      <%= link_to "Back to homepage", root_path,
+            class: "self-center text-accent text-[15px] font-semibold no-underline hover:opacity-70 transition-opacity" %>
     </div>
   <% end %>
 </section>
