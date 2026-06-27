@@ -1,22 +1,23 @@
 <% content_for(:title, "Tribute from #{@tribute.name} — Christopher Quentin") %>
 
-<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[860px] mx-auto">
-  <span class="font-serif text-[80px] text-rose leading-none block -mb-4">&ldquo;</span>
+<section class="max-w-[760px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%= link_to "← All tributes", tributes_path,
+        class: "font-mono text-[11px] tracking-[0.18em] uppercase text-mono hover:text-accent no-underline transition-colors" %>
 
-  <blockquote class="mt-2">
-    <p class="font-serif italic text-[24px] md:text-[28px] leading-relaxed text-ink">
-      <%= @tribute.content %>
-    </p>
+  <% if @tribute.photo.attached? %>
+    <%= image_tag @tribute.photo, class: "w-full aspect-[16/9] object-cover rounded-[3px] mt-10" %>
+  <% end %>
 
-    <footer class="mt-8 pt-6 border-t border-ink/8">
-      <p class="font-serif text-xl text-ink font-medium">&mdash; <%= @tribute.name %></p>
-      <% if @tribute.relationship.present? %>
-        <%= musical_eyebrow(@tribute.relationship) %>
-      <% end %>
-    </footer>
-  </blockquote>
-
-  <div class="mt-12">
-    <%= link_to "← All tributes", tributes_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
-  </div>
+  <article class="mt-10">
+    <span class="font-serif text-[100px] leading-[0.5] text-accent" aria-hidden="true">&ldquo;</span>
+    <blockquote class="mt-6">
+      <p class="font-serif italic text-[24px] md:text-[28px] leading-[1.45] text-quote m-0"><%= @tribute.content %></p>
+      <footer class="mt-10 pt-6 border-t border-ink/10">
+        <div class="font-bold text-[17px] text-ink">&mdash; <%= @tribute.name %></div>
+        <% if @tribute.relationship.present? %>
+          <div class="font-mono text-[12px] tracking-[0.18em] uppercase text-accent mt-1.5"><%= @tribute.relationship %></div>
+        <% end %>
+      </footer>
+    </blockquote>
+  </article>
 </section>
