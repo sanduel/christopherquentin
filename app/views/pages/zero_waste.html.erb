@@ -1,20 +1,39 @@
 <% content_for(:title, "Zero Waste Week — Christopher Quentin") %>
 
-<div class="max-w-3xl mx-auto">
-  <h1 class="text-4xl font-title text-stone-800 mb-4">Zero Waste Week</h1>
+<section class="px-6 lg:px-14 pt-12 pb-16">
+  <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-14">
+    <%# Left column — prose %>
+    <div>
+      <%= musical_eyebrow("Op. X · Zero Waste Week", with_rule: true) %>
+      <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3 mb-0">
+        Zero Waste <em class="font-serif italic text-moss">Week</em>.
+      </h1>
 
-  <div class="space-y-4 text-stone-600 leading-relaxed mb-8">
-    <p>
-      Christopher&rsquo;s Zero Waste Week &mdash; In July we celebrated Chris&rsquo; commitment to zero
-      waste by organizing a zero waste week! A group of 32 of his friends and family pledged to go
-      zero waste for a week and share their experiences.
-    </p>
-  </div>
+      <div class="font-serif text-[19px] leading-relaxed text-ink mt-10 space-y-6">
+        <p>
+          Christopher&rsquo;s Zero Waste Week &mdash; In July we celebrated Chris&rsquo; commitment to zero
+          waste by organizing a zero waste week! A group of 32 of his friends and family pledged to go
+          zero waste for a week and share their experiences.
+        </p>
+      </div>
+    </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <img src="https://christopherquentin.com/wp-content/uploads/2021/09/Screen-Shot-2021-09-13-at-10.56.14-AM.png" alt="Zero Waste Week" class="rounded-lg w-full">
-    <img src="https://christopherquentin.com/wp-content/uploads/2021/08/8C42D473-806C-4DF1-98AC-77E12519C1C1_4_5005_c.jpeg" alt="Zero Waste Week" class="rounded-lg w-full">
-    <img src="https://christopherquentin.com/wp-content/uploads/2021/08/72E1FB61-79A8-435F-986A-1756F4ED4366.jpeg" alt="Zero Waste Week" class="rounded-lg w-full">
-    <img src="https://christopherquentin.com/wp-content/uploads/2021/08/7E417DF9-E682-4B6A-AC97-7CAEEEB29F36.jpeg" alt="Zero Waste Week" class="rounded-lg w-full">
+    <%# Right column — image grid %>
+    <aside class="self-start">
+      <div class="grid grid-cols-2 gap-3">
+        <img src="https://christopherquentin.com/wp-content/uploads/2021/09/Screen-Shot-2021-09-13-at-10.56.14-AM.png"
+             alt="Zero Waste Week"
+             class="rounded-md border border-ink/8 w-full aspect-square object-cover col-span-2">
+        <img src="https://christopherquentin.com/wp-content/uploads/2021/08/8C42D473-806C-4DF1-98AC-77E12519C1C1_4_5005_c.jpeg"
+             alt="Zero Waste Week"
+             class="rounded-md border border-ink/8 w-full aspect-square object-cover">
+        <img src="https://christopherquentin.com/wp-content/uploads/2021/08/72E1FB61-79A8-435F-986A-1756F4ED4366.jpeg"
+             alt="Zero Waste Week"
+             class="rounded-md border border-ink/8 w-full aspect-square object-cover">
+        <img src="https://christopherquentin.com/wp-content/uploads/2021/08/7E417DF9-E682-4B6A-AC97-7CAEEEB29F36.jpeg"
+             alt="Zero Waste Week"
+             class="rounded-md border border-ink/8 w-full aspect-square object-cover col-span-2">
+      </div>
+    </aside>
   </div>
-</div>
+</section>
