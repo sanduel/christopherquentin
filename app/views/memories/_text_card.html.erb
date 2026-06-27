@@ -7,7 +7,7 @@
     <%= l(memory.date, format: :memory) %><% if memory.location.present? %> · <%= memory.location %><% end %>
   </div>
   <blockquote class="font-serif text-[20px] leading-relaxed text-ink mt-4 mb-0">
-    <%= simple_format(""#{memory.content}"") %>
+    <%= simple_format("“#{memory.content}”") %>
   </blockquote>
   <%= render "memories/card_footer", memory: memory %>
   <% memory.replies.published.each do |reply| %>
