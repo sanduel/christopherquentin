@@ -1,18 +1,24 @@
-<% content_for(:title, "#{@bee_hive.name} — Bee Hive") %>
+<% content_for(:title, "#{@bee_hive.name} — Bee Hive — Christopher Quentin") %>
 
-<div class="max-w-3xl mx-auto">
-  <%= link_to "← All hives", bee_hives_path, class: "text-sm text-blue-800 hover:text-blue-700" %>
+<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[960px] mx-auto">
+  <%= musical_eyebrow("Bee Hive · #{@bee_hive.address}") %>
+  <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+    <%= @bee_hive.name %>
+  </h1>
+  <p class="font-serif italic text-xl text-sage mt-4"><%= @bee_hive.address %></p>
 
   <% if @bee_hive.photo.attached? %>
-    <div class="mt-6 mb-6 overflow-hidden rounded-lg">
-      <%= image_tag @bee_hive.photo, class: "w-full max-h-96 object-cover" %>
+    <%= image_tag @bee_hive.photo, class: "w-full aspect-[16/9] object-cover rounded-md border border-ink/8 my-10" %>
+  <% end %>
+
+  <% if @bee_hive.story.present? %>
+    <div class="mt-10">
+      <%= musical_eyebrow("Story") %>
+      <p class="font-serif text-[19px] leading-relaxed text-ink mt-4 whitespace-pre-line"><%= @bee_hive.story %></p>
     </div>
   <% end %>
 
-  <h1 class="text-4xl font-title text-stone-800 mt-6 mb-2"><%= @bee_hive.name %></h1>
-  <p class="text-stone-500 mb-6"><%= @bee_hive.address %></p>
-
-  <% if @bee_hive.story.present? %>
-    <p class="text-stone-700 leading-relaxed whitespace-pre-line"><%= @bee_hive.story %></p>
-  <% end %>
-</div>
+  <div class="mt-12">
+    <%= link_to "← All hives", bee_hives_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
+  </div>
+</section>
