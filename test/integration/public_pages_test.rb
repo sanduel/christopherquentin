@@ -10,12 +10,10 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "home page shows action library with tree, memory, bee hive, and fund CTAs" do
     get root_path
     assert_response :success
-    assert_select "[data-section='honor-grid']" do
-      assert_select "a[href=?]", new_tree_path
-      assert_select "a[href=?]", new_memory_path
-      assert_select "a[href=?]", new_bee_hive_path
-      assert_select "a[href=?]", funds_path
-    end
+    assert_select "a[href=?]", new_tree_path
+    assert_select "a[href=?]", new_memory_path
+    assert_select "a[href=?]", new_bee_hive_path
+    assert_select "a[href=?]", funds_path
   end
 
   test "chris page loads" do
@@ -32,13 +30,12 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "projects page loads" do
     get projects_path
     assert_response :success
-    assert_select "h1", /Projects/
+    assert_select "h1.font-serif", /left us/i
   end
 
-  test "funds page loads" do
+  test "funds redirects to projects#funds" do
     get funds_path
-    assert_response :success
-    assert_select "h1", /Bees/
+    assert_redirected_to "/projects#funds"
   end
 
   test "news page loads" do
@@ -50,7 +47,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "zero waste page loads" do
     get zero_waste_path
     assert_response :success
-    assert_select "h1", "Zero Waste Week"
+    assert_select "h1.font-serif", /Zero Waste Week/
   end
 
   test "tributes page loads" do
@@ -65,10 +62,9 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
     assert_select "h1.font-serif", /A life, kept by/
   end
 
-  test "trees page loads" do
+  test "trees redirects to projects#trees" do
     get trees_path
-    assert_response :success
-    assert_select "h1.font-serif", /A living memorial/
+    assert_redirected_to "/projects#trees"
   end
 
   test "recipes page loads" do
@@ -80,7 +76,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "events index loads" do
     get events_path
     assert_response :success
-    assert_select "h1", "Events"
+    assert_select "h1.font-serif", /gathered/i
   end
 
   test "events index shows published upcoming events and excludes drafts" do
@@ -110,27 +106,29 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
     Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 5.days.from_now, published: true)
     get root_path
     assert_response :success
-    assert_select "[data-section='events-preview']" do
-      assert_select "article", minimum: 1
-    end
+    assert_match(/Upcoming gatherings/i, response.body)
+    assert_match(/Memorial Webinar/, response.body)
   end
 
   test "home page hides upcoming events section when none" do
+    Event.update_all(published: false)
     get root_path
     assert_response :success
-    assert_select "[data-section='events-preview'] article", count: 0
+    assert_no_match(/Upcoming gatherings/i, response.body)
+  ensure
+    Event.update_all(published: true)
   end
 
   test "bee hives index loads" do
     get bee_hives_path
     assert_response :success
-    assert_select "h1", "Bee Hives"
+    assert_select "h1.font-serif", /pollinators/i
   end
 
   test "bee hives new form loads" do
     get new_bee_hive_path
     assert_response :success
-    assert_select "h1", "Add a Bee Hive"
+    assert_select "h1.font-serif", /bee hive/i
   end
 
   test "bee hive submission creates a pending hive" do
@@ -148,7 +146,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "map page loads" do
     get map_path
     assert_response :success
-    assert_select "h1", "Map"
+    assert_select "h1.font-serif", /left his mark/i
     assert_select "[data-controller=?]", "unified-map"
   end
 
