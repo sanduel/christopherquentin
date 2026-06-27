@@ -1,36 +1,32 @@
 module MusicalHelper
-  # Renders the small mono uppercase eyebrow label used for opus numbers,
-  # movement markers, and section metadata.
-  #
-  # Pass with_rule: true to prepend a short horizontal sage rule
-  # (used in the Hero "Op. 1984 — In Memoriam" position).
+  # Renders a Memorial mono uppercase eyebrow label.
+  # Degrades gracefully from the Garden musical_eyebrow call signature:
+  # with_rule: true prepends a short blue accent rule.
   def musical_eyebrow(text, with_rule: false)
     parts = []
     if with_rule
-      parts << content_tag(:span, "", class: "inline-block w-7 h-px bg-sage mr-3.5 align-middle")
+      parts << content_tag(:span, "", class: "inline-block w-7 h-px bg-accent mr-3.5 align-middle")
     end
     parts << text
 
     content_tag(:div,
       safe_join(parts),
-      class: "text-eyebrow text-sage flex items-center"
+      class: "text-eyebrow"
     )
   end
 
-  # Renders an italic Cormorant tempo marking in rose — used after section
-  # titles ("— andante con moto").
-  def tempo_marking(text)
-    content_tag(:span, "— #{text}",
-      class: "font-serif italic text-[22px] text-rose"
-    )
+  # Tempo markings have no equivalent in the Memorial direction.
+  # Returns empty string so existing view calls do not error.
+  def tempo_marking(_text)
+    ""
   end
 
   def chip_class(active:)
     base = "rounded-full px-4 py-1.5 text-sm whitespace-nowrap no-underline border transition-colors inline-block"
     if active
-      "#{base} bg-moss text-cream border-moss"
+      "#{base} bg-ink text-white-bg border-ink"
     else
-      "#{base} bg-transparent text-ink border-ink/20 hover:border-moss hover:text-moss"
+      "#{base} bg-transparent text-ink border-ink/22 hover:border-ink hover:text-accent"
     end
   end
 end
