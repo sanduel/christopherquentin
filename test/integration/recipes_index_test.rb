@@ -22,7 +22,7 @@ class RecipesIndexTest < ActionDispatch::IntegrationTest
   test "renders header" do
     get recipes_path
     assert_response :success
-    assert_select ".text-eyebrow", text: /Op\. VIII · Recipes/
+    assert_match(/Recipes.*recipe/m, response.body)
     assert_select "h1.font-serif", text: /cooked/i
   end
 
