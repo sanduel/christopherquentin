@@ -1,55 +1,64 @@
-<section class="px-6 lg:px-14 py-12 lg:py-20 max-w-[460px] mx-auto">
-  <%= musical_eyebrow("Op. — · Sign up", with_rule: true) %>
-  <h1 class="font-serif text-4xl md:text-5xl text-ink mt-3 font-normal leading-tight">
-    Create your <em class="font-serif italic text-moss">account</em>.
-  </h1>
-  <p class="text-[17px] text-ink/65 mt-3">
-    Join to plant trees, follow tributes, and be part of the garden.
-  </p>
+<section class="max-w-[460px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%# Eyebrow %>
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Account · Create</span>
+  </div>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5 mt-10" }) do |f| %>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(36px, 5vw, 56px); line-height: 1.0;">
+    Sign up.
+  </h1>
+
+  <p class="text-[16px] text-muted mt-5">Join to plant trees, follow tributes, and be part of the memorial.</p>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6 mt-12" }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div>
-      <%= f.label :name, class: "text-eyebrow text-sage block mb-1" %>
+      <%= f.label :name, class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
       <%= f.text_field :name,
             autofocus: true,
             required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
     </div>
 
     <div>
-      <%= f.label :email, class: "text-eyebrow text-sage block mb-1" %>
+      <%= f.label :email, class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
       <%= f.email_field :email,
             autocomplete: "email",
             required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
     </div>
 
     <div>
-      <%= f.label :password, class: "text-eyebrow text-sage block mb-1" %>
+      <%= f.label :password, class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
       <% if @minimum_password_length %>
-        <p class="text-xs text-sage/70 mb-1"><%= @minimum_password_length %> characters minimum</p>
+        <p class="text-[13px] text-muted mb-2"><%= @minimum_password_length %> characters minimum</p>
       <% end %>
       <%= f.password_field :password,
             autocomplete: "new-password",
             required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
     </div>
 
     <div>
-      <%= f.label :password_confirmation, class: "text-eyebrow text-sage block mb-1" %>
+      <%= f.label :password_confirmation, class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
       <%= f.password_field :password_confirmation,
             autocomplete: "new-password",
             required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
     </div>
 
     <%= f.submit "Sign up",
-          class: "bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium hover:bg-ink transition-colors cursor-pointer w-full" %>
+          class: "bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors cursor-pointer border-0 w-full" %>
   <% end %>
 
-  <div class="mt-8 text-sm text-ink/65 text-center">
-    <p>Already have an account? <%= link_to "Sign in", new_user_session_path, class: "underline underline-offset-2 hover:text-ink transition-colors" %></p>
+  <div class="mt-10">
+    <p class="text-[14px] text-muted">
+      Already have an account?
+      <%= link_to "Sign in", new_user_session_path,
+            class: "text-accent font-semibold no-underline hover:opacity-70 transition-opacity" %>
+    </p>
   </div>
 </section>
