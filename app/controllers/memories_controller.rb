@@ -34,9 +34,9 @@ class MemoriesController < ApplicationController
 
   def load_timeline_locals
     scope = Memory.published.includes(:user, :replies).order(date: :desc)
-    @years = Memory.published.pluck(Arel.sql("strftime('%Y', date)")).uniq.sort.reverse.map(&:to_i)
+    @years = Memory.published.pluck(:date).map(&:year).uniq.sort.reverse
     @active_year = params[:year]&.to_i
-    @memories = @active_year ? scope.where("strftime('%Y', date) = ?", @active_year.to_s) : scope
+    @memories = @active_year ? scope.where(date: Date.new(@active_year, 1, 1)..Date.new(@active_year, 12, 31)) : scope
     @memories_count = @memories.count
     @contributors_count = User.joins(:memories).merge(Memory.published).distinct.count +
                           Memory.published.where(user_id: nil).where.not(email: nil).select(:email).distinct.count

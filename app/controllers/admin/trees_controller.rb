@@ -3,10 +3,25 @@ class Admin::TreesController < Admin::BaseController
 
   def index
     @trees = Tree.order(created_at: :desc)
-    @trees = @trees.where(status: params[:status]) if params[:status].present?
+    @trees = @trees.where(status: params[:status].to_sym) if params[:status].present? && Tree.statuses.key?(params[:status])
   end
 
   def show
+  end
+
+  def new
+    @tree = Tree.new
+  end
+
+  def create
+    @tree = Tree.new(tree_params)
+    @tree.status = :published unless params[:tree]&.key?(:status)
+
+    if @tree.save
+      redirect_to admin_trees_path, notice: "Tree created."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -39,7 +54,8 @@ class Admin::TreesController < Admin::BaseController
   def tree_params
     params.require(:tree).permit(
       :name, :email, :address, :tree_count, :story,
-      :pin_color, :pin_icon, :photo
+      :pin_color, :pin_icon, :photo,
+      :user_id, :status
     )
   end
 

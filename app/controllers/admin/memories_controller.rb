@@ -3,10 +3,25 @@ class Admin::MemoriesController < Admin::BaseController
 
   def index
     @memories = Memory.order(created_at: :desc)
-    @memories = @memories.where(status: params[:status]) if params[:status].present?
+    @memories = @memories.where(status: params[:status].to_sym) if params[:status].present? && Memory.statuses.key?(params[:status])
   end
 
   def show
+  end
+
+  def new
+    @memory = Memory.new
+  end
+
+  def create
+    @memory = Memory.new(memory_params)
+    @memory.status = :published unless params[:memory]&.key?(:status)
+
+    if @memory.save
+      redirect_to admin_memories_path, notice: "Memory created."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -42,7 +57,7 @@ class Admin::MemoriesController < Admin::BaseController
       :name, :relationship, :email,
       :kind, :audio_label, :audio_length,
       :pin_color, :pin_icon,
-      :audio_clip, photos: []
+      :audio_clip, :user_id, :status, photos: []
     )
   end
 

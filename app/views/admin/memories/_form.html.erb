@@ -1,0 +1,101 @@
+<%= form_with model: [:admin, record], local: true, multipart: true, class: "space-y-6 max-w-3xl" do |f| %>
+  <% if record.errors.any? %>
+    <div class="bg-red-50 border-l-4 border-red-400 p-4">
+      <ul class="text-red-700 text-sm">
+        <% record.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :date, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.date_field :date, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :kind, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.select :kind, Memory.kinds.keys.map { |k| [k.titleize, k] }, {}, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :title, "Title (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_field :title, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :content, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_area :content, rows: 8, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :location, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_field :location, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <%= f.label :name, "Submitter name", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :name, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :relationship, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :relationship, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :email, "Email (private)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.email_field :email, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :audio_label, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :audio_label, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :audio_length, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :audio_length, placeholder: "e.g. 1:42", class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :photos, "Add photos", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.file_field :photos, multiple: true, accept: "image/*", class: "block" %>
+    <% if record.photos.attached? %>
+      <p class="text-xs text-stone-500 mt-1"><%= record.photos.count %> currently attached. Uploading new files appends.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :audio_clip, record.new_record? ? "Audio clip" : "Replace audio clip", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.file_field :audio_clip, accept: "audio/*", class: "block" %>
+    <% if record.audio_clip.attached? %>
+      <p class="text-xs text-stone-500 mt-1">Currently attached: <%= record.audio_clip.filename %></p>
+    <% end %>
+  </div>
+
+  <%= render "admin/shared/pin_overrides", f: f, record: record %>
+
+  <div class="border-t border-stone-200 pt-6">
+    <%= f.label :user_id, "Assign to user (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.collection_select :user_id, User.order(:name), :id, :name,
+          { include_blank: "— Anonymous (no account) —" },
+          class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    <p class="text-xs text-stone-500 mt-1">Leave blank to keep this memory attributed to its submitted name/email only.</p>
+  </div>
+
+  <div>
+    <%= f.label :status, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.select :status, Memory.statuses.keys.map { |k| [k.titleize, k] }, {}, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= f.submit (record.new_record? ? "Create" : "Save"),
+          class: "px-4 py-2 bg-stone-800 text-white rounded hover:bg-stone-700 transition cursor-pointer" %>
+    <%= link_to "Cancel", admin_memories_path,
+          class: "px-4 py-2 border border-stone-300 text-stone-700 rounded hover:bg-stone-100 transition" %>
+  </div>
+<% end %>

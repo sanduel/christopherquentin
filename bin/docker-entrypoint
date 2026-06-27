@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+# Always ensure the database is migrated before the app boots. Robust against
+# Railway's startCommand bypassing the older "if ends with rails server" check.
+if [ "${RAILS_ENV}" = "production" ] || [ "${SKIP_DB_PREPARE}" != "1" ]; then
   ./bin/rails db:prepare
 fi
 
