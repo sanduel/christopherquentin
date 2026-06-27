@@ -1,18 +1,26 @@
 <% content_for :title, "Share a Tribute — Christopher Quentin" %>
 
-<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[760px] mx-auto">
-  <%= musical_eyebrow("Op. V · Share a tribute", with_rule: true) %>
-  <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
-    Share a <em class="font-serif italic text-moss">tribute</em>.
+<section class="max-w-[760px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%# Eyebrow %>
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Tributes · Share</span>
+  </div>
+
+  <%# Title %>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 64px); line-height: 1.0;">
+    Share a tribute.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[560px]">
+
+  <p class="text-[16px] text-muted mt-5 max-w-[560px]">
     Write a few words in Christopher's memory. Your tribute will be reviewed and added to the collection.
   </p>
 
-  <%= form_with model: @tribute, class: "space-y-5 mt-10", multipart: true do |f| %>
+  <%= form_with model: @tribute, class: "space-y-6 mt-12", multipart: true do |f| %>
     <% if @tribute.errors.any? %>
-      <div class="bg-linen border-l-2 border-rose text-rose p-3 text-sm">
-        <ul>
+      <div class="bg-band border-l-2 border-[#b91c1c] text-[#b91c1c] px-4 py-3 text-sm">
+        <ul class="list-none m-0 p-0 space-y-1">
           <% @tribute.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
           <% end %>
@@ -20,41 +28,44 @@
       </div>
     <% end %>
 
-    <div>
-      <%= f.label :name, "Your name", class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.text_field :name, required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <%= f.label :name, "Your name", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+        <%= f.text_field :name, required: true,
+              placeholder: "Full name",
+              class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+      </div>
+      <div>
+        <%= f.label :relationship, "Your relationship to Christopher", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+        <%= f.text_field :relationship,
+              placeholder: "e.g. Friend, Colleague, Family",
+              class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+      </div>
     </div>
 
     <div>
-      <%= f.label :relationship, "Your relationship to Christopher", class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.text_field :relationship,
-            placeholder: "e.g. Friend, Colleague, Family",
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
-    </div>
-
-    <div>
-      <%= f.label :category, "Category", class: "text-eyebrow text-sage block mb-1" %>
+      <%= f.label :category, "Category", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
       <%= f.select :category, Tribute.categories.keys.map { |c| [c.titleize, c] }, {},
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
     </div>
 
     <div>
-      <%= f.label :content, "Your tribute", class: "text-eyebrow text-sage block mb-1" %>
+      <%= f.label :content, "Your tribute", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
       <%= f.text_area :content, required: true, rows: 8,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors leading-relaxed" %>
     </div>
 
     <div>
-      <%= f.label :photo, "Photo (optional)", class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.file_field :photo, accept: "image/*", class: "block" %>
+      <%= f.label :photo, "Photo (optional)", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+      <%= f.file_field :photo, accept: "image/*",
+            class: "block text-sm text-ink file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-ink/22 file:bg-white-bg file:text-ink file:font-medium hover:file:border-ink" %>
     </div>
 
-    <div class="flex gap-3">
-      <%= f.submit "Submit tribute →",
-            class: "bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium hover:bg-ink transition-colors cursor-pointer" %>
+    <div class="flex flex-wrap gap-3 pt-2">
+      <%= f.submit "Submit tribute",
+            class: "bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors cursor-pointer border-0" %>
       <%= link_to "Cancel", tributes_path,
-            class: "text-moss text-sm font-medium hover:underline no-underline self-center" %>
+            class: "self-center text-accent text-[15px] font-semibold no-underline hover:opacity-70 transition-opacity" %>
     </div>
   <% end %>
 </section>
