@@ -1,45 +1,60 @@
-<section class="px-6 lg:px-14 py-12 lg:py-20 max-w-[460px] mx-auto">
-  <%= musical_eyebrow("Op. — · Sign in", with_rule: true) %>
-  <h1 class="font-serif text-4xl md:text-5xl text-ink mt-3 font-normal leading-tight">
-    Welcome <em class="font-serif italic text-moss">back</em>.
+<section class="max-w-[460px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%# Eyebrow %>
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Account · Sign in</span>
+  </div>
+
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(36px, 5vw, 56px); line-height: 1.0;">
+    Sign in.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3">
-    Sign in to your account to continue.
-  </p>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5 mt-10" }) do |f| %>
-    <div>
-      <%= f.label :email, class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.email_field :email,
-            autofocus: true,
-            autocomplete: "email",
-            required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
-    </div>
+  <p class="text-[16px] text-muted mt-5">Signed-in memories post immediately without moderation.</p>
 
-    <div>
-      <%= f.label :password, class: "text-eyebrow text-sage block mb-1" %>
-      <%= f.password_field :password,
-            autocomplete: "current-password",
-            required: true,
-            class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
-    </div>
-
-    <% if devise_mapping.rememberable? %>
-      <div>
-        <label class="inline-flex items-center gap-2 text-sm text-ink/70">
-          <%= f.check_box :remember_me, class: "rounded border-ink/20" %>
-          Remember me
-        </label>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6 mt-12" }) do |f| %>
+    <% if resource.errors.any? %>
+      <div class="bg-band border-l-2 border-[#b91c1c] text-[#b91c1c] px-4 py-3 text-sm">
+        <ul class="list-none m-0 p-0 space-y-1">
+          <% resource.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
 
+    <div>
+      <%= f.label :email, class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true,
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+    </div>
+
+    <div>
+      <%= f.label :password, class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+      <%= f.password_field :password, autocomplete: "current-password", required: true,
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <label class="inline-flex items-center gap-2 text-[14px] text-ink">
+        <%= f.check_box :remember_me, class: "rounded border-ink/22" %>
+        Remember me
+      </label>
+    <% end %>
+
     <%= f.submit "Sign in",
-          class: "bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium hover:bg-ink transition-colors cursor-pointer w-full" %>
+          class: "bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors cursor-pointer border-0 w-full" %>
   <% end %>
 
-  <div class="mt-8 text-sm text-ink/65 text-center space-y-2">
-    <p><%= link_to "Forgot your password?", new_user_password_path, class: "underline underline-offset-2 hover:text-ink transition-colors" %></p>
-    <p>Don't have an account? <%= link_to "Sign up", new_user_registration_path, class: "underline underline-offset-2 hover:text-ink transition-colors" %></p>
+  <div class="mt-10 space-y-2">
+    <p class="text-[14px] text-muted">
+      <%= link_to "Forgot your password?", new_user_password_path,
+            class: "text-accent font-semibold no-underline hover:opacity-70 transition-opacity" %>
+    </p>
+    <p class="text-[14px] text-muted">
+      Don't have an account?
+      <%= link_to "Sign up", new_user_registration_path,
+            class: "text-accent font-semibold no-underline hover:opacity-70 transition-opacity" %>
+    </p>
   </div>
 </section>
