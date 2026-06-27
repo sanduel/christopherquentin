@@ -17,23 +17,23 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet">
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-cream text-ink font-sans flex flex-col min-h-full">
+  <body class="bg-white-bg text-ink font-sans flex flex-col min-h-full">
     <%= render "shared/home_nav" %>
 
     <% if notice %>
-      <div class="bg-linen border-l-2 border-moss text-moss px-6 lg:px-14 py-3 text-sm">
+      <div class="bg-band border-l-2 border-accent text-ink px-6 lg:px-10 py-3 text-sm">
         <%= notice %>
       </div>
     <% end %>
     <% if alert %>
-      <div class="bg-linen border-l-2 border-rose text-rose px-6 lg:px-14 py-3 text-sm">
+      <div class="bg-band border-l-2 border-[#b91c1c] text-[#b91c1c] px-6 lg:px-10 py-3 text-sm">
         <%= alert %>
       </div>
     <% end %>
