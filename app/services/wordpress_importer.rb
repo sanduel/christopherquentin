@@ -73,13 +73,19 @@ class WordpressImporter
       existing = photo.persisted?
       photo.caption = text(item, "title").presence
       photo.sort_order = order
-      # Re-upload when the blob record exists but its object is missing from
-      # storage (e.g. an earlier failed upload left a dangling attachment).
-      if !photo.photo.attached? || !object_present?(photo.photo)
+      if !photo.photo.attached?
         io = download(url)
         next (result.skipped += 1) if io.nil?
-        photo.photo.purge if photo.photo.attached?
         photo.photo.attach(io: io, filename: File.basename(URI.parse(url).path), content_type: content_type_for(url))
+      elsif !object_present?(photo.photo)
+        # Dangling attachment: the blob record exists but its object never
+        # landed (e.g. an earlier failed upload). Re-upload the bytes to the
+        # existing key rather than purging (deleting a missing key errors).
+        io = download(url)
+        next (result.skipped += 1) if io.nil?
+        blob = photo.photo.blob
+        blob.upload(io)
+        blob.save!
       end
       photo.save!
       result.record(existing)
