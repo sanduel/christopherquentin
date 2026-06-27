@@ -1,37 +1,40 @@
 <% content_for(:title, "Bee Hives — Christopher Quentin") %>
 
-<section class="px-6 lg:px-14 pt-12 pb-8">
-  <%= musical_eyebrow("Op. X · Bee Hives", with_rule: true) %>
-  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
-    A living map of <em class="font-serif italic text-moss">pollinators</em>.
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-12">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Bee Hives · a living legacy</span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 72px); line-height: 1.0;">
+    A living map of pollinators.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+  <p class="text-[16px] text-muted mt-5 max-w-[640px]">
     Christopher cared deeply about pollinators. Each hive registered here adds to the
-    <%= link_to "unified map", map_path, class: "text-moss hover:underline" %>.
+    <%= link_to "unified map", map_path, class: "text-accent hover:opacity-70 transition-opacity" %>.
   </p>
 </section>
 
-<section class="px-6 lg:px-14 pb-16">
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pb-16">
   <% if @bee_hives.any? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @bee_hives.each do |hive| %>
-        <article class="bg-white rounded-md border border-ink/8 shadow-card overflow-hidden flex flex-col">
+        <article class="bg-white-bg border border-ink/8 rounded-[5px] overflow-hidden flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
           <% if hive.photo.attached? %>
-            <div class="aspect-[4/3] overflow-hidden">
-              <%= image_tag hive.photo.variant(resize_to_limit: [600, 450]), class: "w-full h-full object-cover" %>
-            </div>
+            <%= image_tag hive.photo.variant(resize_to_limit: [600, 450]), class: "w-full aspect-[4/3] object-cover" %>
           <% else %>
-            <div class="aspect-[4/3] relative"
-                 style="background: linear-gradient(160deg, rgba(58,82,64,0.22), rgba(90,122,94,0.30)), repeating-linear-gradient(45deg, rgba(58,82,64,0.07) 0 14px, transparent 14px 28px);">
-              <div class="absolute bottom-3 left-3 text-eyebrow text-cream mix-blend-difference">[ hive ]</div>
+            <div class="w-full aspect-[4/3] rounded-t-[5px] relative"
+                 style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
+              <span class="absolute left-3.5 bottom-3 font-mono text-[11px] tracking-[0.1em] text-ink/40">[ HIVE ]</span>
             </div>
           <% end %>
-
-          <div class="p-5 flex flex-col flex-1">
-            <h3 class="font-serif text-[22px] font-medium leading-snug text-ink"><%= hive.name %></h3>
-            <p class="text-eyebrow text-sage mt-1.5"><%= hive.address %></p>
+          <div class="p-6 flex flex-col flex-grow">
+            <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-mono"><%= hive.address %></span>
+            <h3 class="font-serif font-medium text-[22px] text-ink mt-2.5 leading-tight">
+              <%= link_to hive.name, bee_hive_path(hive), class: "no-underline text-ink hover:text-accent" %>
+            </h3>
             <% if hive.story.present? %>
-              <p class="text-sm text-ink/70 leading-relaxed mt-3 flex-1"><%= truncate(hive.story, length: 200) %></p>
+              <p class="text-[15px] text-muted leading-[1.55] mt-3 flex-grow"><%= truncate(hive.story.to_s, length: 120) %></p>
             <% end %>
           </div>
         </article>
@@ -39,18 +42,18 @@
     </div>
   <% else %>
     <div class="text-center py-16">
-      <p class="font-serif italic text-2xl text-ink/50">No hives yet. Be the first to register one in Christopher&rsquo;s memory.</p>
+      <p class="font-serif italic text-[22px] text-muted">No hives yet. Be the first to register one in Christopher&rsquo;s memory.</p>
     </div>
   <% end %>
 </section>
 
-<section class="bg-linen px-6 lg:px-14 py-16">
-  <div class="max-w-[720px] mx-auto text-center">
-    <h2 class="font-serif text-3xl md:text-4xl text-ink mt-0">
-      Have a hive to share?
-    </h2>
-    <p class="text-[17px] text-ink/65 mt-3">Register it in Christopher&rsquo;s name and add it to the memorial map.</p>
-    <%= link_to "+ Submit a hive", new_bee_hive_path,
-          class: "inline-block mt-6 bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium no-underline hover:bg-ink transition-colors" %>
+<section class="bg-band py-16">
+  <div class="max-w-[1180px] mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <div>
+      <h2 class="font-serif font-medium text-[28px] text-ink m-0">Adopt a hive in his honor.</h2>
+      <p class="text-[16px] text-muted mt-2">Register it in Christopher&rsquo;s name and add it to the memorial map.</p>
+    </div>
+    <%= link_to "Submit a hive", new_bee_hive_path,
+          class: "shrink-0 inline-block bg-ink text-white-bg rounded-md px-6 py-3 text-[15px] font-medium no-underline hover:opacity-80 transition-opacity" %>
   </div>
 </section>
