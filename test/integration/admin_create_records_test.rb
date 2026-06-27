@@ -37,6 +37,28 @@ class AdminCreateRecordsTest < ActionDispatch::IntegrationTest
     assert_equal admin, BeeHive.order(:created_at).last.user
   end
 
+  # The edit form submits the full bee_hive params; updating must apply them
+  # (status, name, address, ...), not just pin_color/pin_icon — otherwise
+  # publishing a hive via the form silently no-ops and it never hits the map.
+  test "admin edit form updates a bee hive's status and fields" do
+    sign_in_admin
+    hive = BeeHive.create!(name: "Old Name", address: "Ann Arbor, MI", status: :pending)
+    patch admin_bee_hive_path(hive), params: {
+      bee_hive: { name: "New Name", address: "Ann Arbor, MI", status: "published" }
+    }
+    hive.reload
+    assert_equal "published", hive.status, "status change from the edit form must persist"
+    assert_equal "New Name", hive.name, "field edits from the edit form must persist"
+  end
+
+  # The moderation buttons (Approve/Reject) post status without a bee_hive key.
+  test "admin moderation button publishes a bee hive" do
+    sign_in_admin
+    hive = BeeHive.create!(name: "Hive", address: "Ann Arbor, MI", status: :pending)
+    patch admin_bee_hive_path(hive), params: { status: :published }
+    assert_equal "published", hive.reload.status
+  end
+
   test "admin can create a tribute assigned to a user" do
     admin = sign_in_admin
     assert_difference -> { Tribute.count }, 1 do
