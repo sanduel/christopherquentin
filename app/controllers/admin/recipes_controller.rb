@@ -3,7 +3,7 @@ class Admin::RecipesController < Admin::BaseController
 
   def index
     @recipes = Recipe.order(created_at: :desc)
-    @recipes = @recipes.where(status: params[:status]) if params[:status].present?
+    @recipes = @recipes.where(status: params[:status].to_sym) if params[:status].present? && Recipe.statuses.key?(params[:status])
   end
 
   def show

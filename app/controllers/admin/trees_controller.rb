@@ -3,7 +3,7 @@ class Admin::TreesController < Admin::BaseController
 
   def index
     @trees = Tree.order(created_at: :desc)
-    @trees = @trees.where(status: params[:status]) if params[:status].present?
+    @trees = @trees.where(status: params[:status].to_sym) if params[:status].present? && Tree.statuses.key?(params[:status])
   end
 
   def show

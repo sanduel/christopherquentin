@@ -3,7 +3,7 @@ class Admin::TributesController < Admin::BaseController
 
   def index
     @tributes = Tribute.order(created_at: :desc)
-    @tributes = @tributes.where(status: params[:status]) if params[:status].present?
+    @tributes = @tributes.where(status: params[:status].to_sym) if params[:status].present? && Tribute.statuses.key?(params[:status])
   end
 
   def show

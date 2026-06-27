@@ -3,7 +3,7 @@ class Admin::BeeHivesController < Admin::BaseController
 
   def index
     @bee_hives = BeeHive.order(created_at: :desc)
-    @bee_hives = @bee_hives.where(status: params[:status]) if params[:status].present?
+    @bee_hives = @bee_hives.where(status: params[:status].to_sym) if params[:status].present? && BeeHive.statuses.key?(params[:status])
   end
 
   def show
