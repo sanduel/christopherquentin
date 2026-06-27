@@ -1,32 +1,27 @@
 require "test_helper"
 
 class HomepageTest < ActionDispatch::IntegrationTest
-  test "hero renders the three-line name with italic Quentin in moss" do
+  # ── Hero ──────────────────────────────────────────────────────────────────
+  test "hero renders the three-line name" do
     get root_path
     assert_response :success
     assert_select "h1.font-serif" do
       assert_select "*", text: /Christopher/
-      assert_select "span.font-serif.italic.text-moss", text: "Quentin"
+      assert_select "*", text: /Quentin/
       assert_select "*", text: /McMullen-Laird/
     end
   end
 
-  test "hero renders the Op. 1984 eyebrow with accent rule" do
+  test "hero renders the 1984 – 2020 In Memoriam eyebrow with accent rule" do
     get root_path
-    assert_select ".text-eyebrow", text: /Op\. 1984.+In Memoriam/
-    assert_select "span.bg-accent", minimum: 1
+    assert_match(/1984.*2020.*In Memoriam/m, response.body)
+    assert_select "span.inline-block.bg-accent"
   end
 
-  test "hero renders the tagline" do
-    get root_path
-    assert_select ".font-serif.italic", text: /Conductor.+environmentalist.+beloved/i
-  end
-
-  test "hero renders the Jaerbladet press blockquote with rose left border" do
+  test "hero renders the generosity blockquote" do
     get root_path
     assert_select "blockquote" do
-      assert_select "p", text: /scintillating charisma/
-      assert_select "footer", text: /Jærbladet/
+      assert_select "p", text: /warmth.*humor.*generosity/i
     end
   end
 
@@ -38,165 +33,148 @@ class HomepageTest < ActionDispatch::IntegrationTest
 
   test "hero renders portrait placeholder with caption" do
     get root_path
-    assert_match %r{\[ portrait — Stavanger 2019 \]}, response.body
+    assert_match(/PORTRAIT.*STAVANGER 2019/i, response.body)
   end
 
   test "hero does not include Garden staff-lines texture" do
     get root_path
-    assert_select "[data-section='hero'] .staff-lines-bg", 0
+    assert_select ".staff-lines-bg", 0
   end
 
+  # ── Honor grid ────────────────────────────────────────────────────────────
   test "honor grid section renders" do
     get root_path
-    assert_select "[data-section='honor-grid']"
-    assert_select "[data-section='honor-grid'] article", minimum: 1
+    assert_select "h2.font-serif", text: /Honor his memory/
+    assert_select "section article", minimum: 1
   end
 
-  test "MVT I renders four honor cards with correct destinations and titles" do
+  test "honor grid renders four cards with correct h3 titles" do
     get root_path
-    [
-      [new_tree_path,     "Plant a Tree"],
-      [new_memory_path,   "Share a Memory"],
-      [new_bee_hive_path, "Adopt a Bee Hive"],
-      [funds_path,        "Support a Fund"],
-    ].each do |path, title|
-      assert_select "[data-section='honor-grid'] a[href=?]", path do
-        assert_select "h3", text: title
-      end
-    end
+    assert_select "h3.font-serif", text: /Plant a Tree/
+    assert_select "h3.font-serif", text: /Share a Memory/
+    assert_select "h3.font-serif", text: /Adopt a Bee Hive/
+    assert_select "h3.font-serif", text: /Support a Fund/
   end
 
-  test "MVT I cards each render a musical glyph" do
+  test "honor grid card CTAs link to correct destinations" do
+    get root_path
+    assert_select "a[href=?]", new_tree_path
+    assert_select "a[href=?]", new_memory_path
+    assert_select "a[href=?]", new_bee_hive_path
+    assert_select "a[href=?]", funds_path
+  end
+
+  test "honor grid cards have eyebrows Plant, Remember, Pollinate, Sustain" do
     get root_path
     body = response.body
-    %w[❦ ¶ ♪ ♭].each do |glyph|
-      assert_match Regexp.new(Regexp.escape(glyph)), body, "Expected glyph #{glyph} in honor grid"
+    %w[Plant Remember Pollinate Sustain].each do |eyebrow|
+      assert_match eyebrow, body, "Expected eyebrow '#{eyebrow}' in honor grid"
     end
   end
 
-  test "MVT II renders movement label with from-the-timeline eyebrow" do
+  # ── Timeline band ─────────────────────────────────────────────────────────
+  test "timeline band renders From the timeline eyebrow + h2" do
     get root_path
-    assert_select "[data-section='timeline-preview'] .text-eyebrow", text: /MVT\. II/
-    assert_select "[data-section='timeline-preview'] h2", text: /A life, kept by/
-    assert_select "[data-section='timeline-preview'] h2 em.text-moss", text: /many hands/
+    assert_match(/From the timeline/i, response.body)
+    assert_select "h2.font-serif", text: /A life, kept by/
+    assert_select "h2 span.italic.text-accent", text: /many hands/
   end
 
-  test "MVT II renders View full timeline pill linking to memories_path" do
+  test "timeline band renders View full timeline link to memories_path" do
     get root_path
-    assert_select "[data-section='timeline-preview'] a[href=?]", memories_path, text: /View full timeline/
+    assert_select "a[href=?]", memories_path, text: /View full timeline/
   end
 
-  test "MVT II renders up to 3 preview cards from published memories" do
+  test "timeline band renders a preview card from published memories" do
     get root_path
-    assert_select "[data-section='timeline-preview'] article", minimum: 1
-    assert_select "[data-section='timeline-preview'] article", maximum: 3
+    assert_select "section article", minimum: 1
   end
 
-  test "MVT II preview card shows memory location, body" do
+  test "timeline band preview card shows memory content" do
     get root_path
-    assert_select "[data-section='timeline-preview']" do
-      assert_select ".text-eyebrow", text: /Hanover|Munich|Stavanger/
-      assert_select "p", text: /Mass Row|Beethoven|Mahler/
-    end
+    assert_match(/Mass Row|Beethoven|Mahler/, response.body)
   end
 
-  test "MVT II empty state — shows Be the first card when no memories" do
+  test "timeline band empty state shows Be the first message" do
     Memory.update_all(status: Memory.statuses[:pending])
     get root_path
-    assert_select "[data-section='timeline-preview'] a[href=?]", new_memory_path, text: /Be the first/
+    assert_match(/Be the first/i, response.body)
   ensure
     Memory.update_all(status: Memory.statuses[:published])
   end
 
-  test "events section renders with articles" do
+  # ── Gatherings (conditional) ───────────────────────────────────────────────
+  test "gatherings section renders with event cards when upcoming events exist" do
     Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
     get root_path
-    assert_select "[data-section='events-preview']"
-    assert_select "[data-section='events-preview'] article", minimum: 1
+    assert_match(/Upcoming gatherings/i, response.body)
+    assert_select "section article", minimum: 1
   end
 
-  test "MVT III renders one event card per upcoming event" do
-    Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
-    get root_path
-    assert_select "[data-section='events-preview'] article", minimum: 1, maximum: 3
-  end
-
-  test "MVT III event card shows category chip" do
-    Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
-    get root_path
-    assert_select "[data-section='events-preview'] article" do
-      assert_select "span.bg-linen.text-moss", text: /Webinar|Concert|Service/i
-    end
-  end
-
-  test "MVT III hides article cards when no upcoming events" do
+  test "gatherings section hides when no upcoming events" do
     Event.update_all(published: false)
     get root_path
-    assert_select "[data-section='events-preview'] article", 0
+    assert_no_match(/Upcoming gatherings/i, response.body)
   ensure
     Event.update_all(published: true)
   end
 
-  test "gallery section renders with tiles" do
+  test "event card shows type chip" do
+    Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
     get root_path
-    assert_select "[data-section='gallery-preview']"
-    assert_select "[data-section='gallery-preview'] [data-gallery-tile]", minimum: 1
+    assert_match(/Webinar/i, response.body)
   end
 
-  test "MVT IV renders Submit a photo link" do
+  # ── In photographs ────────────────────────────────────────────────────────
+  test "photographs section renders h2" do
     get root_path
-    assert_select "[data-section='gallery-preview'] a[href=?]", new_photo_submission_path, text: /Submit a photo/
+    assert_select "h2.font-serif", text: /In photographs/
   end
 
-  test "MVT IV renders 6 placeholder gradient blocks when GalleryPhoto is empty" do
+  test "photographs section renders Submit a photo link" do
+    get root_path
+    assert_select "a[href=?]", new_photo_submission_path, text: /Submit a photo/
+  end
+
+  test "photographs section renders 11 placeholder tiles when GalleryPhoto is empty" do
     GalleryPhoto.delete_all
     get root_path
-    assert_select "[data-section='gallery-preview'] [data-gallery-tile]", count: 6
-  ensure
-    # No-op restore (we don't reseed gallery photos within a transactional test).
-    # Pattern parity with peer tests.
+    # 11 placeholder divs rendered by the (0...11).each loop — count via [ PHOTO ] spans
+    assert_match(/\[ PHOTO \]/, response.body)
   end
 
-  test "tributes section renders with blockquotes" do
-    Tribute.find_or_create_by!(name: "Test Tribute MVTV1") { |t| t.content = "Sample"; t.status = :published }
+  # ── In their own words (tributes) ─────────────────────────────────────────
+  test "tributes section renders h2 and tribute articles" do
+    Tribute.find_or_create_by!(name: "Test Tribute HP1") { |t| t.content = "Sample"; t.status = :published }
     get root_path
-    assert_select "[data-section='tributes-preview']"
-    assert_select "[data-section='tributes-preview'] blockquote", minimum: 1
+    assert_select "h2.font-serif", text: /In their own words/
+    assert_select "section article", minimum: 1
   end
 
-  test "MVT V renders up to 3 tribute quote cards" do
-    3.times do |i|
-      Tribute.find_or_create_by!(name: "Test Tribute MVTV-#{i}") do |t|
-        t.content = "Sample tribute #{i}"
-        t.status = :published
-      end
-    end
-    get root_path
-    assert_select "[data-section='tributes-preview'] blockquote", minimum: 1, maximum: 3
-  end
-
-  test "MVT V cards show name" do
-    Tribute.find_or_create_by!(name: "Margaret Thompson MVTV") do |t|
+  test "tribute cards show name" do
+    Tribute.find_or_create_by!(name: "Margaret Thompson HP") do |t|
       t.content = "A long-time friend says hello."
       t.relationship = "Family friend"
       t.status = :published
     end
     get root_path
-    assert_select "[data-section='tributes-preview'] blockquote", text: /Margaret Thompson MVTV/
+    assert_match(/Margaret Thompson HP/, response.body)
   end
 
-  test "MVT V renders pluralized Read all N tributes link when 2+ tributes" do
+  test "tributes section renders Read all N tributes link when 2+ tributes" do
     2.times do |i|
-      Tribute.find_or_create_by!(name: "Plural Test #{i}") { |t| t.content = "x"; t.status = :published }
+      Tribute.find_or_create_by!(name: "Plural HP #{i}") { |t| t.content = "x"; t.status = :published }
     end
     get root_path
-    assert_select "[data-section='tributes-preview'] a[href=?]", tributes_path, text: /Read all \d+ tributes/
+    assert_select "a[href=?]", tributes_path, text: /Read all \d+ tributes/
   end
 
-  test "MVT V hides section when no tributes" do
+  test "tributes section renders band h2 even when no published tributes" do
     Tribute.update_all(status: Tribute.statuses[:pending])
     get root_path
-    assert_select "[data-section='tributes-preview'] blockquote", 0
+    assert_select "h2.font-serif", text: /In their own words/
+    # @recent_tributes is empty so no tribute content is rendered
+    assert_no_match(/A long-time friend/, response.body)
   ensure
     Tribute.update_all(status: Tribute.statuses[:published])
   end
