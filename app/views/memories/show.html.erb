@@ -1,23 +1,101 @@
-<% content_for(:title, "#{@memory.title || 'Memory'} — Christopher Quentin") %>
+<% content_for(:title, "#{@memory.title.presence || 'Memory'} — Christopher Quentin") %>
 
-<div class="max-w-3xl mx-auto">
-  <%= link_to "← Timeline", memories_path, class: "text-blue-800 hover:text-blue-700 mb-6 inline-block" %>
+<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[860px] mx-auto"
+         data-controller="reply-toggle">
+  <%# Eyebrow: kind + date + location %>
+  <% eyebrow_parts = ["Memory", l(@memory.date, format: :memory)] %>
+  <% eyebrow_parts << @memory.location if @memory.location.present? %>
+  <%= musical_eyebrow(eyebrow_parts.join(" · ")) %>
 
-  <div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
-    <p class="text-blue-800 font-medium mb-2"><%= @memory.date.strftime("%B %d, %Y") %></p>
-    <% if @memory.title.present? %>
-      <h1 class="text-3xl font-title text-stone-800 mb-4"><%= @memory.title %></h1>
-    <% end %>
-    <% if @memory.content.present? %>
-      <div class="text-stone-600 leading-relaxed text-lg mb-6 whitespace-pre-wrap"><%= @memory.content %></div>
-    <% end %>
+  <% if @memory.title.present? %>
+    <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+      <%= @memory.title %>
+    </h1>
+  <% end %>
+
+  <% if @memory.kind_audio? %>
+    <%# Audio player block %>
+    <div class="mt-10 bg-white rounded-md border border-ink/8 shadow-card overflow-hidden">
+      <% if @memory.audio_clip.attached? %>
+        <div class="bg-moss text-cream p-4 flex items-center gap-3"
+             data-controller="audio-player"
+             data-audio-player-url-value="<%= url_for(@memory.audio_clip) %>">
+          <button type="button"
+                  data-action="audio-player#toggle"
+                  data-audio-player-target="playButton"
+                  class="w-10 h-10 rounded-full bg-cream text-moss font-bold text-lg flex items-center justify-center hover:bg-linen cursor-pointer">
+            ▶
+          </button>
+          <div class="flex-1 min-w-0">
+            <% if @memory.audio_label.present? %>
+              <div class="font-serif italic text-base truncate"><%= @memory.audio_label %></div>
+            <% end %>
+            <div data-audio-player-target="waveform" class="mt-1 h-4"></div>
+          </div>
+          <% if @memory.audio_length.present? %>
+            <div data-audio-player-target="duration" class="text-eyebrow text-cream/80 whitespace-nowrap">
+              <%= @memory.audio_length %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="bg-moss text-cream/60 p-6 text-center text-eyebrow">[ audio not attached ]</div>
+      <% end %>
+      <% if @memory.content.present? %>
+        <div class="p-7">
+          <p class="font-serif text-[19px] leading-relaxed text-ink whitespace-pre-wrap"><%= @memory.content %></p>
+        </div>
+      <% end %>
+    </div>
+
+  <% elsif @memory.kind_photo? %>
+    <%# Photo grid %>
     <% if @memory.photos.attached? %>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
         <% @memory.photos.each do |photo| %>
-          <%= image_tag photo.variant(resize_to_limit: [600, 400]), class: "rounded-lg w-full" %>
+          <%= image_tag photo.variant(resize_to_limit: [800, 600]), class: "rounded-md w-full object-cover border border-ink/8" %>
         <% end %>
       </div>
     <% end %>
-    <p class="text-stone-400 text-sm">Shared by <%= @memory.user&.name || "Anonymous" %></p>
+    <% if @memory.content.present? %>
+      <p class="font-serif text-[19px] leading-relaxed text-ink mt-8 whitespace-pre-wrap"><%= @memory.content %></p>
+    <% end %>
+
+  <% else %>
+    <%# Text memory %>
+    <% if @memory.content.present? %>
+      <p class="font-serif italic text-[24px] md:text-[28px] leading-relaxed text-ink mt-6 whitespace-pre-wrap"><%= @memory.content %></p>
+    <% end %>
+  <% end %>
+
+  <%# Footer: submitter info + reply button %>
+  <footer class="mt-10 pt-6 border-t border-ink/8 flex justify-between items-end">
+    <div>
+      <div class="text-sm font-medium text-ink"><%= @memory.display_name %></div>
+      <% if @memory.display_relationship %>
+        <div class="text-eyebrow text-sage mt-0.5"><%= @memory.display_relationship %></div>
+      <% end %>
+    </div>
+    <button type="button"
+            data-action="reply-toggle#toggle"
+            class="border border-ink/20 text-ink/70 hover:border-moss hover:text-moss rounded-full px-3 py-1 text-xs cursor-pointer">
+      ↩ Reply
+    </button>
+  </footer>
+
+  <%# Published replies %>
+  <% if @memory.replies.published.any? %>
+    <div class="mt-6 space-y-3">
+      <% @memory.replies.published.each do |reply| %>
+        <%= render "memories/reply", reply: reply %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Reply composer %>
+  <%= render "memories/reply_composer", memory: @memory %>
+
+  <div class="mt-12">
+    <%= link_to "← All memories", memories_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
   </div>
-</div>
+</section>
