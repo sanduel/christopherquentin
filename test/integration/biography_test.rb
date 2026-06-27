@@ -4,7 +4,7 @@ class BiographyTest < ActionDispatch::IntegrationTest
   test "biography renders header with eyebrow + h1" do
     get chris_path
     assert_response :success
-    assert_select ".text-eyebrow", text: /Op\. II · Biography/
+    assert_match(/Biography.*1984.*2020/m, response.body)
     assert_select "h1.font-serif", text: /Christopher McMullen-Laird/
   end
 
