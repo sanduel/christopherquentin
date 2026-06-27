@@ -1,11 +1,11 @@
-<%# Single published reply — linen-bg block below the parent card footer.
+<%# Single published reply — band-bg block below the parent card footer.
     Local: reply %>
-<div class="bg-linen rounded-md p-4 mt-3 ml-4 border-l-2 border-sage/30">
+<div class="bg-band rounded-md p-4 mt-3 ml-4 border-l-2 border-accent/30">
   <p class="font-serif text-[15px] leading-snug text-ink m-0"><%= reply.body %></p>
   <div class="mt-2 flex items-baseline gap-3">
-    <span class="text-sm font-medium text-ink">— <%= reply.name %></span>
+    <span class="font-bold text-[14px] text-ink">— <%= reply.name %></span>
     <% if reply.relationship.present? %>
-      <span class="text-eyebrow text-sage"><%= reply.relationship %></span>
+      <span class="font-mono text-[11px] tracking-[0.14em] uppercase text-accent"><%= reply.relationship %></span>
     <% end %>
   </div>
 </div>

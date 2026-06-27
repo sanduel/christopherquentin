@@ -2,21 +2,21 @@
     Local: memory %>
 <article data-memory-id="<%= memory.id %>" data-kind="photo"
          data-controller="reply-toggle"
-         class="bg-white rounded-md border border-ink/8 shadow-card overflow-hidden max-w-[480px] mx-auto mb-12 lg:mb-16 lg:<%= memory.id.odd? ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0' %>">
+         class="bg-white-bg rounded-[5px] border border-ink/8 shadow-[0_1px_2px_rgba(17,17,17,0.05)] overflow-hidden max-w-[480px] mx-auto mb-12 lg:mb-16 lg:<%= memory.id.odd? ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0' %>">
   <% if memory.photos.attached? %>
     <%= image_tag memory.photos.first,
           class: "w-full h-[260px] object-cover",
           alt: memory.title.presence || "Memory photo" %>
   <% else %>
     <div class="w-full h-[260px] relative"
-         style="background: linear-gradient(135deg, rgba(90,122,94,0.2), rgba(58,82,64,0.3)), repeating-linear-gradient(45deg, rgba(90,122,94,0.08) 0 12px, transparent 12px 24px);">
-      <div class="absolute bottom-4 left-4 text-eyebrow text-cream mix-blend-difference">
+         style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
+      <div class="absolute bottom-4 left-4 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">
         [ photo · <%= memory.location.presence || "untitled" %> ]
       </div>
     </div>
   <% end %>
   <div class="p-7">
-    <div class="text-eyebrow text-sage">
+    <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-accent">
       <%= l(memory.date, format: :memory) %><% if memory.location.present? %> · <%= memory.location %><% end %>
     </div>
     <% if memory.content.present? %>

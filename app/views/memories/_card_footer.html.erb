@@ -2,18 +2,18 @@
     Local: memory %>
 <footer class="mt-5 pt-4 border-t border-ink/8 flex justify-between items-end">
   <div>
-    <div class="text-sm font-medium text-ink"><%= memory.display_name %></div>
+    <div class="font-bold text-[15px] text-ink"><%= memory.display_name %></div>
     <% if memory.display_relationship %>
-      <div class="text-eyebrow text-sage mt-0.5"><%= memory.display_relationship %></div>
+      <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-accent mt-0.5"><%= memory.display_relationship %></div>
     <% end %>
   </div>
   <div class="flex items-center gap-3">
-    <span class="text-eyebrow text-sage">
+    <span class="font-mono text-[11px] tracking-[0.14em] uppercase text-mono">
       <%= { "text" => "letter", "photo" => "photograph", "audio" => "recording" }[memory.kind] %>
     </span>
     <button type="button"
             data-action="reply-toggle#toggle"
-            class="border border-ink/20 text-ink/70 hover:border-moss hover:text-moss rounded-full px-3 py-1 text-xs cursor-pointer">
+            class="border border-ink/22 text-muted hover:border-accent hover:text-accent rounded-md px-3 py-1 text-[12px] cursor-pointer transition-colors">
       ↩ Reply
     </button>
   </div>
