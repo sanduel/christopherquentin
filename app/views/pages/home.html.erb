@@ -109,13 +109,9 @@
             <h3 class="font-serif font-medium text-[24px] text-ink m-0 leading-tight"><%= event.title %></h3>
             <span class="font-mono text-[11px] tracking-[0.14em] uppercase text-muted bg-band px-3 py-1.5 rounded-full whitespace-nowrap"><%= event.event_type.to_s.titleize %></span>
           </div>
-          <span class="font-mono text-[12px] tracking-[0.14em] uppercase text-accent">
-            <%= l(event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
-          </span>
+          <%= event_date_tag(event.starts_at, classes: "font-mono text-[12px] tracking-[0.14em] uppercase text-accent") %>
           <div class="my-4 text-quote text-[15px] leading-[1.9] flex-grow">
-            <% Event::DISPLAY_ZONES.each do |zone, label| %>
-              <div><%= label %> &middot; <%= l(event.starts_at.in_time_zone(zone), format: :event_time) %></div>
-            <% end %>
+            <%= event_time_tag(event.starts_at) %>
           </div>
           <% if event.location.present? %>
             <span class="text-accent text-[15px] font-bold mt-2"><%= event.location %></span>

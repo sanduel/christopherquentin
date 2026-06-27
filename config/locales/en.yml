@@ -36,4 +36,5 @@ en:
   time:
     formats:
       event_date: "%A %b %-d, %Y"   # e.g. "Sunday Jun 14, 2026"
-      event_time: "%-l:%M %p %Z"    # e.g. "3:00 PM EDT"
+      event_time: "%-l:%M %p %Z"    # e.g. "3:00 PM EDT" (admin/other views)
+      event_time_bare: "%-l:%M %p"  # e.g. "3:00 PM" — zone label appended separately

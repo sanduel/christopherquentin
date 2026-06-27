@@ -22,36 +22,27 @@
     <%= image_tag @event.cover_image, class: "w-full aspect-[16/9] object-cover rounded-[3px] border border-ink/8 my-10" %>
   <% end %>
 
-  <%# Multi-timezone time card %>
-  <div class="bg-white-bg rounded-[5px] border border-ink/8 shadow-card p-6 mt-10 max-w-[460px]">
-    <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">When</div>
-    <p class="font-serif text-[19px] text-ink mb-3">
-      <%= l(@event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
+  <%# Time card — visitor picks the display timezone %>
+  <div class="bg-white-bg rounded-[5px] border border-ink/8 shadow-card p-6 mt-10 max-w-[460px]" data-controller="timezone">
+    <div class="flex items-start justify-between gap-4 mb-4">
+      <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">When</div>
+      <%= event_timezone_select(classes: "text-[13px] text-ink bg-white-bg border border-ink/15 rounded-full px-3 py-1.5 cursor-pointer hover:border-ink/30 transition-colors") %>
+    </div>
+    <p class="font-serif text-[19px] text-ink mb-1">
+      <%= event_date_tag(@event.starts_at) %>
     </p>
-    <div class="space-y-1">
-      <% Event::DISPLAY_ZONES.each do |zone, label| %>
-        <div class="text-[14px] text-ink/70">
-          <span class="font-semibold text-ink"><%= label %></span>
-          <span class="text-muted mx-1">·</span>
-          <%= l(@event.starts_at.in_time_zone(zone), format: :event_time) %>
-        </div>
-      <% end %>
+    <div class="text-[14px] text-ink/70">
+      <%= event_time_tag(@event.starts_at) %>
     </div>
 
     <% if @event.ends_at.present? %>
       <div class="mt-6 pt-6 border-t border-ink/10">
         <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">Until</div>
-        <p class="font-serif text-[19px] text-ink mb-3">
-          <%= l(@event.ends_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
+        <p class="font-serif text-[19px] text-ink mb-1">
+          <%= event_date_tag(@event.ends_at) %>
         </p>
-        <div class="space-y-1">
-          <% Event::DISPLAY_ZONES.each do |zone, label| %>
-            <div class="text-[14px] text-ink/70">
-              <span class="font-semibold text-ink"><%= label %></span>
-              <span class="text-muted mx-1">·</span>
-              <%= l(@event.ends_at.in_time_zone(zone), format: :event_time) %>
-            </div>
-          <% end %>
+        <div class="text-[14px] text-ink/70">
+          <%= event_time_tag(@event.ends_at) %>
         </div>
       </div>
     <% end %>
