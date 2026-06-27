@@ -6,14 +6,15 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Cloudflare R2 (S3-compatible) for production file storage
+# Cloudflare R2 (S3-compatible) for production file storage.
+# Credentials read from Railway environment variables.
 cloudflare:
   service: S3
-  access_key_id: <%= Rails.application.credentials.dig(:cloudflare, :access_key_id) %>
-  secret_access_key: <%= Rails.application.credentials.dig(:cloudflare, :secret_access_key) %>
+  access_key_id: <%= ENV["CLOUDFLARE_R2_ACCESS_KEY_ID"] %>
+  secret_access_key: <%= ENV["CLOUDFLARE_R2_SECRET_ACCESS_KEY"] %>
   region: auto
-  bucket: christopherquentin
-  endpoint: <%= Rails.application.credentials.dig(:cloudflare, :endpoint) %>
+  bucket: <%= ENV.fetch("CLOUDFLARE_R2_BUCKET", "christopherquentin") %>
+  endpoint: <%= ENV["CLOUDFLARE_R2_ENDPOINT"] %>
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
