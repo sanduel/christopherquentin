@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   end
   resources :trees, only: [ :new, :create, :show ]
   resources :recipes, only: [ :index, :new, :create, :show ]
-  resources :photo_submissions, only: [ :new, :create ], path: "submit-photos"
+  get "gallery", to: "gallery#index", as: :gallery
+  get "submit-photos", to: "gallery#new", as: :submit_photos
+  post "submit-photos", to: "gallery#create"
   resources :newsletter_subscribers, only: [ :create ]
   resources :events, only: [ :index, :show ]
   resources :bee_hives, only: [ :index, :new, :create, :show ]
@@ -33,7 +35,6 @@ Rails.application.routes.draw do
     resources :memories, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :trees, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :recipes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
-    resources :photo_submissions, only: [ :index, :show, :update, :destroy ]
     resources :gallery_photos
     resources :events
     resources :bee_hives, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]

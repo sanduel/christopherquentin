@@ -21,7 +21,7 @@
     <p class="text-stone-500">Pending Recipes</p>
   <% end %>
 
-  <%= link_to admin_photo_submissions_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+  <%= link_to admin_gallery_photos_path(status: :pending), class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
     <p class="text-3xl font-bold text-blue-800"><%= @pending_photos %></p>
     <p class="text-stone-500">Pending Photos</p>
   <% end %>

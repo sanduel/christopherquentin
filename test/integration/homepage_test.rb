@@ -37,7 +37,7 @@ class HomepageTest < ActionDispatch::IntegrationTest
   # ── Honor grid ────────────────────────────────────────────────────────────
   test "honor grid section renders" do
     get root_path
-    assert_select "h2.font-serif", text: /Honor his memory/
+    assert_select "h2.font-serif", text: /Get involved/
     assert_select "section article", minimum: 1
   end
 
@@ -126,7 +126,7 @@ class HomepageTest < ActionDispatch::IntegrationTest
 
   test "photographs section renders Submit a photo link" do
     get root_path
-    assert_select "a[href=?]", new_photo_submission_path, text: /Submit a photo/
+    assert_select "a[href=?]", submit_photos_path, text: /Submit a photo/
   end
 
   test "photographs section renders 11 placeholder tiles when GalleryPhoto is empty" do

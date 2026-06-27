@@ -1,0 +1,46 @@
+<% content_for :title, "Photos — Christopher Quentin" %>
+
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Photos</span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 64px); line-height: 1.0;">
+    In photographs.
+  </h1>
+  <p class="text-[16px] text-muted mt-5 max-w-[560px]">
+    <%= @total %> <%= "photo".pluralize(@total) %> of Christopher, shared by family and friends.
+    <%= link_to "Submit a photo →", submit_photos_path, class: "text-accent font-semibold no-underline hover:opacity-70" %>
+  </p>
+
+  <% if @photos.any? %>
+    <div style="column-count: 4; column-gap: 16px;" class="max-md:!column-count-2 max-sm:!column-count-1 mt-12">
+      <% @photos.each do |photo| %>
+        <% next unless photo.photo.attached? %>
+        <figure class="mb-4" style="break-inside: avoid;">
+          <%= image_tag photo.photo.variant(resize_to_limit: [600, 800]),
+                class: "w-full rounded-[3px]", loading: "lazy",
+                alt: photo.caption.presence || "Memorial photo" %>
+          <% if photo.caption.present? %>
+            <figcaption class="text-[12px] text-muted mt-1.5"><%= photo.caption %></figcaption>
+          <% end %>
+        </figure>
+      <% end %>
+    </div>
+
+    <% if @total_pages > 1 %>
+      <nav class="flex items-center justify-center gap-4 mt-12">
+        <% if @page > 1 %>
+          <%= link_to "← Newer", gallery_path(page: @page - 1), class: "text-accent font-semibold no-underline hover:opacity-70" %>
+        <% end %>
+        <span class="font-mono text-[12px] text-muted">Page <%= @page %> of <%= @total_pages %></span>
+        <% if @page < @total_pages %>
+          <%= link_to "Older →", gallery_path(page: @page + 1), class: "text-accent font-semibold no-underline hover:opacity-70" %>
+        <% end %>
+      </nav>
+    <% end %>
+  <% else %>
+    <p class="text-muted italic mt-12">No photos yet. <%= link_to "Be the first to submit one →", submit_photos_path, class: "text-accent font-semibold no-underline" %></p>
+  <% end %>
+</section>

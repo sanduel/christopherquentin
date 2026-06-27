@@ -1,20 +1,42 @@
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-3xl font-title text-stone-800">Gallery <span class="text-base font-normal text-stone-400">(<%= @total %>)</span></h1>
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-3xl font-title text-stone-800">Photos <span class="text-base font-normal text-stone-400">(<%= @total %>)</span></h1>
   <%= link_to "Add Photo", new_admin_gallery_photo_path, class: "px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition" %>
 </div>
+
+<%= render "admin/shared/filter_tabs" %>
 
 <% if @photos.any? %>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <% @photos.each do |photo| %>
       <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-200">
         <% if photo.photo.attached? %>
-          <%= image_tag photo.photo.variant(resize_to_limit: [200, 200]), class: "rounded w-full aspect-square object-cover mb-2" %>
+          <%= image_tag photo.photo.variant(resize_to_limit: [200, 200]), class: "rounded w-full aspect-square object-cover mb-2", loading: "lazy" %>
         <% end %>
+        <div class="flex items-center gap-1 flex-wrap mb-1">
+          <%= render "admin/shared/status_badge", status: photo.status %>
+          <% if photo.featured? %>
+            <span class="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800">★ Featured</span>
+          <% end %>
+        </div>
         <p class="text-xs text-stone-500 truncate"><%= photo.caption %></p>
-        <p class="text-xs text-stone-400">Order: <%= photo.sort_order %></p>
-        <div class="flex gap-1 mt-2">
-          <%= link_to "Edit", edit_admin_gallery_photo_path(photo), class: "text-xs text-blue-800 hover:text-blue-700" %>
-          <%= button_to "Delete", admin_gallery_photo_path(photo), method: :delete, data: { turbo_confirm: "Remove this photo?" }, class: "text-xs text-red-600 hover:text-red-500" %>
+        <% if photo.submitted? %>
+          <p class="text-xs text-stone-400 truncate">by <%= photo.submitter_name.presence || photo.submitter_email %></p>
+        <% end %>
+
+        <div class="flex flex-wrap gap-1 mt-2">
+          <%= button_to (photo.featured? ? "Unfeature" : "Feature"),
+                admin_gallery_photo_path(photo), params: { featured: !photo.featured }, method: :patch,
+                class: "text-xs px-2 py-1 rounded #{photo.featured? ? 'bg-amber-600 text-white' : 'bg-stone-100 text-stone-700'} hover:opacity-80" %>
+          <% unless photo.published? %>
+            <%= button_to "Approve", admin_gallery_photo_path(photo), params: { status: :published }, method: :patch,
+                  class: "text-xs px-2 py-1 rounded bg-green-600 text-white hover:bg-green-500" %>
+          <% end %>
+          <% unless photo.rejected? %>
+            <%= button_to "Reject", admin_gallery_photo_path(photo), params: { status: :rejected }, method: :patch,
+                  class: "text-xs px-2 py-1 rounded bg-stone-200 text-stone-700 hover:bg-stone-300" %>
+          <% end %>
+          <%= link_to "Edit", edit_admin_gallery_photo_path(photo), class: "text-xs px-2 py-1 text-blue-800 hover:text-blue-700" %>
+          <%= button_to "Delete", admin_gallery_photo_path(photo), method: :delete, data: { turbo_confirm: "Remove this photo?" }, class: "text-xs px-2 py-1 text-red-600 hover:text-red-500" %>
         </div>
       </div>
     <% end %>
@@ -23,14 +45,14 @@
   <% if @total_pages > 1 %>
     <div class="flex items-center justify-center gap-4 mt-8">
       <% if @page > 1 %>
-        <%= link_to "← Prev", admin_gallery_photos_path(page: @page - 1), class: "px-3 py-1 rounded bg-white border border-stone-300 text-stone-700 hover:bg-stone-100" %>
+        <%= link_to "← Prev", admin_gallery_photos_path(page: @page - 1, status: params[:status]), class: "px-3 py-1 rounded bg-white border border-stone-300 text-stone-700 hover:bg-stone-100" %>
       <% end %>
       <span class="text-sm text-stone-500">Page <%= @page %> of <%= @total_pages %></span>
       <% if @page < @total_pages %>
-        <%= link_to "Next →", admin_gallery_photos_path(page: @page + 1), class: "px-3 py-1 rounded bg-white border border-stone-300 text-stone-700 hover:bg-stone-100" %>
+        <%= link_to "Next →", admin_gallery_photos_path(page: @page + 1, status: params[:status]), class: "px-3 py-1 rounded bg-white border border-stone-300 text-stone-700 hover:bg-stone-100" %>
       <% end %>
     </div>
   <% end %>
 <% else %>
-  <p class="text-stone-400 italic text-center py-12">No gallery photos yet.</p>
+  <p class="text-stone-400 italic text-center py-12">No photos here.</p>
 <% end %>

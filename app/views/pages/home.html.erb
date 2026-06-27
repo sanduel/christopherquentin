@@ -37,9 +37,9 @@
   </div>
 </section>
 
-<%# Section 2 — Honor his memory %>
+<%# Section 2 — Get involved %>
 <section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-4 pb-24">
-  <h2 class="font-serif font-medium text-[38px] tracking-[-0.01em] text-ink m-0 mb-9">Honor his memory</h2>
+  <h2 class="font-serif font-medium text-[38px] tracking-[-0.01em] text-ink m-0 mb-9">Get involved</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
     <% [
       { eyebrow: "Plant", title: "Plant a Tree", body: "Add a tree to the living map of saplings planted in his memory across nine countries.", cta: "Plant a tree →", path: new_tree_path },
@@ -148,8 +148,10 @@
     <% end %>
   </div>
 
-  <div class="text-center mt-8">
-    <%= link_to "Submit a photo →", new_photo_submission_path,
+  <div class="text-center mt-8 flex flex-wrap gap-6 justify-center">
+    <%= link_to "View all photos →", gallery_path,
+          class: "no-underline text-accent text-[15px] font-semibold hover:opacity-70 transition-opacity" %>
+    <%= link_to "Submit a photo →", submit_photos_path,
           class: "no-underline text-accent text-[15px] font-semibold hover:opacity-70 transition-opacity" %>
   </div>
 </section>
