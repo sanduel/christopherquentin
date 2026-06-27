@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_27_100000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -70,8 +70,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.string "url"
+    t.bigint "wp_post_id"
     t.index ["published", "starts_at"], name: "index_events_on_published_and_starts_at"
     t.index ["starts_at"], name: "index_events_on_starts_at"
+    t.index ["wp_post_id"], name: "index_events_on_wp_post_id", unique: true
   end
 
   create_table "gallery_photos", force: :cascade do |t|
@@ -79,6 +81,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
     t.datetime "created_at", null: false
     t.integer "sort_order", default: 0
     t.datetime "updated_at", null: false
+    t.bigint "wp_post_id"
+    t.index ["wp_post_id"], name: "index_gallery_photos_on_wp_post_id", unique: true
   end
 
   create_table "memories", force: :cascade do |t|
@@ -130,7 +134,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.bigint "wp_post_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
+    t.index ["wp_post_id"], name: "index_recipes_on_wp_post_id", unique: true
   end
 
   create_table "replies", force: :cascade do |t|
@@ -174,8 +180,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.bigint "wp_post_id"
     t.index ["category"], name: "index_tributes_on_category"
     t.index ["user_id"], name: "index_tributes_on_user_id"
+    t.index ["wp_post_id"], name: "index_tributes_on_wp_post_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
