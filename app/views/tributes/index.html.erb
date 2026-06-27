@@ -1,18 +1,22 @@
 <% content_for :title, "Tributes — Christopher Quentin" %>
 
-<section class="px-6 lg:px-14 pt-12 pb-8">
-  <%= musical_eyebrow("Op. V · Tributes", with_rule: true) %>
-  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
-    In their <em class="font-serif italic text-moss">own words</em>.
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-10">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Tributes · <%= @total_count %> voices</span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(46px, 6.4vw, 80px); line-height: 0.98;">
+    In their own words.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+  <p class="text-[16px] text-muted mt-5 max-w-[640px]">
     <%= pluralize(@total_count, "tribute") %> from family, colleagues, students, and friends.
   </p>
 </section>
 
 <%= render "tributes/category_filter", categories: @categories, active: @active_category %>
 
-<section class="px-6 lg:px-14 py-12">
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 py-12">
   <% if @tributes.any? %>
     <div class="columns-1 md:columns-2 lg:columns-3 gap-5">
       <% @tributes.each do |tribute| %>
@@ -24,25 +28,26 @@
   <% else %>
     <div class="text-center py-20">
       <% if @active_category.present? %>
-        <p class="font-serif italic text-2xl text-ink/70 mb-4">No tributes in this category yet.</p>
-        <%= link_to "Clear filter →", tributes_path, class: "text-moss text-sm font-medium hover:underline" %>
+        <p class="font-serif italic text-[22px] text-muted mb-4">No tributes in this category yet.</p>
+        <%= link_to "Clear filter →", tributes_path, class: "text-accent text-[15px] font-semibold no-underline hover:opacity-70 transition-opacity" %>
       <% else %>
-        <p class="font-serif italic text-2xl text-ink/70 mb-4">No tributes yet. Be the first to share one.</p>
+        <p class="font-serif italic text-[22px] text-muted mb-4">No tributes yet. Be the first to share one.</p>
         <%= link_to "+ Share a tribute", new_tribute_path,
-              class: "inline-block mt-2 bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium no-underline hover:bg-ink transition-colors" %>
+              class: "inline-block mt-2 bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors" %>
       <% end %>
     </div>
   <% end %>
 </section>
 
 <%# Share-a-tribute CTA strip %>
-<section class="bg-linen px-6 lg:px-14 py-16">
-  <div class="max-w-[720px] mx-auto text-center">
-    <h2 class="font-serif text-3xl md:text-4xl text-ink mt-0">
+<section class="bg-band py-16">
+  <div class="max-w-[720px] mx-auto px-6 text-center">
+    <h2 class="font-serif font-medium tracking-[-0.01em] text-ink mt-0 mb-4"
+        style="font-size: clamp(28px, 3.5vw, 42px);">
       Have a story you'd like to share?
     </h2>
-    <p class="text-[17px] text-ink/65 mt-3">Add a tribute to the collection.</p>
+    <p class="text-[16px] text-muted mt-3">Add a tribute to the collection.</p>
     <%= link_to "+ Share a tribute", new_tribute_path,
-          class: "inline-block mt-6 bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium no-underline hover:bg-ink transition-colors" %>
+          class: "inline-block mt-6 bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors" %>
   </div>
 </section>

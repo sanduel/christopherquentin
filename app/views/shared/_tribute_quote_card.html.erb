@@ -1,12 +1,12 @@
-<blockquote class="bg-white rounded-md border border-ink/8 shadow-card p-7 relative">
-  <span class="absolute -top-3 left-6 font-serif text-[80px] text-rose leading-none select-none" aria-hidden="true">"</span>
-  <p class="font-serif text-[19px] italic leading-snug text-ink mt-6 m-0">
+<article class="bg-white-bg rounded-[5px] p-[34px_30px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.05)] break-inside-avoid border border-ink/8">
+  <span class="font-serif text-[50px] leading-[0.5] text-accent h-[30px]" aria-hidden="true">&ldquo;</span>
+  <p class="font-serif italic text-[19px] leading-[1.5] text-quote mt-3.5 mb-0 flex-grow">
     <%= truncate(tribute.content.to_s, length: 240) %>
   </p>
-  <footer class="mt-5 pt-3.5 border-t border-ink/8">
-    <div class="text-sm font-medium text-ink">— <%= tribute.name %></div>
+  <div class="border-t border-ink/10 mt-6 pt-4">
+    <div class="font-bold text-[15px] text-ink"><%= tribute.name %></div>
     <% if tribute.relationship.present? %>
-      <div class="text-eyebrow text-sage mt-1"><%= tribute.relationship %></div>
+      <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-accent mt-1"><%= tribute.relationship %></div>
     <% end %>
-  </footer>
-</blockquote>
+  </div>
+</article>
