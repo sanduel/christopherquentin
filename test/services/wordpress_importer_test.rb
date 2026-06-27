@@ -142,6 +142,23 @@ class WordpressImporterTest < ActiveSupport::TestCase
     end
   end
 
+  test "gallery import re-uploads when the stored object is missing" do
+    imp = importer
+    with_stubbed_download(imp) { imp.import_gallery }
+    photo = GalleryPhoto.find_by!(wp_post_id: 201)
+    blob = photo.photo.blob
+    # Simulate a dangling attachment: blob record exists, object is gone.
+    blob.service.delete(blob.key)
+    assert_not blob.service.exist?(blob.key)
+
+    imp2 = importer
+    with_stubbed_download(imp2) { imp2.import_gallery }
+
+    photo.reload
+    assert photo.photo.attached?
+    assert photo.photo.blob.service.exist?(photo.photo.blob.key), "object should be re-uploaded"
+  end
+
   # --- events ---
   test "imports mec-events with assembled start/end times" do
     result = importer.import_events

@@ -73,9 +73,12 @@ class WordpressImporter
       existing = photo.persisted?
       photo.caption = text(item, "title").presence
       photo.sort_order = order
-      unless photo.photo.attached?
+      # Re-upload when the blob record exists but its object is missing from
+      # storage (e.g. an earlier failed upload left a dangling attachment).
+      if !photo.photo.attached? || !object_present?(photo.photo)
         io = download(url)
         next (result.skipped += 1) if io.nil?
+        photo.photo.purge if photo.photo.attached?
         photo.photo.attach(io: io, filename: File.basename(URI.parse(url).path), content_type: content_type_for(url))
       end
       photo.save!
@@ -198,6 +201,13 @@ class WordpressImporter
     when ".webp" then "image/webp"
     else "image/jpeg"
     end
+  end
+
+  def object_present?(attached)
+    blob = attached.blob
+    blob.present? && blob.service.exist?(blob.key)
+  rescue StandardError
+    false
   end
 
   def download(url)

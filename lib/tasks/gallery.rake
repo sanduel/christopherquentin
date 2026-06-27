@@ -21,4 +21,17 @@ namespace :gallery do
     end
     puts "Absorbed #{converted} submission photo(s) into the gallery (#{skipped} already present)."
   end
+
+  desc "Report gallery photos whose storage object is missing"
+  task check: :environment do
+    total = GalleryPhoto.count
+    attached = 0
+    missing = 0
+    GalleryPhoto.with_attached_photo.find_each do |g|
+      next unless g.photo.attached?
+      attached += 1
+      missing += 1 unless g.photo.blob.service.exist?(g.photo.blob.key)
+    end
+    puts "GalleryPhotos: #{total} | with blob: #{attached} | MISSING object in storage: #{missing}"
+  end
 end
