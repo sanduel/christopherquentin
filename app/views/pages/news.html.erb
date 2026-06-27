@@ -1,16 +1,20 @@
 <% content_for :title, "News & Press — Christopher Quentin" %>
 
-<section class="px-6 lg:px-14 pt-12 pb-8">
-  <%= musical_eyebrow("Op. VII · News & Press", with_rule: true) %>
-  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
-    In the <em class="font-serif italic text-moss">world's</em> own words.
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-10">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">News & Press · <%= pluralize(@total, "mention") %> · <%= pluralize(@years.count, "year") %></span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(46px, 6.4vw, 80px); line-height: 0.98;">
+    In the world's <span class="italic text-accent">own words</span>.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3">
+  <p class="text-[16px] text-muted mt-5">
     <%= pluralize(@total, "mention") %> across <%= pluralize(@years.count, "year") %>.
   </p>
 </section>
 
-<section class="px-6 lg:px-14 pb-20">
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pb-24">
   <% @items_by_year.each do |year, items| %>
     <%= render "pages/news/year_group", year: year, items: items %>
   <% end %>

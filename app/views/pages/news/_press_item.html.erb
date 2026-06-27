@@ -1,25 +1,25 @@
 <%# Single press item row. Local: item (PressItem) %>
 <div data-press-item class="grid grid-cols-1 md:grid-cols-[180px_1fr_160px] gap-4 md:gap-6 py-5 border-b border-ink/8 items-start">
-  <div class="text-sm">
+  <div>
     <% if item.date %>
-      <div class="text-eyebrow text-sage"><%= item.date.strftime("%b %-d, %Y") %></div>
+      <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-accent"><%= item.date.strftime("%b %-d, %Y") %></div>
     <% else %>
-      <div class="text-eyebrow text-sage opacity-60">undated</div>
+      <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-mono opacity-60">undated</div>
     <% end %>
-    <div class="font-serif italic text-ink/80 mt-1"><%= item.source %></div>
+    <div class="font-serif italic text-[15px] text-quote mt-1"><%= item.source %></div>
   </div>
 
   <div>
-    <h3 class="font-serif text-[22px] leading-snug text-ink m-0 font-normal">
+    <h3 class="font-serif font-medium text-[22px] leading-snug text-ink m-0 tracking-[-0.01em]">
       <%= link_to item.title, item.url, target: "_blank", rel: "noopener",
-            class: "no-underline text-ink hover:text-moss" %>
+            class: "no-underline text-ink hover:text-accent transition-colors" %>
     </h3>
-    <p class="text-[15px] text-ink/65 leading-relaxed mt-2 m-0"><%= item.snippet %></p>
+    <p class="text-[15px] text-muted leading-relaxed mt-2 m-0"><%= item.snippet %></p>
   </div>
 
   <div class="flex flex-col md:items-end gap-2">
-    <span class="text-eyebrow text-moss bg-linen rounded-full px-3 py-1 inline-block"><%= item.kind %></span>
+    <span class="font-mono text-[10px] tracking-[0.16em] uppercase text-accent bg-band rounded-full px-3 py-1 inline-block"><%= item.kind %></span>
     <%= link_to "Read →", item.url, target: "_blank", rel: "noopener",
-          class: "text-sm text-moss font-medium hover:underline no-underline" %>
+          class: "text-accent text-[14px] font-semibold hover:opacity-70 no-underline transition-opacity" %>
   </div>
 </div>
