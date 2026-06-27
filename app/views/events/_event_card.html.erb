@@ -1,30 +1,30 @@
-<%= link_to event_path(event), class: "block no-underline group" do %>
-  <article class="bg-white rounded-md border border-ink/8 shadow-card p-6 relative hover:border-ink/15 transition-colors">
-    <span class="absolute top-5 right-5 px-2.5 py-1 rounded-full bg-linen text-moss text-eyebrow whitespace-nowrap">
+<article class="bg-white-bg border border-ink/8 rounded-[5px] p-[30px_32px] max-w-[640px] shadow-[0_1px_2px_rgba(17,17,17,0.04)] mb-5">
+  <div class="flex justify-between items-start gap-4 mb-5">
+    <h3 class="font-serif font-medium text-[24px] text-ink m-0">
+      <%= link_to event.title, event_path(event), class: "no-underline text-ink hover:text-accent" %>
+    </h3>
+    <span class="font-mono text-[11px] tracking-[0.14em] uppercase text-muted bg-band px-3 py-1.5 rounded-full whitespace-nowrap">
       <%= event_type_label(event) %>
     </span>
+  </div>
 
-    <% if event.cover_image.attached? %>
-      <div class="mb-4 rounded overflow-hidden aspect-[16/5]">
-        <%= image_tag event.cover_image, class: "w-full h-full object-cover" %>
-      </div>
+  <% if event.cover_image.attached? %>
+    <div class="mb-5 rounded-[3px] overflow-hidden aspect-[16/5]">
+      <%= image_tag event.cover_image, class: "w-full h-full object-cover" %>
+    </div>
+  <% end %>
+
+  <span class="font-mono text-[12px] tracking-[0.14em] uppercase text-accent">
+    <%= l(event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
+  </span>
+
+  <div class="my-4 text-quote text-[16px] leading-[1.9]">
+    <% Event::DISPLAY_ZONES.each do |zone, label| %>
+      <div><%= label %> · <%= l(event.starts_at.in_time_zone(zone), format: :event_time) %></div>
     <% end %>
+  </div>
 
-    <h3 class="font-serif text-[22px] font-medium leading-snug text-ink pr-24">
-      <%= event.title %>
-    </h3>
-
-    <div class="text-eyebrow text-sage mt-3 mb-2">
-      <%= l(event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
-    </div>
-
-    <div class="text-sm text-ink/70 leading-relaxed">
-      <% Event::DISPLAY_ZONES.each do |zone, label| %>
-        <div><%= label %> · <%= l(event.starts_at.in_time_zone(zone), format: :event_time) %></div>
-      <% end %>
-      <% if event.location.present? %>
-        <div class="text-moss mt-1.5"><%= event.location %></div>
-      <% end %>
-    </div>
-  </article>
-<% end %>
+  <% if event.location.present? %>
+    <span class="text-accent text-[15px] font-semibold"><%= event.location %></span>
+  <% end %>
+</article>

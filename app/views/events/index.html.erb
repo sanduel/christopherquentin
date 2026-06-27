@@ -1,20 +1,22 @@
 <% content_for(:title, "Events — Christopher Quentin") %>
 
-<section class="px-6 lg:px-14 pt-12 pb-8">
-  <%= musical_eyebrow("Op. X · Gatherings", with_rule: true) %>
-  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
-    Where we <em class="font-serif italic text-moss">gathered</em>.
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-12">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Gatherings · concerts &amp; webinars</span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 72px); line-height: 1.0;">
+    Where we gathered.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
-    Concerts and webinars in Christopher&rsquo;s memory.
-  </p>
+  <p class="text-[16px] text-muted mt-5 max-w-[640px]">Concerts and webinars in Christopher&rsquo;s memory.</p>
 </section>
 
-<section class="px-6 lg:px-14 pb-20">
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pb-20">
   <% if @upcoming_events.any? %>
     <div class="mb-14">
-      <h2 class="font-serif text-2xl text-ink mb-6 pb-3 border-b border-ink/10">Upcoming</h2>
-      <div class="space-y-4">
+      <h2 class="font-serif font-medium text-[20px] text-ink mb-6 pb-3 border-b border-ink/10">Upcoming</h2>
+      <div class="space-y-5">
         <% @upcoming_events.each do |event| %>
           <%= render "event_card", event: event %>
         <% end %>
@@ -22,15 +24,15 @@
     </div>
   <% else %>
     <div class="mb-14">
-      <h2 class="font-serif text-2xl text-ink mb-6 pb-3 border-b border-ink/10">Upcoming</h2>
-      <p class="font-serif italic text-xl text-ink/50">No upcoming events scheduled. Check back soon.</p>
+      <h2 class="font-serif font-medium text-[20px] text-ink mb-6 pb-3 border-b border-ink/10">Upcoming</h2>
+      <p class="font-serif italic text-[18px] text-muted">No upcoming events scheduled. Check back soon.</p>
     </div>
   <% end %>
 
   <% if @past_events.any? %>
     <div>
-      <h2 class="font-serif text-2xl text-ink mb-6 pb-3 border-b border-ink/10">Past</h2>
-      <div class="space-y-4">
+      <h2 class="font-serif font-medium text-[20px] text-ink mb-6 pb-3 border-b border-ink/10">Past</h2>
+      <div class="space-y-5">
         <% @past_events.each do |event| %>
           <%= render "event_card", event: event %>
         <% end %>
