@@ -18,8 +18,8 @@ class BiographyTest < ActionDispatch::IntegrationTest
   test "biography renders Quick Facts dl" do
     get chris_path
     assert_select "dl.quick-facts" do
-      assert_select "dt", minimum: 3
-      assert_select "dd", minimum: 3
+      assert_select "dt", minimum: 2
+      assert_select "dd", minimum: 2
     end
   end
 

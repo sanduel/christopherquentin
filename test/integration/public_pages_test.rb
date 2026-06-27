@@ -106,7 +106,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
     Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 5.days.from_now, published: true)
     get root_path
     assert_response :success
-    assert_match(/Upcoming gatherings/i, response.body)
+    assert_match(/Memorial Events/i, response.body)
     assert_match(/Memorial Webinar/, response.body)
   end
 

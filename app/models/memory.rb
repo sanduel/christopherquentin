@@ -27,7 +27,7 @@ class Memory < ApplicationRecord
   def display_name = name.presence || user&.name || "Anonymous"
   def display_relationship = relationship.presence
 
-  def self.default_pin_color = "#3a5240"      # moss
+  def self.default_pin_color = "#e11d48"      # rose-600 — distinct from tree green on the map
   def self.default_pin_icon  = "star"
   def self.map_category      = :memory
 

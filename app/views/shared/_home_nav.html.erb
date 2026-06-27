@@ -1,75 +1,75 @@
 <%#
   Sticky Memorial nav. Used by every page via application.html.erb.
 
-  Desktop: wordmark (Newsreader) + mono date + 4 nav links + Share-a-memory
-           button + sign-in/admin/sign-out group
-  Mobile: wordmark + hamburger; tap toggles a stacked menu below
+  Desktop: wordmark+date (left, stacked) · centered nav links · sign-in + Share-a-memory (right)
+  Mobile:  wordmark+date + hamburger; tap toggles a stacked centered menu below
 %>
 <nav class="sticky top-0 z-20 bg-[rgba(246,246,243,0.92)] backdrop-blur-[8px] border-b border-ink/10 font-sans"
      data-controller="nav">
-  <div class="max-w-[1180px] mx-auto px-6 lg:px-10 py-5 flex items-center justify-between">
-    <%# Left — wordmark + date %>
-    <%= link_to root_path, class: "flex items-baseline gap-3 no-underline" do %>
-      <span class="font-serif text-[23px] font-medium text-ink">
+  <div class="max-w-[1180px] mx-auto px-6 lg:px-10 py-4 grid grid-cols-[auto_1fr_auto] items-center gap-6">
+    <%# Left — wordmark stacked over date %>
+    <%= link_to root_path, class: "flex flex-col items-start no-underline" do %>
+      <span class="font-serif text-[23px] font-medium text-ink leading-none">
         Christopher Quentin
       </span>
-      <span class="text-eyebrow hidden sm:inline">1984 – 2020</span>
+      <span class="text-eyebrow mt-1.5">1984 – 2020</span>
     <% end %>
 
-    <%# Right — desktop nav %>
-    <div class="hidden md:flex items-center gap-7 text-[15px]">
+    <%# Center — desktop nav links %>
+    <div class="hidden md:flex items-center justify-center gap-8 text-[15px]">
       <%= nav_link "Biography", chris_path %>
       <%= nav_link "Memories", memories_path %>
       <%= nav_link "Projects", projects_path %>
       <%= nav_link "Tributes", tributes_path %>
-
-      <button type="button"
-              data-controller="share-modal-trigger"
-              data-action="share-modal-trigger#open"
-              class="bg-ink text-white-bg rounded-md px-5 py-3 text-sm cursor-pointer hover:bg-ink-deep transition-colors">
-        Share a memory
-      </button>
-
-      <div class="text-xs text-mono font-mono flex items-center gap-2 ml-2 tracking-[0.1em] uppercase text-[11px]">
-        <% if user_signed_in? %>
-          <% if current_user.admin? %>
-            <%= link_to "Admin", admin_root_path, class: "hover:text-accent" %>
-            <span aria-hidden="true">·</span>
-          <% end %>
-          <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "hover:text-accent" %>
-        <% else %>
-          <%= link_to "Sign in", new_user_session_path, class: "hover:text-accent" %>
-        <% end %>
-      </div>
     </div>
 
-    <%# Right — mobile hamburger %>
-    <button type="button"
-            data-action="nav#toggle"
-            data-nav-target="toggle"
-            aria-label="Open menu"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            class="md:hidden text-ink hover:text-accent">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-    </button>
+    <%# Right — sign-in/admin · Share-a-memory CTA (desktop) OR hamburger (mobile) %>
+    <div class="justify-self-end">
+      <%# Desktop right group %>
+      <div class="hidden md:flex items-center gap-5">
+        <div class="text-mono font-mono tracking-[0.1em] uppercase text-[11px] flex items-center gap-2">
+          <% if user_signed_in? %>
+            <% if current_user.admin? %>
+              <%= link_to "Admin", admin_root_path, class: "hover:text-accent" %>
+              <span aria-hidden="true">·</span>
+            <% end %>
+            <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "hover:text-accent" %>
+          <% else %>
+            <%= link_to "Sign in", new_user_session_path, class: "hover:text-accent" %>
+          <% end %>
+        </div>
+
+        <button type="button"
+                data-controller="share-modal-trigger"
+                data-action="share-modal-trigger#open"
+                class="bg-ink text-white-bg rounded-md px-5 py-3 text-sm cursor-pointer hover:bg-ink-deep transition-colors">
+          Share a memory
+        </button>
+      </div>
+
+      <%# Mobile hamburger %>
+      <button type="button"
+              data-action="nav#toggle"
+              data-nav-target="toggle"
+              aria-label="Open menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+              class="md:hidden text-ink hover:text-accent">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <%# Mobile menu %>
-  <div id="mobile-menu" class="hidden md:hidden px-6 pb-5 space-y-2.5 text-[15px]" data-nav-target="menu">
+  <%# Mobile menu — centered stacked links %>
+  <div id="mobile-menu" class="hidden md:hidden px-6 pb-5 text-[15px] text-center space-y-2.5" data-nav-target="menu">
     <%= nav_link "Biography", chris_path, extra_class: "block py-1" %>
     <%= nav_link "Memories", memories_path, extra_class: "block py-1" %>
     <%= nav_link "Projects", projects_path, extra_class: "block py-1" %>
     <%= nav_link "Tributes", tributes_path, extra_class: "block py-1" %>
-    <button type="button"
-            data-controller="share-modal-trigger"
-            data-action="share-modal-trigger#open"
-            class="block bg-ink text-white-bg rounded-md px-5 py-3 text-sm cursor-pointer text-center mt-3 w-full hover:bg-ink-deep transition-colors">
-      Share a memory
-    </button>
-    <div class="text-xs text-mono font-mono pt-3 border-t border-ink/10 mt-3 tracking-[0.1em] uppercase text-[11px]">
+
+    <div class="text-mono font-mono tracking-[0.1em] uppercase text-[11px] pt-3 mt-3 border-t border-ink/10">
       <% if user_signed_in? %>
         <% if current_user.admin? %>
           <%= link_to "Admin", admin_root_path, class: "block py-1 hover:text-accent" %>
@@ -79,5 +79,12 @@
         <%= link_to "Sign in", new_user_session_path, class: "block py-1 hover:text-accent" %>
       <% end %>
     </div>
+
+    <button type="button"
+            data-controller="share-modal-trigger"
+            data-action="share-modal-trigger#open"
+            class="block bg-ink text-white-bg rounded-md px-5 py-3 text-sm cursor-pointer text-center mt-3 w-full hover:bg-ink-deep transition-colors">
+      Share a memory
+    </button>
   </div>
 </nav>

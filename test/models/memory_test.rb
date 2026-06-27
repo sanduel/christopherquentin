@@ -92,8 +92,8 @@ class MemoryTest < ActiveSupport::TestCase
     assert_equal "Anonymous", memory.display_name
   end
 
-  test "default pin color is moss" do
-    assert_equal "#3a5240", Memory.default_pin_color
+  test "default pin color is rose (distinct from tree green on map)" do
+    assert_equal "#e11d48", Memory.default_pin_color
   end
 
   test "memory has many replies" do

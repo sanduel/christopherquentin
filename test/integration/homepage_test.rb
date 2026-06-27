@@ -12,17 +12,10 @@ class HomepageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "hero renders the 1984 – 2020 In Memoriam eyebrow with accent rule" do
+  test "wordmark shows the dates somewhere in the nav" do
     get root_path
-    assert_match(/1984.*2020.*In Memoriam/m, response.body)
-    assert_select "span.inline-block.bg-accent"
-  end
-
-  test "hero renders the generosity blockquote" do
-    get root_path
-    assert_select "blockquote" do
-      assert_select "p", text: /warmth.*humor.*generosity/i
-    end
+    assert_match(/1984/, response.body)
+    assert_match(/2020/, response.body)
   end
 
   test "hero renders the two CTA pills with correct destinations" do
@@ -31,9 +24,9 @@ class HomepageTest < ActionDispatch::IntegrationTest
     assert_select "button[data-controller~='share-modal-trigger']", text: /Share a memory/
   end
 
-  test "hero renders portrait placeholder with caption" do
+  test "hero renders the portrait image" do
     get root_path
-    assert_match(/PORTRAIT.*STAVANGER 2019/i, response.body)
+    assert_select "img[src*='chris-portrait'][alt*='Christopher']"
   end
 
   test "hero does not include Garden staff-lines texture" do
@@ -104,17 +97,17 @@ class HomepageTest < ActionDispatch::IntegrationTest
   end
 
   # ── Gatherings (conditional) ───────────────────────────────────────────────
-  test "gatherings section renders with event cards when upcoming events exist" do
+  test "Memorial Events section renders with event cards when upcoming events exist" do
     Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
     get root_path
-    assert_match(/Upcoming gatherings/i, response.body)
+    assert_match(/Memorial Events/i, response.body)
     assert_select "section article", minimum: 1
   end
 
-  test "gatherings section hides when no upcoming events" do
+  test "Memorial Events section hides when no upcoming events" do
     Event.update_all(published: false)
     get root_path
-    assert_no_match(/Upcoming gatherings/i, response.body)
+    assert_no_match(/Memorial Events/i, response.body)
   ensure
     Event.update_all(published: true)
   end

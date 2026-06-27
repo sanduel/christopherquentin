@@ -4,99 +4,103 @@
         aria-labelledby="share-modal-heading"
         data-controller="share-modal"
         data-share-modal-current-step-value="1"
-        class="rounded-lg bg-cream max-w-[640px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
+        class="rounded-[5px] bg-white-bg max-w-[640px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
   <%= form_with model: Memory.new, url: memories_path, multipart: true,
         local: true, data: { share_modal_target: "form" }, html: { class: "block" } do |f| %>
 
     <header class="px-8 pt-7 pb-4 border-b border-ink/8">
-      <div class="text-eyebrow text-sage" data-share-modal-target="stepLabel">Step 1 of 2 · The memory</div>
-      <div class="h-1 bg-ink/8 mt-2 rounded-full overflow-hidden">
-        <div class="h-full bg-moss transition-all duration-300" style="width: 50%;" data-share-modal-target="progress"></div>
+      <div class="font-mono text-[12px] tracking-[0.18em] uppercase text-accent" data-share-modal-target="stepLabel">Step 1 of 2 · The memory</div>
+      <div class="h-[3px] bg-ink/8 mt-3 overflow-hidden">
+        <div class="h-full bg-accent transition-all duration-300" style="width: 50%;" data-share-modal-target="progress"></div>
       </div>
     </header>
 
     <div data-share-modal-target="step1" class="p-8 space-y-6">
-      <h2 id="share-modal-heading" class="font-serif text-4xl text-ink m-0">Tell us about a <em class="font-serif italic text-moss">moment</em>.</h2>
+      <h2 id="share-modal-heading" class="font-serif font-medium text-[34px] tracking-[-0.01em] text-ink m-0 leading-tight">
+        Tell us about a <span class="italic text-accent">moment</span>.
+      </h2>
 
       <div>
-        <%= f.label :content, "Your memory", class: "text-eyebrow text-sage block mb-1" %>
+        <%= f.label :content, "Your memory", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
         <%= f.text_area :content, rows: 6,
-              class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white",
+              class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors leading-relaxed",
               placeholder: "A photo, a story, a recording — something specific you want to keep." %>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <%= f.label :date, "When did it happen?", class: "text-eyebrow text-sage block mb-1" %>
+          <%= f.label :date, "When did it happen?", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
           <%= f.date_field :date, required: true,
-                class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+                class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
         </div>
         <div>
-          <%= f.label :location, "Where?", class: "text-eyebrow text-sage block mb-1" %>
+          <%= f.label :location, "Where?", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
           <%= f.text_field :location,
-                class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white",
+                class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors",
                 placeholder: "Stavanger, Norway" %>
         </div>
       </div>
 
       <div>
-        <div class="text-eyebrow text-sage mb-2">Attach (optional)</div>
+        <div class="font-mono text-[12px] tracking-[0.18em] uppercase text-mono mb-2">Attach (optional)</div>
         <div class="flex gap-3 flex-wrap">
-          <label class="cursor-pointer border border-dashed border-ink/30 rounded-full px-4 py-2 text-sm hover:border-moss inline-flex items-center">
+          <label class="cursor-pointer border border-dashed border-ink/30 rounded-md px-4 py-2 text-sm text-ink hover:border-ink hover:text-ink inline-flex items-center transition-colors">
             <span>Photo</span>
             <%= f.file_field :photos, multiple: true, accept: "image/*",
                   class: "hidden", data: { share_modal_target: "photoInput" } %>
           </label>
-          <label class="cursor-pointer border border-dashed border-ink/30 rounded-full px-4 py-2 text-sm hover:border-moss inline-flex items-center">
+          <label class="cursor-pointer border border-dashed border-ink/30 rounded-md px-4 py-2 text-sm text-ink hover:border-ink hover:text-ink inline-flex items-center transition-colors">
             <span>Audio clip</span>
             <%= f.file_field :audio_clip, accept: "audio/*",
                   class: "hidden", data: { share_modal_target: "audioInput" } %>
           </label>
         </div>
-        <div data-share-modal-target="attachments" class="mt-3 text-sm text-sage"></div>
+        <div data-share-modal-target="attachments" class="mt-3 text-sm text-mono"></div>
       </div>
 
       <%= f.hidden_field :kind, value: "text", data: { share_modal_target: "kindInput" } %>
     </div>
 
     <div data-share-modal-target="step2" hidden class="p-8 space-y-6">
-      <h2 class="font-serif text-4xl text-ink m-0">Who's <em class="font-serif italic text-moss">remembering</em>?</h2>
+      <h2 class="font-serif font-medium text-[34px] tracking-[-0.01em] text-ink m-0 leading-tight">
+        Who's <span class="italic text-accent">remembering</span>?
+      </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <%= f.label :name, "Your name", class: "text-eyebrow text-sage block mb-1" %>
+          <%= f.label :name, "Your name", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
           <%= f.text_field :name, value: current_user&.name, required: true,
-                class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+                class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
         </div>
         <div>
-          <%= f.label :relationship, "Relationship to Chris", class: "text-eyebrow text-sage block mb-1" %>
+          <%= f.label :relationship, "Relationship to Chris", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
           <%= f.text_field :relationship,
-                class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white",
+                class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors",
                 placeholder: "Friend · Colleague · Family · …" %>
         </div>
       </div>
 
       <% unless user_signed_in? %>
         <div>
-          <%= f.label :email, "Email (kept private)", class: "text-eyebrow text-sage block mb-1" %>
+          <%= f.label :email, "Email (kept private)", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
           <%= f.email_field :email, required: true,
-                class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+                class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
         </div>
 
-        <div class="bg-moss/8 border border-moss/20 rounded-md p-4 text-sm text-ink">
+        <div class="bg-band border-l-2 border-accent px-4 py-3 text-sm text-quote">
           Signed-in users have memories posted immediately. Anonymous submissions go to a moderation queue and appear after review.
         </div>
       <% end %>
     </div>
 
     <footer class="px-8 py-5 border-t border-ink/8 flex justify-between items-center">
-      <button type="button" data-action="share-modal#close" class="text-sm text-ink/60 hover:text-moss cursor-pointer">Cancel</button>
+      <button type="button" data-action="share-modal#close" class="text-sm text-mono hover:text-accent cursor-pointer transition-colors">Cancel</button>
 
-      <div class="flex gap-3">
-        <button type="button" data-action="share-modal#back" data-share-modal-target="backButton" hidden class="text-sm text-ink/60 hover:text-moss px-4 py-2 cursor-pointer">← Back</button>
-        <button type="button" data-action="share-modal#next" data-share-modal-target="nextButton" class="bg-moss text-cream rounded-full px-5 py-2.5 text-sm font-medium cursor-pointer hover:bg-ink">Continue →</button>
-        <%= f.submit "Plant memory", data: { share_modal_target: "submitButton" }, hidden: true,
-              class: "bg-moss text-cream rounded-full px-5 py-2.5 text-sm font-medium cursor-pointer hover:bg-ink" %>
+      <div class="flex gap-3 items-center">
+        <button type="button" data-action="share-modal#back" data-share-modal-target="backButton" hidden class="text-sm text-mono hover:text-accent px-4 py-2 cursor-pointer transition-colors">← Back</button>
+        <button type="button" data-action="share-modal#next" data-share-modal-target="nextButton" class="bg-ink text-white-bg rounded-md px-5 py-3 text-sm font-semibold cursor-pointer hover:bg-ink-deep transition-colors">Continue →</button>
+        <%= f.submit "Share memory", data: { share_modal_target: "submitButton" }, hidden: true,
+              class: "bg-ink text-white-bg rounded-md px-5 py-3 text-sm font-semibold cursor-pointer hover:bg-ink-deep transition-colors border-0" %>
       </div>
     </footer>
   <% end %>
