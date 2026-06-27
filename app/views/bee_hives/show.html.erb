@@ -1,24 +1,29 @@
 <% content_for(:title, "#{@bee_hive.name} — Bee Hive — Christopher Quentin") %>
 
-<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[960px] mx-auto">
-  <%= musical_eyebrow("Bee Hive · #{@bee_hive.address}") %>
-  <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+<section class="max-w-[860px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%= link_to "← All hives", bee_hives_path,
+        class: "font-mono text-[11px] tracking-[0.18em] uppercase text-mono hover:text-accent no-underline transition-colors" %>
+
+  <div class="flex items-center gap-3 mt-8">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Bee Hive · <%= @bee_hive.address %></span>
+  </div>
+
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5vw, 64px); line-height: 1.0;">
     <%= @bee_hive.name %>
   </h1>
-  <p class="font-serif italic text-xl text-sage mt-4"><%= @bee_hive.address %></p>
+
+  <p class="font-serif italic text-[20px] text-quote mt-5"><%= @bee_hive.address %></p>
 
   <% if @bee_hive.photo.attached? %>
-    <%= image_tag @bee_hive.photo, class: "w-full aspect-[16/9] object-cover rounded-md border border-ink/8 my-10" %>
+    <%= image_tag @bee_hive.photo, class: "w-full aspect-[16/9] object-cover rounded-[3px] border border-ink/8 my-10" %>
   <% end %>
 
   <% if @bee_hive.story.present? %>
     <div class="mt-10">
-      <%= musical_eyebrow("Story") %>
-      <p class="font-serif text-[19px] leading-relaxed text-ink mt-4 whitespace-pre-line"><%= @bee_hive.story %></p>
+      <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">Story</div>
+      <p class="font-serif text-[19px] leading-relaxed text-ink whitespace-pre-line"><%= @bee_hive.story %></p>
     </div>
   <% end %>
-
-  <div class="mt-12">
-    <%= link_to "← All hives", bee_hives_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
-  </div>
 </section>
