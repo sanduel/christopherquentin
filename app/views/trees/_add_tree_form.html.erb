@@ -1,7 +1,7 @@
 <%# Inline single-step add-tree form. Local: tree %>
 <%= form_with model: tree, class: "space-y-4" do |f| %>
   <% if tree.errors.any? %>
-    <div class="bg-linen border-l-2 border-rose text-rose p-3 text-sm">
+    <div class="bg-band border-l-2 border-accent text-ink p-3 text-[14px] rounded-md">
       <% tree.errors.full_messages.each do |msg| %>
         <div><%= msg %></div>
       <% end %>
@@ -9,32 +9,32 @@
   <% end %>
 
   <div>
-    <%= f.label :name, "Your name", class: "text-eyebrow text-sage block mb-1" %>
+    <%= f.label :name, "Your name", class: "font-mono text-[11px] tracking-[0.16em] uppercase text-muted block mb-1.5" %>
     <%= f.text_field :name, required: true,
-          class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+          class: "w-full border border-ink/15 rounded-md p-3 text-[15px] focus:border-accent outline-none bg-white-bg" %>
   </div>
 
   <div>
-    <%= f.label :email, "Email", class: "text-eyebrow text-sage block mb-1" %>
+    <%= f.label :email, "Email", class: "font-mono text-[11px] tracking-[0.16em] uppercase text-muted block mb-1.5" %>
     <%= f.email_field :email, required: true,
-          class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+          class: "w-full border border-ink/15 rounded-md p-3 text-[15px] focus:border-accent outline-none bg-white-bg" %>
   </div>
 
   <div>
-    <%= f.label :address, "Location (city, country)", class: "text-eyebrow text-sage block mb-1" %>
+    <%= f.label :address, "Location (city, country)", class: "font-mono text-[11px] tracking-[0.16em] uppercase text-muted block mb-1.5" %>
     <%= f.text_field :address, required: true,
           placeholder: "Stavanger, Norway",
-          class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+          class: "w-full border border-ink/15 rounded-md p-3 text-[15px] focus:border-accent outline-none bg-white-bg" %>
   </div>
 
   <%= f.hidden_field :tree_count, value: 1 %>
 
   <div>
-    <%= f.label :story, "Why are you planting this tree? (optional)", class: "text-eyebrow text-sage block mb-1" %>
+    <%= f.label :story, "Why are you planting this tree? (optional)", class: "font-mono text-[11px] tracking-[0.16em] uppercase text-muted block mb-1.5" %>
     <%= f.text_area :story, rows: 4,
-          class: "w-full border border-ink/15 rounded-md p-3 focus:border-moss outline-none bg-white" %>
+          class: "w-full border border-ink/15 rounded-md p-3 text-[15px] focus:border-accent outline-none bg-white-bg" %>
   </div>
 
   <%= f.submit "Plant my tree →",
-        class: "bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium cursor-pointer hover:bg-ink transition-colors" %>
+        class: "bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md cursor-pointer hover:bg-ink-deep transition-colors" %>
 <% end %>
