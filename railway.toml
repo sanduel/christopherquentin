@@ -2,7 +2,7 @@
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "./bin/thrust ./bin/rails server"
+startCommand = "./bin/rails db:prepare && ./bin/thrust ./bin/rails server"
 healthcheckPath = "/up"
 healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
