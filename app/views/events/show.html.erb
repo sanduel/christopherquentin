@@ -1,44 +1,57 @@
 <% content_for(:title, "#{@event.title} — Christopher Quentin") %>
 
-<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[960px] mx-auto">
-  <%= musical_eyebrow("#{@event.event_type.titleize}") %>
-  <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+<section class="max-w-[860px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <%= link_to "← All events", events_path,
+        class: "font-mono text-[11px] tracking-[0.18em] uppercase text-mono hover:text-accent no-underline transition-colors" %>
+
+  <div class="flex items-center gap-3 mt-8">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent"><%= @event.event_type.titleize %></span>
+  </div>
+
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5vw, 64px); line-height: 1.0;">
     <%= @event.title %>
   </h1>
+
   <% if @event.location.present? %>
-    <p class="font-serif italic text-xl text-sage mt-4"><%= @event.location %></p>
+    <p class="font-serif italic text-[20px] text-quote mt-5"><%= @event.location %></p>
   <% end %>
 
   <% if @event.cover_image.attached? %>
-    <%= image_tag @event.cover_image, class: "w-full aspect-[16/9] object-cover rounded-md border border-ink/8 my-10" %>
+    <%= image_tag @event.cover_image, class: "w-full aspect-[16/9] object-cover rounded-[3px] border border-ink/8 my-10" %>
   <% end %>
 
-  <%# Multi-timezone time display %>
-  <div class="bg-white rounded-md border border-ink/8 shadow-card p-6 mt-10">
-    <%= musical_eyebrow("When") %>
-    <div class="mt-4 space-y-1">
-      <p class="font-serif text-[19px] text-ink">
-        <%= l(@event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
-      </p>
-      <div class="text-sm text-ink/70 mt-2 space-y-1">
-        <% Event::DISPLAY_ZONES.each do |zone, label| %>
-          <div><span class="font-medium"><%= label %></span> · <%= l(@event.starts_at.in_time_zone(zone), format: :event_time) %></div>
-        <% end %>
-      </div>
+  <%# Multi-timezone time card %>
+  <div class="bg-white-bg rounded-[5px] border border-ink/8 shadow-card p-6 mt-10 max-w-[460px]">
+    <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">When</div>
+    <p class="font-serif text-[19px] text-ink mb-3">
+      <%= l(@event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
+    </p>
+    <div class="space-y-1">
+      <% Event::DISPLAY_ZONES.each do |zone, label| %>
+        <div class="text-[14px] text-ink/70">
+          <span class="font-semibold text-ink"><%= label %></span>
+          <span class="text-muted mx-1">·</span>
+          <%= l(@event.starts_at.in_time_zone(zone), format: :event_time) %>
+        </div>
+      <% end %>
     </div>
 
     <% if @event.ends_at.present? %>
-      <div class="mt-6">
-        <%= musical_eyebrow("Until") %>
-        <div class="mt-4 space-y-1">
-          <p class="font-serif text-[19px] text-ink">
-            <%= l(@event.ends_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
-          </p>
-          <div class="text-sm text-ink/70 mt-2 space-y-1">
-            <% Event::DISPLAY_ZONES.each do |zone, label| %>
-              <div><span class="font-medium"><%= label %></span> · <%= l(@event.ends_at.in_time_zone(zone), format: :event_time) %></div>
-            <% end %>
-          </div>
+      <div class="mt-6 pt-6 border-t border-ink/10">
+        <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">Until</div>
+        <p class="font-serif text-[19px] text-ink mb-3">
+          <%= l(@event.ends_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
+        </p>
+        <div class="space-y-1">
+          <% Event::DISPLAY_ZONES.each do |zone, label| %>
+            <div class="text-[14px] text-ink/70">
+              <span class="font-semibold text-ink"><%= label %></span>
+              <span class="text-muted mx-1">·</span>
+              <%= l(@event.ends_at.in_time_zone(zone), format: :event_time) %>
+            </div>
+          <% end %>
         </div>
       </div>
     <% end %>
@@ -46,20 +59,17 @@
 
   <% if @event.description.present? %>
     <div class="mt-10">
-      <%= musical_eyebrow("About") %>
-      <p class="font-serif text-[19px] leading-relaxed text-ink mt-4 whitespace-pre-line"><%= @event.description %></p>
+      <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">About</div>
+      <p class="font-serif text-[19px] leading-relaxed text-ink whitespace-pre-line"><%= @event.description %></p>
     </div>
   <% end %>
 
   <% if @event.url.present? %>
     <div class="mt-10">
-      <%= link_to (@event.concert? ? "Tickets / Details" : "Join Webinar"), @event.url,
+      <%= link_to @event.concert? ? "Tickets / Details →" : "Join #{@event.event_type.titleize} →",
+            @event.url,
             target: "_blank", rel: "noopener",
-            class: "bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium hover:bg-ink transition-colors cursor-pointer inline-block no-underline" %>
+            class: "inline-block bg-ink text-white-bg rounded-md px-6 py-3 font-semibold text-[15px] hover:bg-accent transition-colors no-underline cursor-pointer" %>
     </div>
   <% end %>
-
-  <div class="mt-12">
-    <%= link_to "← All events", events_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
-  </div>
 </section>
