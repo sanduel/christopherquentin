@@ -15,6 +15,11 @@ cloudflare:
   region: auto
   bucket: <%= ENV.fetch("CLOUDFLARE_R2_BUCKET", "christopherquentin") %>
   endpoint: <%= ENV["CLOUDFLARE_R2_ENDPOINT"] %>
+  # Cloudflare R2 rejects the CRC32 integrity checksum that aws-sdk-s3 >= 1.178
+  # sends by default ("You can only specify one non-default checksum at a time").
+  # Only send/validate checksums when the operation actually requires it.
+  request_checksum_calculation: when_required
+  response_checksum_validation: when_required
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
