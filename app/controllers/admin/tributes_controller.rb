@@ -9,6 +9,21 @@ class Admin::TributesController < Admin::BaseController
   def show
   end
 
+  def new
+    @tribute = Tribute.new
+  end
+
+  def create
+    @tribute = Tribute.new(tribute_params)
+    @tribute.status = :published unless params[:tribute]&.key?(:status)
+
+    if @tribute.save
+      redirect_to admin_tributes_path, notice: "Tribute created."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def edit
   end
 
@@ -37,7 +52,7 @@ class Admin::TributesController < Admin::BaseController
   end
 
   def tribute_params
-    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo)
+    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo, :user_id, :status)
   end
 
   def tribute_params_present?

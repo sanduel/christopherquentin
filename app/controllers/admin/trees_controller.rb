@@ -9,6 +9,21 @@ class Admin::TreesController < Admin::BaseController
   def show
   end
 
+  def new
+    @tree = Tree.new
+  end
+
+  def create
+    @tree = Tree.new(tree_params)
+    @tree.status = :published unless params[:tree]&.key?(:status)
+
+    if @tree.save
+      redirect_to admin_trees_path, notice: "Tree created."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def edit
   end
 
@@ -39,7 +54,8 @@ class Admin::TreesController < Admin::BaseController
   def tree_params
     params.require(:tree).permit(
       :name, :email, :address, :tree_count, :story,
-      :pin_color, :pin_icon, :photo
+      :pin_color, :pin_icon, :photo,
+      :user_id, :status
     )
   end
 

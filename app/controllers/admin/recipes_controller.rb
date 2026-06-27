@@ -9,6 +9,21 @@ class Admin::RecipesController < Admin::BaseController
   def show
   end
 
+  def new
+    @recipe = Recipe.new
+  end
+
+  def create
+    @recipe = Recipe.new(recipe_params)
+    @recipe.status = :published unless params[:recipe]&.key?(:status)
+
+    if @recipe.save
+      redirect_to admin_recipes_path, notice: "Recipe created."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def edit
   end
 
@@ -37,7 +52,7 @@ class Admin::RecipesController < Admin::BaseController
   end
 
   def recipe_params
-    params.require(:recipe).permit(:submitter_name, :title, :ingredients, :instructions, :photo)
+    params.require(:recipe).permit(:submitter_name, :title, :ingredients, :instructions, :photo, :user_id, :status)
   end
 
   def recipe_params_present?
