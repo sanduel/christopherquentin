@@ -1,18 +1,22 @@
 <% content_for(:title, "Tribute from #{@tribute.name} — Christopher Quentin") %>
 
-<div class="max-w-3xl mx-auto">
-  <%= link_to "← All Tributes", tributes_path, class: "text-blue-800 hover:text-blue-700 mb-6 inline-block" %>
+<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[860px] mx-auto">
+  <span class="font-serif text-[80px] text-rose leading-none block -mb-4">&ldquo;</span>
 
-  <div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
-    <% if @tribute.photo.attached? %>
-      <div class="mb-6">
-        <%= image_tag @tribute.photo.variant(resize_to_limit: [600, 400]), class: "rounded-lg" %>
-      </div>
-    <% end %>
-    <p class="text-stone-600 leading-relaxed text-lg mb-6"><%= @tribute.content %></p>
-    <p class="text-blue-900 font-medium text-lg">&mdash; <%= @tribute.name %></p>
-    <% if @tribute.relationship.present? %>
-      <p class="text-stone-400"><%= @tribute.relationship %></p>
-    <% end %>
+  <blockquote class="mt-2">
+    <p class="font-serif italic text-[24px] md:text-[28px] leading-relaxed text-ink">
+      <%= @tribute.content %>
+    </p>
+
+    <footer class="mt-8 pt-6 border-t border-ink/8">
+      <p class="font-serif text-xl text-ink font-medium">&mdash; <%= @tribute.name %></p>
+      <% if @tribute.relationship.present? %>
+        <%= musical_eyebrow(@tribute.relationship) %>
+      <% end %>
+    </footer>
+  </blockquote>
+
+  <div class="mt-12">
+    <%= link_to "← All tributes", tributes_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
   </div>
-</div>
+</section>
