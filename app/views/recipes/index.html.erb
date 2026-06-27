@@ -1,16 +1,20 @@
 <% content_for :title, "Recipes — Christopher Quentin" %>
 
-<section class="px-6 lg:px-14 pt-12 pb-8">
-  <%= musical_eyebrow("Op. VIII · Recipes", with_rule: true) %>
-  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
-    What he <em class="font-serif italic text-moss">cooked</em>.
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-12">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Recipes · <%= pluralize(@recipes.count, "recipe") %></span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 72px); line-height: 1.0;">
+    What he cooked.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+  <p class="text-[16px] text-muted mt-5 max-w-[640px]">
     <%= pluralize(@recipes.count, "recipe") %> from people who shared his kitchen.
   </p>
 </section>
 
-<section class="px-6 lg:px-14 pb-16">
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pb-16">
   <% if @recipes.any? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @recipes.each do |recipe| %>
@@ -19,18 +23,18 @@
     </div>
   <% else %>
     <div class="text-center py-16">
-      <p class="font-serif italic text-2xl text-ink/70">No recipes shared yet.</p>
+      <p class="font-serif italic text-[22px] text-muted">No recipes shared yet.</p>
     </div>
   <% end %>
 </section>
 
-<section class="bg-linen px-6 lg:px-14 py-16">
-  <div class="max-w-[720px] mx-auto text-center">
-    <h2 class="font-serif text-3xl md:text-4xl text-ink mt-0">
-      Have a Chris recipe? Send it in.
-    </h2>
-    <p class="text-[17px] text-ink/65 mt-3">Family recipes, favourite dishes, things he cooked for you.</p>
-    <%= link_to "+ Submit a recipe", new_recipe_path,
-          class: "inline-block mt-6 bg-moss text-cream rounded-full px-6 py-3 text-sm font-medium no-underline hover:bg-ink transition-colors" %>
+<section class="bg-band py-16">
+  <div class="max-w-[1180px] mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <div>
+      <h2 class="font-serif font-medium text-[28px] text-ink m-0">Have a Chris recipe? Send it in.</h2>
+      <p class="text-[16px] text-muted mt-2">Family recipes, favourite dishes, things he cooked for you.</p>
+    </div>
+    <%= link_to "Submit a recipe", new_recipe_path,
+          class: "shrink-0 inline-block bg-ink text-white-bg rounded-md px-6 py-3 text-[15px] font-medium no-underline hover:opacity-80 transition-opacity" %>
   </div>
 </section>
