@@ -1,11 +1,11 @@
 <%# Renders one RepertoireGroup list. Locals: title (string), groups (array of Repertoire::Group) %>
 <div>
-  <h3 class="font-serif text-[28px] text-ink mt-0 mb-5 font-normal"><%= title %></h3>
-  <dl class="space-y-3">
+  <h3 class="font-serif font-medium text-[26px] text-ink mt-0 mb-6 tracking-[-0.01em]"><%= title %></h3>
+  <dl class="space-y-4">
     <% groups.each do |g| %>
-      <div class="grid grid-cols-[1fr_2fr] gap-4 items-baseline">
-        <dt class="font-serif italic text-[19px] text-moss m-0"><%= g.composer %></dt>
-        <dd class="text-sm text-ink/80 leading-relaxed m-0">
+      <div class="grid grid-cols-[1fr_2fr] gap-4 items-baseline pb-4 border-b border-ink/8">
+        <dt class="font-serif italic text-[19px] text-ink m-0"><%= g.composer %></dt>
+        <dd class="text-[15px] text-muted leading-relaxed m-0">
           <%= g.works.join(" · ") %>
         </dd>
       </div>
