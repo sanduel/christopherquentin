@@ -31,7 +31,4 @@ class PagesController < ApplicationController
     @years = PressItem.years
   end
 
-  def style_guide
-    # View exercises all design tokens + shared partials.
-  end
 end
