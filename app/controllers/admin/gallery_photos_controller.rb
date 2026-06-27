@@ -1,8 +1,14 @@
 class Admin::GalleryPhotosController < Admin::BaseController
   before_action :set_photo, only: [ :edit, :update, :destroy ]
 
+  PER_PAGE = 60
+
   def index
-    @photos = GalleryPhoto.all
+    @page = [ params[:page].to_i, 1 ].max
+    scope = GalleryPhoto.with_attached_photo
+    @total = scope.count
+    @total_pages = [ (@total.to_f / PER_PAGE).ceil, 1 ].max
+    @photos = scope.limit(PER_PAGE).offset((@page - 1) * PER_PAGE)
   end
 
   def new
