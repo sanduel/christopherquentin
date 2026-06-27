@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -51,6 +51,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.integer "status", default: 0, null: false
     t.text "story"
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_bee_hives_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -127,6 +129,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.string "submitter_name", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
   create_table "replies", force: :cascade do |t|
@@ -157,6 +161,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.text "story"
     t.integer "tree_count", default: 1
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_trees_on_user_id"
   end
 
   create_table "tributes", force: :cascade do |t|
@@ -167,7 +173,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.string "relationship"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["category"], name: "index_tributes_on_category"
+    t.index ["user_id"], name: "index_tributes_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -186,7 +194,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bee_hives", "users"
   add_foreign_key "memories", "users"
+  add_foreign_key "recipes", "users"
   add_foreign_key "replies", "memories"
   add_foreign_key "replies", "users"
+  add_foreign_key "trees", "users"
+  add_foreign_key "tributes", "users"
 end

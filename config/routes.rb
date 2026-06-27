@@ -29,14 +29,14 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#index"
-    resources :tributes, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :memories, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :trees, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :recipes, only: [ :index, :show, :edit, :update, :destroy ]
+    resources :tributes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :memories, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :trees, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :recipes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :photo_submissions, only: [ :index, :show, :update, :destroy ]
     resources :gallery_photos
     resources :events
-    resources :bee_hives, only: [ :index, :show, :edit, :update, :destroy ]
+    resources :bee_hives, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
