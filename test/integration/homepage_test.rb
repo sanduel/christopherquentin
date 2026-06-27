@@ -11,10 +11,10 @@ class HomepageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "hero renders the Op. 1984 eyebrow with sage rule" do
+  test "hero renders the Op. 1984 eyebrow with accent rule" do
     get root_path
     assert_select ".text-eyebrow", text: /Op\. 1984.+In Memoriam/
-    assert_select "span.bg-sage", minimum: 1
+    assert_select "span.bg-accent", minimum: 1
   end
 
   test "hero renders the tagline" do
@@ -41,16 +41,15 @@ class HomepageTest < ActionDispatch::IntegrationTest
     assert_match %r{\[ portrait — Stavanger 2019 \]}, response.body
   end
 
-  test "hero includes faint staff_lines texture" do
+  test "hero does not include Garden staff-lines texture" do
     get root_path
-    assert_select "[data-section='hero'] .staff-lines-bg"
+    assert_select "[data-section='hero'] .staff-lines-bg", 0
   end
 
-  test "MVT I renders movement label with andante con moto marking" do
+  test "honor grid section renders" do
     get root_path
-    assert_select "[data-section='honor-grid'] .text-eyebrow", text: /MVT\. I/
-    assert_select "[data-section='honor-grid'] h2", text: /Honor his memory/
-    assert_select "[data-section='honor-grid'] span", text: /andante con moto/
+    assert_select "[data-section='honor-grid']"
+    assert_select "[data-section='honor-grid'] article", minimum: 1
   end
 
   test "MVT I renders four honor cards with correct destinations and titles" do
@@ -109,12 +108,11 @@ class HomepageTest < ActionDispatch::IntegrationTest
     Memory.update_all(status: Memory.statuses[:published])
   end
 
-  test "MVT III renders movement label with vivace marking" do
+  test "events section renders with articles" do
     Event.create!(title: "Memorial Webinar", event_type: :webinar, starts_at: 30.days.from_now, published: true)
     get root_path
-    assert_select "[data-section='events-preview'] .text-eyebrow", text: /MVT\. III/
-    assert_select "[data-section='events-preview'] h2", text: /Upcoming gatherings/
-    assert_select "[data-section='events-preview'] span", text: /vivace/
+    assert_select "[data-section='events-preview']"
+    assert_select "[data-section='events-preview'] article", minimum: 1
   end
 
   test "MVT III renders one event card per upcoming event" do
@@ -139,11 +137,10 @@ class HomepageTest < ActionDispatch::IntegrationTest
     Event.update_all(published: true)
   end
 
-  test "MVT IV renders movement label with lento e sereno marking" do
+  test "gallery section renders with tiles" do
     get root_path
-    assert_select "[data-section='gallery-preview'] .text-eyebrow", text: /MVT\. IV/
-    assert_select "[data-section='gallery-preview'] h2", text: /In photographs/
-    assert_select "[data-section='gallery-preview'] span", text: /lento e sereno/
+    assert_select "[data-section='gallery-preview']"
+    assert_select "[data-section='gallery-preview'] [data-gallery-tile]", minimum: 1
   end
 
   test "MVT IV renders Submit a photo link" do
@@ -160,12 +157,11 @@ class HomepageTest < ActionDispatch::IntegrationTest
     # Pattern parity with peer tests.
   end
 
-  test "MVT V renders movement label with cantabile marking" do
+  test "tributes section renders with blockquotes" do
     Tribute.find_or_create_by!(name: "Test Tribute MVTV1") { |t| t.content = "Sample"; t.status = :published }
     get root_path
-    assert_select "[data-section='tributes-preview'] .text-eyebrow", text: /MVT\. V/
-    assert_select "[data-section='tributes-preview'] h2", text: /In their own words/
-    assert_select "[data-section='tributes-preview'] span", text: /cantabile/
+    assert_select "[data-section='tributes-preview']"
+    assert_select "[data-section='tributes-preview'] blockquote", minimum: 1
   end
 
   test "MVT V renders up to 3 tribute quote cards" do

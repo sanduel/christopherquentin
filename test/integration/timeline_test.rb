@@ -35,12 +35,12 @@ class TimelineTest < ActionDispatch::IntegrationTest
 
   test "All chip is active when no year filter" do
     get memories_path
-    assert_select "[data-year-filter] .bg-moss.text-cream", text: "All"
+    assert_select "[data-year-filter] .bg-ink.text-white-bg", text: "All"
   end
 
   test "Year chip is active when filtered" do
     get memories_path, params: { year: 2014 }
-    assert_select "[data-year-filter] .bg-moss.text-cream", text: "2014"
+    assert_select "[data-year-filter] .bg-ink.text-white-bg", text: "2014"
   end
 
   test "filtering by year renders only that year's memories" do

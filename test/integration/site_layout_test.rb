@@ -1,19 +1,19 @@
 require "test_helper"
 
 class SiteLayoutTest < ActionDispatch::IntegrationTest
-  test "layout uses cream background and ink text" do
+  test "layout uses white-bg background and ink text" do
     get root_path
     assert_response :success
-    assert_select "body.bg-cream.text-ink.font-sans"
+    assert_select "body.bg-white-bg.text-ink.font-sans"
   end
 
-  test "layout includes Google Fonts for Cormorant Garamond, DM Sans, JetBrains Mono" do
+  test "layout includes Google Fonts for Newsreader, Hanken Grotesk, IBM Plex Mono" do
     get root_path
     assert_select "link[rel='stylesheet'][href*='fonts.googleapis.com']" do |links|
       hrefs = links.map { |l| l["href"] }
-      assert hrefs.any? { |h| h.include?("Cormorant+Garamond") }, "Expected Cormorant Garamond font"
-      assert hrefs.any? { |h| h.include?("DM+Sans") }, "Expected DM Sans font"
-      assert hrefs.any? { |h| h.include?("JetBrains+Mono") }, "Expected JetBrains Mono font"
+      assert hrefs.any? { |h| h.include?("Newsreader") }, "Expected Newsreader font"
+      assert hrefs.any? { |h| h.include?("Hanken+Grotesk") }, "Expected Hanken Grotesk font"
+      assert hrefs.any? { |h| h.include?("IBM+Plex+Mono") }, "Expected IBM Plex Mono font"
     end
   end
 
@@ -60,9 +60,10 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "footer renders coda line" do
+  test "footer renders copyright line with years" do
     get root_path
-    assert_select "footer span", text: /1984 — 2020.+fine\./
+    assert_select "footer", text: /1984/
+    assert_select "footer", text: /2020/
   end
 
   test "layout removes old utility bar dark-stone top strip" do

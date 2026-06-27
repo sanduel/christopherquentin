@@ -29,7 +29,7 @@ class TributesIndexTest < ActionDispatch::IntegrationTest
 
   test "all chip active by default" do
     get tributes_path
-    assert_select "[data-category-filter] .bg-moss.text-cream", text: "All"
+    assert_select "[data-category-filter] .bg-ink.text-white-bg", text: "All"
   end
 
   test "category filter selects only that category" do
@@ -58,7 +58,7 @@ class TributesIndexTest < ActionDispatch::IntegrationTest
     get tributes_path, params: { category: "not_a_real_category" }
 
     assert_response :success
-    assert_select "[data-category-filter] .bg-moss.text-cream", text: "All"
+    assert_select "[data-category-filter] .bg-ink.text-white-bg", text: "All"
     assert_match "X", response.body
   end
 end

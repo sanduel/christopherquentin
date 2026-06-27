@@ -7,8 +7,9 @@ class StyleGuideTest < ActionDispatch::IntegrationTest
     assert_select "h1", /Style Guide/
   end
 
-  test "style guide renders all palette swatches" do
+  test "style guide renders palette swatches" do
     get "/style-guide"
+    # Style guide still shows Garden swatches as historical reference
     %w[cream linen ink sage moss rose].each do |color|
       assert_select "[data-swatch=?]", color
     end
@@ -21,15 +22,13 @@ class StyleGuideTest < ActionDispatch::IntegrationTest
     assert_select ".font-mono", minimum: 1
   end
 
-  test "style guide renders a movement label" do
-    get "/style-guide"
-    assert_select "h2", /Honor his memory/
-    assert_select "span", /andante con moto/
-  end
-
-  test "style guide renders eyebrows, both plain and with-rule" do
+  test "style guide renders eyebrows" do
     get "/style-guide"
     assert_select ".text-eyebrow", minimum: 2
-    assert_select "span.bg-sage"
+  end
+
+  test "style guide renders accent rule on with-rule eyebrow" do
+    get "/style-guide"
+    assert_select "span.bg-accent"
   end
 end
