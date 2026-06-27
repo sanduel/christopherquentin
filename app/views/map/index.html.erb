@@ -3,20 +3,24 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <% end %>
 
-<section class="px-6 lg:px-14 pt-12 pb-8">
-  <%= musical_eyebrow("Op. X · The Map", with_rule: true) %>
-  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
-    Where he <em class="font-serif italic text-moss">lived</em>.
+<section class="max-w-[1180px] mx-auto px-6 lg:px-10 pt-20 pb-12">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">The Map · trees, hives, memories</span>
+  </div>
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 72px); line-height: 1.0;">
+    Where he left his mark.
   </h1>
-  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+  <p class="text-[16px] text-muted mt-5 max-w-[640px]">
     Trees, events, memories, and bee hives that carry Christopher&rsquo;s memory forward.
   </p>
 </section>
 
-<div class="px-6 lg:px-14 pb-20" data-controller="unified-map" data-unified-map-pins-value="<%= @pins.to_json %>">
+<div class="max-w-[1180px] mx-auto px-6 lg:px-10 mb-20" data-controller="unified-map" data-unified-map-pins-value="<%= @pins.to_json %>">
   <div class="flex flex-wrap gap-3 mb-4">
     <% @category_meta.each do |meta| %>
-      <label class="inline-flex items-center gap-2 text-sm text-ink/70 bg-white px-3 py-1.5 rounded-full border border-ink/10 cursor-pointer hover:border-ink/20 transition-colors">
+      <label class="inline-flex items-center gap-2 text-[14px] text-muted bg-white-bg px-3 py-1.5 rounded-full border border-ink/10 cursor-pointer hover:border-ink/20 transition-colors">
         <input type="checkbox"
                checked
                data-action="change->unified-map#toggleCategory"
@@ -28,9 +32,9 @@
     <% end %>
   </div>
 
-  <div id="unified-map" class="w-full h-[600px] rounded-md border border-ink/8 shadow-card" data-unified-map-target="map"></div>
+  <div id="unified-map" class="w-full h-[600px] rounded-[5px] border border-ink/8 shadow-[0_1px_2px_rgba(17,17,17,0.04)]" data-unified-map-target="map"></div>
 
   <% if @pins.empty? %>
-    <p class="font-serif italic text-xl text-ink/50 text-center py-6">No mapped items yet. Add a tree, event, memory, or bee hive to populate the map.</p>
+    <p class="font-serif italic text-[18px] text-muted text-center py-6">No mapped items yet. Add a tree, event, memory, or bee hive to populate the map.</p>
   <% end %>
 </div>
