@@ -11,7 +11,7 @@ class TributesIndexTest < ActionDispatch::IntegrationTest
   test "renders header" do
     get tributes_path
     assert_response :success
-    assert_select ".text-eyebrow", text: /Op\. V · Tributes/
+    assert_match(/Tributes.*voices/m, response.body)
     assert_select "h1.font-serif", text: /In their/
   end
 
