@@ -1,6 +1,84 @@
-<h1 class="text-3xl font-title text-stone-800 mb-6">Edit Pin — Memory</h1>
+<h1 class="text-3xl font-title text-stone-800 mb-6">Edit Memory</h1>
 
-<%= form_with model: [ :admin, @memory ], local: true, class: "space-y-6 max-w-2xl" do |f| %>
+<%= form_with model: [ :admin, @memory ], local: true, multipart: true, class: "space-y-6 max-w-3xl" do |f| %>
+  <% if @memory.errors.any? %>
+    <div class="bg-red-50 border-l-4 border-red-400 p-4">
+      <ul class="text-red-700 text-sm">
+        <% @memory.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :date, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.date_field :date, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :kind, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.select :kind, Memory.kinds.keys.map { |k| [k.titleize, k] }, {}, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :title, "Title (optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_field :title, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :content, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_area :content, rows: 8, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div>
+    <%= f.label :location, class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.text_field :location, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <%= f.label :name, "Submitter name", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :name, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :relationship, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :relationship, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :email, "Email (private)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.email_field :email, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :audio_label, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :audio_label, class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+    <div>
+      <%= f.label :audio_length, class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :audio_length, placeholder: "e.g. 1:42", class: "w-full px-3 py-2 border border-stone-300 rounded" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :photos, "Add photos", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.file_field :photos, multiple: true, accept: "image/*", class: "block" %>
+    <% if @memory.photos.attached? %>
+      <p class="text-xs text-stone-500 mt-1"><%= @memory.photos.count %> currently attached. Uploading new files appends.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :audio_clip, "Replace audio clip", class: "block text-sm font-medium text-stone-700 mb-1" %>
+    <%= f.file_field :audio_clip, accept: "audio/*", class: "block" %>
+    <% if @memory.audio_clip.attached? %>
+      <p class="text-xs text-stone-500 mt-1">Currently attached: <%= @memory.audio_clip.filename %></p>
+    <% end %>
+  </div>
+
   <%= render "admin/shared/pin_overrides", f: f, record: @memory %>
 
   <div class="flex gap-3">

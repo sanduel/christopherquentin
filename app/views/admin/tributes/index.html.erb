@@ -16,7 +16,10 @@
         <span class="text-xs text-stone-400"><%= tribute.created_at.strftime("%b %d, %Y") %></span>
       </div>
       <p class="text-stone-600 text-sm mb-4"><%= truncate(tribute.content, length: 300) %></p>
-      <%= render "admin/shared/moderation_actions", record: tribute %>
+      <div class="flex justify-between items-center">
+        <%= render "admin/shared/moderation_actions", record: tribute %>
+        <%= link_to "Edit", edit_admin_tribute_path(tribute), class: "text-xs text-blue-700 hover:text-blue-600 underline" %>
+      </div>
     </div>
   <% end %>
 </div>

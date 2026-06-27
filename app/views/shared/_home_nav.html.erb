@@ -21,9 +21,8 @@
     <div class="hidden md:flex items-center gap-7 text-[15px]">
       <%= nav_link "Biography", chris_path %>
       <%= nav_link "Memories", memories_path %>
-      <%= nav_link "Trees",    trees_path %>
       <%= nav_link "Projects", projects_path %>
-      <%= nav_link "Funds",    funds_path %>
+      <%= nav_link "Tributes", tributes_path %>
 
       <button type="button"
               data-controller="share-modal-trigger"
@@ -63,9 +62,8 @@
   <div id="mobile-menu" class="hidden md:hidden px-6 pb-5 space-y-2.5 text-[15px]" data-nav-target="menu">
     <%= nav_link "Biography", chris_path, extra_class: "block py-1" %>
     <%= nav_link "Memories", memories_path, extra_class: "block py-1" %>
-    <%= nav_link "Trees",    trees_path, extra_class: "block py-1" %>
     <%= nav_link "Projects", projects_path, extra_class: "block py-1" %>
-    <%= nav_link "Funds",    funds_path, extra_class: "block py-1" %>
+    <%= nav_link "Tributes", tributes_path, extra_class: "block py-1" %>
     <button type="button"
             data-controller="share-modal-trigger"
             data-action="share-modal-trigger#open"

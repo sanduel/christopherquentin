@@ -13,9 +13,13 @@ class PagesController < ApplicationController
   end
 
   def projects
-  end
-
-  def funds
+    @trees = Tree.published.order(created_at: :desc)
+    @new_tree = Tree.new
+    @stats = {
+      trees: Tree.published.sum(:tree_count),
+      cities: Tree.published.where.not(address: nil).distinct.count(:address),
+      countries: 9,
+    }
   end
 
   def zero_waste

@@ -13,9 +13,9 @@ class Admin::TreesController < Admin::BaseController
   end
 
   def update
-    if pin_params_present?
-      if @tree.update(pin_params)
-        redirect_to admin_trees_path, notice: "Tree pin updated."
+    if tree_params_present?
+      if @tree.update(tree_params)
+        redirect_to admin_trees_path, notice: "Tree updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -36,11 +36,14 @@ class Admin::TreesController < Admin::BaseController
     @tree = Tree.find(params[:id])
   end
 
-  def pin_params
-    params.require(:tree).permit(:pin_color, :pin_icon)
+  def tree_params
+    params.require(:tree).permit(
+      :name, :email, :address, :tree_count, :story,
+      :pin_color, :pin_icon, :photo
+    )
   end
 
-  def pin_params_present?
+  def tree_params_present?
     params[:tree].present?
   end
 end

@@ -7,18 +7,19 @@ Rails.application.routes.draw do
   get "chris", to: "pages#chris"
   get "projects", to: "pages#projects"
   get "updates", to: "pages#news", as: :updates
-  get "funds", to: "pages#funds"
+  get "funds", to: redirect("/projects#funds"), as: :funds
   get "zero-waste", to: "pages#zero_waste", as: :zero_waste
   get "news", to: "pages#news"
 
   # Keep old routes working
   get "bio", to: redirect("/chris")
+  get "trees", to: redirect("/projects#trees")
 
   resources :tributes, only: [ :index, :new, :create, :show ]
   resources :memories, only: [ :index, :new, :create, :show ], path: "timeline" do
     resources :replies, only: [ :create ]
   end
-  resources :trees, only: [ :index, :new, :create, :show ]
+  resources :trees, only: [ :new, :create, :show ]
   resources :recipes, only: [ :index, :new, :create, :show ]
   resources :photo_submissions, only: [ :new, :create ], path: "submit-photos"
   resources :newsletter_subscribers, only: [ :create ]
@@ -28,10 +29,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#index"
-    resources :tributes, only: [ :index, :show, :update, :destroy ]
-    resources :memories, only: [ :index, :show, :update, :destroy ]
-    resources :trees, only: [ :index, :show, :update, :destroy ]
-    resources :recipes, only: [ :index, :show, :update, :destroy ]
+    resources :tributes, only: [ :index, :show, :edit, :update, :destroy ]
+    resources :memories, only: [ :index, :show, :edit, :update, :destroy ]
+    resources :trees, only: [ :index, :show, :edit, :update, :destroy ]
+    resources :recipes, only: [ :index, :show, :edit, :update, :destroy ]
     resources :photo_submissions, only: [ :index, :show, :update, :destroy ]
     resources :gallery_photos
     resources :events

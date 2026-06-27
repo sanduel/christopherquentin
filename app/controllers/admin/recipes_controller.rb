@@ -1,5 +1,5 @@
 class Admin::RecipesController < Admin::BaseController
-  before_action :set_recipe, only: [ :show, :update, :destroy ]
+  before_action :set_recipe, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @recipes = Recipe.order(created_at: :desc)
@@ -9,9 +9,20 @@ class Admin::RecipesController < Admin::BaseController
   def show
   end
 
+  def edit
+  end
+
   def update
-    @recipe.update!(status: params[:status])
-    redirect_to admin_recipes_path, notice: "Recipe #{params[:status]}."
+    if recipe_params_present?
+      if @recipe.update(recipe_params)
+        redirect_to admin_recipes_path, notice: "Recipe updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    else
+      @recipe.update!(status: params[:status])
+      redirect_to admin_recipes_path, notice: "Recipe #{params[:status]}."
+    end
   end
 
   def destroy
@@ -23,5 +34,13 @@ class Admin::RecipesController < Admin::BaseController
 
   def set_recipe
     @recipe = Recipe.find(params[:id])
+  end
+
+  def recipe_params
+    params.require(:recipe).permit(:submitter_name, :title, :ingredients, :instructions, :photo)
+  end
+
+  def recipe_params_present?
+    params[:recipe].present?
   end
 end

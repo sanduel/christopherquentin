@@ -1,5 +1,5 @@
 class Admin::TributesController < Admin::BaseController
-  before_action :set_tribute, only: [ :show, :update, :destroy ]
+  before_action :set_tribute, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @tributes = Tribute.order(created_at: :desc)
@@ -9,9 +9,20 @@ class Admin::TributesController < Admin::BaseController
   def show
   end
 
+  def edit
+  end
+
   def update
-    @tribute.update!(status: params[:status])
-    redirect_to admin_tributes_path, notice: "Tribute #{params[:status]}."
+    if tribute_params_present?
+      if @tribute.update(tribute_params)
+        redirect_to admin_tributes_path, notice: "Tribute updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    else
+      @tribute.update!(status: params[:status])
+      redirect_to admin_tributes_path, notice: "Tribute #{params[:status]}."
+    end
   end
 
   def destroy
@@ -23,5 +34,13 @@ class Admin::TributesController < Admin::BaseController
 
   def set_tribute
     @tribute = Tribute.find(params[:id])
+  end
+
+  def tribute_params
+    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo)
+  end
+
+  def tribute_params_present?
+    params[:tribute].present?
   end
 end

@@ -13,9 +13,9 @@ class Admin::MemoriesController < Admin::BaseController
   end
 
   def update
-    if pin_params_present?
-      if @memory.update(pin_params)
-        redirect_to admin_memories_path, notice: "Memory pin updated."
+    if memory_params_present?
+      if @memory.update(memory_params)
+        redirect_to admin_memories_path, notice: "Memory updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -36,11 +36,17 @@ class Admin::MemoriesController < Admin::BaseController
     @memory = Memory.find(params[:id])
   end
 
-  def pin_params
-    params.require(:memory).permit(:pin_color, :pin_icon)
+  def memory_params
+    params.require(:memory).permit(
+      :date, :title, :content, :location,
+      :name, :relationship, :email,
+      :kind, :audio_label, :audio_length,
+      :pin_color, :pin_icon,
+      :audio_clip, photos: []
+    )
   end
 
-  def pin_params_present?
+  def memory_params_present?
     params[:memory].present?
   end
 end

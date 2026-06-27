@@ -1,47 +1,183 @@
-<% content_for(:title, "Projects — Christopher Quentin") %>
+<% content_for :title, "Projects — Christopher Quentin" %>
 
-<div class="max-w-4xl mx-auto">
-  <h1 class="text-4xl font-title text-stone-800 mb-4">Christopher&rsquo;s Projects</h1>
-  <p class="text-stone-600 leading-relaxed mb-10">
-    Christopher gave so much in his 36 years. These projects continue his impact through
-    environmental action, community, and music.
+<%# Hero %>
+<section class="px-6 lg:px-14 pt-12 pb-8">
+  <%= musical_eyebrow("Op. IX · Projects", with_rule: true) %>
+  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
+    The work he <em class="font-serif italic text-moss">left us</em>.
+  </h1>
+  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+    Christopher gave so much in his 36 years. These projects continue his impact —
+    environmental action, music, community.
   </p>
+  <nav class="mt-6 flex flex-wrap gap-3 text-sm">
+    <a href="#trees" class="text-moss hover:underline">Memorial Trees</a>
+    <span aria-hidden="true" class="text-ink/30">·</span>
+    <a href="#funds" class="text-moss hover:underline">Memorial Funds</a>
+    <span aria-hidden="true" class="text-ink/30">·</span>
+    <%= link_to "Recipes", recipes_path, class: "text-moss hover:underline" %>
+    <span aria-hidden="true" class="text-ink/30">·</span>
+    <%= link_to "Bee Hives", bee_hives_path, class: "text-moss hover:underline" %>
+    <span aria-hidden="true" class="text-ink/30">·</span>
+    <%= link_to "Zero Waste", zero_waste_path, class: "text-moss hover:underline" %>
+  </nav>
+</section>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <%= link_to trees_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
-      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Memorial Trees</h2>
-      <p class="text-stone-600">
-        Plant a tree in Christopher&rsquo;s memory and add it to the global map.
-        Trees clean water, capture carbon, and support bees.
-      </p>
-      <p class="text-blue-800 text-sm mt-3 font-medium">View the map &rarr;</p>
-    <% end %>
+<%# Trees section %>
+<section id="trees" class="scroll-mt-24 border-t border-ink/10 pt-12">
+  <div class="px-6 lg:px-14">
+    <%= musical_eyebrow("Op. IX.i · Memorial Trees") %>
+    <h2 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+      A living memorial in <em class="font-serif italic text-moss">nine countries</em>.
+    </h2>
+    <p class="font-serif italic text-xl md:text-2xl text-sage mt-4">lento e sereno</p>
+    <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+      One tree per memory. Plant one in his honor.
+    </p>
+  </div>
 
-    <%= link_to recipes_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
-      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Recipes</h2>
-      <p class="text-stone-600">
-        Chris was as enthusiastic an eater as he was a cook! Recipes and the stories behind them,
-        so he can have a home in our kitchens.
-      </p>
-      <p class="text-blue-800 text-sm mt-3 font-medium">Browse recipes &rarr;</p>
-    <% end %>
+  <%= render "trees/world_map_placeholder", trees: @trees, stats: @stats %>
 
-    <%= link_to zero_waste_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
-      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Zero Waste Week</h2>
-      <p class="text-stone-600">
-        32 of Christopher&rsquo;s friends and family pledged to go zero waste for a week,
-        celebrating his commitment to sustainability.
-      </p>
-      <p class="text-blue-800 text-sm mt-3 font-medium">Learn more &rarr;</p>
-    <% end %>
+  <div class="px-6 lg:px-14 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      <div>
+        <%= musical_eyebrow("Plant a tree") %>
+        <h3 class="font-serif text-3xl md:text-4xl text-ink mt-3 mb-6 font-normal leading-tight">
+          Add a tree to the map.
+        </h3>
+        <%= render "trees/add_tree_form", tree: @new_tree %>
+      </div>
+      <div class="aspect-[4/5] rounded-md border border-ink/8 relative overflow-hidden"
+           style="background: linear-gradient(160deg, rgba(58,82,64,0.20), rgba(168,88,76,0.16)), repeating-linear-gradient(45deg, rgba(58,82,64,0.08) 0 16px, transparent 16px 32px);">
+        <div class="absolute bottom-3 left-3 text-eyebrow text-cream mix-blend-difference">
+          [ the first Chris tree — Ann Arbor, planted by his parents ]
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <%= link_to funds_path, class: "block bg-white p-8 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition group" do %>
-      <h2 class="text-xl font-title text-blue-900 mb-2 group-hover:text-blue-700">Memorial Funds</h2>
-      <p class="text-stone-600">
-        Support beekeeping, water conservation, zero waste, and the Dartmouth Conducting
-        Endowment in Christopher&rsquo;s memory.
+  <%# Why trees moss-bg quote %>
+  <div class="relative bg-moss text-cream px-6 lg:px-14 py-20 lg:py-24">
+    <%= render "shared/staff_lines", top: 0, height: 120, opacity: 0.10 %>
+    <div class="relative max-w-[860px] mx-auto text-center">
+      <div class="text-eyebrow text-cream/70 mb-6">Why trees</div>
+      <blockquote class="font-serif italic text-3xl md:text-4xl lg:text-5xl leading-snug m-0">
+        "He'd plant a tree before he'd write a letter. So we plant trees."
+      </blockquote>
+      <footer class="text-eyebrow text-cream/70 mt-6">— McMullen family</footer>
+    </div>
+  </div>
+</section>
+
+<%# Funds section %>
+<section id="funds" class="scroll-mt-24 border-t border-ink/10 px-6 lg:px-14 py-16 lg:py-20">
+  <%= musical_eyebrow("Op. IX.ii · Memorial Funds") %>
+  <h2 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+    <em class="font-serif italic text-moss">Bees</em>, waste, water, music.
+  </h2>
+
+  <div class="font-serif text-[19px] leading-relaxed text-ink mt-8 space-y-5 max-w-[760px]">
+    <p>Join us in continuing Christopher's impact.</p>
+    <p>
+      The McMullen family thoughtfully determines grantees based on initiatives that keep Christopher's
+      passions alive. Grant amounts are considered in the context of total fund value. Reports of grant
+      recipients are shared here on the memorial website.
+    </p>
+    <p>
+      If you have projects that need support — starting a beehive, planting a tree, hosting a concert —
+      please don't hesitate to get in touch.
+    </p>
+    <p class="text-ink/65">You can also contribute to specific projects below.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
+    <article class="bg-white rounded-md border border-ink/8 shadow-card p-7 flex flex-col">
+      <div class="font-serif text-[32px] text-sage leading-none mb-1.5" aria-hidden="true">♪</div>
+      <%= musical_eyebrow("I · Bees") %>
+      <h3 class="font-serif text-2xl text-ink mt-2 leading-tight font-normal">Pollinators</h3>
+      <p class="text-sm leading-relaxed text-ink/70 mt-3">
+        Supporting beekeeping projects and pollinator conservation across his nine countries.
       </p>
-      <p class="text-blue-800 text-sm mt-3 font-medium">Contribute &rarr;</p>
+    </article>
+
+    <article class="bg-white rounded-md border border-ink/8 shadow-card p-7 flex flex-col">
+      <div class="font-serif text-[32px] text-moss leading-none mb-1.5" aria-hidden="true">❦</div>
+      <%= musical_eyebrow("II · Water") %>
+      <h3 class="font-serif text-2xl text-ink mt-2 leading-tight font-normal">Water</h3>
+      <p class="text-sm leading-relaxed text-ink/70 mt-3">
+        Water-related environmental initiatives — restoration, conservation, access.
+      </p>
+    </article>
+
+    <article class="bg-white rounded-md border border-ink/8 shadow-card p-7 flex flex-col">
+      <div class="font-serif text-[32px] text-rose leading-none mb-1.5" aria-hidden="true">¶</div>
+      <%= musical_eyebrow("III · Zero Waste") %>
+      <h3 class="font-serif text-2xl text-ink mt-2 leading-tight font-normal">Zero Waste</h3>
+      <p class="text-sm leading-relaxed text-ink/70 mt-3">
+        Waste reduction and sustainability efforts — the same week-long pledge his friends made for him.
+      </p>
+      <%= link_to "About Zero Waste Week →", zero_waste_path,
+            class: "text-moss text-sm font-medium mt-4 no-underline hover:underline" %>
+    </article>
+
+    <article class="bg-white rounded-md border border-ink/8 shadow-card p-7 flex flex-col">
+      <div class="font-serif text-[32px] text-moss leading-none mb-1.5" aria-hidden="true">♭</div>
+      <%= musical_eyebrow("IV · Dartmouth Conducting Endowment") %>
+      <h3 class="font-serif text-2xl text-ink mt-2 leading-tight font-normal">Dartmouth Conducting Endowment</h3>
+      <div class="text-sm leading-relaxed text-ink/70 mt-3 space-y-3">
+        <p>
+          Christopher (aka 'Zeke') spent formative years at Dartmouth. He flourished as a music major
+          and Senior Fellow, as a member of the Chamber Singers and Handel Society, and through a term
+          abroad studying music.
+        </p>
+        <p>
+          We honor him through a gift that will strengthen the College and seed the next generation
+          of conductors.
+        </p>
+      </div>
+      <div class="mt-5 space-y-2 text-sm">
+        <p>
+          <%= link_to "Donate by credit card or PayPal",
+                "https://securelb.imodules.com/s/1353/events/events.aspx?sid=1353&gid=431&pgid=15529&cid=38949&bledit=1&dids=508&appealcode=campaignws",
+                target: "_blank", rel: "noopener",
+                class: "text-moss font-medium hover:underline no-underline" %>
+        </p>
+        <p>
+          <%= link_to "Wire transfer", "https://dartgo.org/wiretransfer",
+                target: "_blank", rel: "noopener",
+                class: "text-moss font-medium hover:underline no-underline" %>
+          — enter "Christopher McMullen-Laird Memorial Fund" in the Gift Allocation box.
+        </p>
+        <p class="text-ink/55 text-xs leading-relaxed mt-3">
+          By check: payable to "Trustees of Dartmouth College", directed to Gift Recording Office,
+          6066 Development Office, Hanover, NH 03755-4400. Reference "Christopher McMullen-Laird
+          Memorial Fund". Toll free: 1-800-490-7010.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<%# Other ways in %>
+<section class="border-t border-ink/10 px-6 lg:px-14 py-16">
+  <%= render "shared/movement_label", no: "Op. IX.iii", title: "Other ways in", marking: "dolce" %>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <% [
+      { glyph: "♪", title: "Adopt a Bee Hive", body: "Pollinators were one of his loves. Register a hive on the unified map.",
+        cta: "Adopt a hive →", path: new_bee_hive_path, accent: "text-sage" },
+      { glyph: "¶", title: "Share a Memory", body: "A photo, a story, an audio clip — contribute to the timeline.",
+        cta: "Share a memory →", path: new_memory_path, accent: "text-rose" },
+      { glyph: "❦", title: "Cook a recipe", body: "Recipes Chris cooked or that remind people of him.",
+        cta: "Browse recipes →", path: recipes_path, accent: "text-moss" },
+    ].each do |card| %>
+      <%= link_to card[:path], class: "group block no-underline" do %>
+        <article class="bg-white rounded-md border border-ink/8 shadow-card p-6 flex flex-col min-h-[200px] hover:border-ink/15 transition-colors">
+          <div class="font-serif text-[32px] <%= card[:accent] %> leading-none mb-1.5" aria-hidden="true"><%= card[:glyph] %></div>
+          <h3 class="font-serif text-3xl text-ink mt-1.5 leading-tight font-normal"><%= card[:title] %></h3>
+          <p class="text-sm leading-relaxed text-ink/70 mt-3 flex-1"><%= card[:body] %></p>
+          <span class="<%= card[:accent] %> text-sm font-medium mt-4 group-hover:underline"><%= card[:cta] %></span>
+        </article>
+      <% end %>
     <% end %>
   </div>
-</div>
+</section>

@@ -4,7 +4,7 @@
         aria-labelledby="share-modal-heading"
         data-controller="share-modal"
         data-share-modal-current-step-value="1"
-        class="rounded-lg bg-cream max-w-[640px] w-[92vw] p-0 backdrop:bg-ink/40">
+        class="rounded-lg bg-cream max-w-[640px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
   <%= form_with model: Memory.new, url: memories_path, multipart: true,
         local: true, data: { share_modal_target: "form" }, html: { class: "block" } do |f| %>
 
