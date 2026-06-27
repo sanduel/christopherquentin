@@ -1,19 +1,26 @@
 <% content_for(:title, "Tree planted by #{@tree.name} — Christopher Quentin") %>
 
-<div class="max-w-3xl mx-auto">
-  <%= link_to "← All Trees", trees_path, class: "text-blue-800 hover:text-blue-700 mb-6 inline-block" %>
+<section class="px-6 lg:px-14 py-12 lg:py-16 max-w-[960px] mx-auto">
+  <%= musical_eyebrow("Tree planted · #{@tree.address}") %>
+  <h1 class="font-serif text-4xl md:text-5xl lg:text-[64px] font-normal leading-tight tracking-tight text-ink mt-3">
+    <%= @tree.name %>
+  </h1>
+  <p class="font-serif italic text-xl text-sage mt-4">
+    <%= pluralize(@tree.tree_count, "tree") %> planted at <%= @tree.address %>
+  </p>
 
-  <div class="bg-white p-8 rounded-lg shadow-sm border border-stone-200">
-    <% if @tree.photo.attached? %>
-      <div class="mb-6">
-        <%= image_tag @tree.photo.variant(resize_to_limit: [600, 400]), class: "rounded-lg w-full object-cover" %>
-      </div>
-    <% end %>
-    <h1 class="text-2xl font-title text-stone-800 mb-2"><%= @tree.name %></h1>
-    <p class="text-blue-800"><%= pluralize(@tree.tree_count, "tree") %> planted</p>
-    <p class="text-stone-400 mb-4"><%= @tree.address %></p>
-    <% if @tree.story.present? %>
-      <p class="text-stone-600 leading-relaxed"><%= @tree.story %></p>
-    <% end %>
+  <% if @tree.photo.attached? %>
+    <%= image_tag @tree.photo.variant(resize_to_limit: [960, 600]), class: "w-full aspect-[16/9] object-cover rounded-md border border-ink/8 my-10" %>
+  <% end %>
+
+  <% if @tree.story.present? %>
+    <div class="mt-10">
+      <%= musical_eyebrow("Story") %>
+      <p class="font-serif text-[19px] leading-relaxed text-ink mt-4 whitespace-pre-line"><%= @tree.story %></p>
+    </div>
+  <% end %>
+
+  <div class="mt-12">
+    <%= link_to "← All projects", projects_path, class: "text-moss text-sm font-medium hover:underline no-underline" %>
   </div>
-</div>
+</section>
