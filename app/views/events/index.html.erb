@@ -1,30 +1,40 @@
 <% content_for(:title, "Events — Christopher Quentin") %>
 
-<div class="max-w-4xl mx-auto">
-  <h1 class="text-4xl font-title text-stone-800 mb-2">Events</h1>
-  <p class="text-stone-600 mb-10">Concerts and webinars in Christopher&rsquo;s memory.</p>
+<section class="px-6 lg:px-14 pt-12 pb-8">
+  <%= musical_eyebrow("Op. X · Gatherings", with_rule: true) %>
+  <h1 class="font-serif text-5xl md:text-6xl lg:text-[80px] font-normal leading-tight tracking-tight text-ink mt-3">
+    Where we <em class="font-serif italic text-moss">gathered</em>.
+  </h1>
+  <p class="text-[17px] text-ink/65 mt-3 max-w-[640px]">
+    Concerts and webinars in Christopher&rsquo;s memory.
+  </p>
+</section>
 
-  <section class="mb-12">
-    <h2 class="text-2xl font-title text-stone-700 mb-4">Upcoming</h2>
-    <% if @upcoming_events.any? %>
+<section class="px-6 lg:px-14 pb-20">
+  <% if @upcoming_events.any? %>
+    <div class="mb-14">
+      <h2 class="font-serif text-2xl text-ink mb-6 pb-3 border-b border-ink/10">Upcoming</h2>
       <div class="space-y-4">
         <% @upcoming_events.each do |event| %>
           <%= render "event_card", event: event %>
         <% end %>
       </div>
-    <% else %>
-      <p class="text-stone-400 italic">No upcoming events scheduled. Check back soon.</p>
-    <% end %>
-  </section>
+    </div>
+  <% else %>
+    <div class="mb-14">
+      <h2 class="font-serif text-2xl text-ink mb-6 pb-3 border-b border-ink/10">Upcoming</h2>
+      <p class="font-serif italic text-xl text-ink/50">No upcoming events scheduled. Check back soon.</p>
+    </div>
+  <% end %>
 
   <% if @past_events.any? %>
-    <section>
-      <h2 class="text-2xl font-title text-stone-700 mb-4">Past</h2>
+    <div>
+      <h2 class="font-serif text-2xl text-ink mb-6 pb-3 border-b border-ink/10">Past</h2>
       <div class="space-y-4">
         <% @past_events.each do |event| %>
           <%= render "event_card", event: event %>
         <% end %>
       </div>
-    </section>
+    </div>
   <% end %>
-</div>
+</section>
