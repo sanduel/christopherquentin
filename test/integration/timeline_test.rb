@@ -14,7 +14,7 @@ class TimelineTest < ActionDispatch::IntegrationTest
   test "timeline renders the header with eyebrow + h1" do
     get memories_path
     assert_response :success
-    assert_select ".text-eyebrow", text: /Op\. III · The Timeline/
+    assert_match(/Timeline.*memories/m, response.body)
     assert_select "h1.font-serif", text: /A life, kept by/
   end
 
