@@ -3,7 +3,7 @@ class Admin::PhotoSubmissionsController < Admin::BaseController
 
   def index
     @submissions = PhotoSubmission.order(created_at: :desc)
-    @submissions = @submissions.where(status: params[:status]) if params[:status].present?
+    @submissions = @submissions.where(status: params[:status].to_sym) if params[:status].present? && PhotoSubmission.statuses.key?(params[:status])
   end
 
   def show

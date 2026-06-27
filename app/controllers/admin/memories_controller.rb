@@ -3,7 +3,7 @@ class Admin::MemoriesController < Admin::BaseController
 
   def index
     @memories = Memory.order(created_at: :desc)
-    @memories = @memories.where(status: params[:status]) if params[:status].present?
+    @memories = @memories.where(status: params[:status].to_sym) if params[:status].present? && Memory.statuses.key?(params[:status])
   end
 
   def show
