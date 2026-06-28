@@ -30,7 +30,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "projects page loads" do
     get projects_path
     assert_response :success
-    assert_select "h1.font-serif", /left us/i
+    assert_select "h1.font-serif", /Work in .*memory/i
   end
 
   test "funds redirects to projects#funds" do

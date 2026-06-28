@@ -37,12 +37,30 @@
 
   <div class="max-w-[1180px] mx-auto px-6 lg:px-10 py-12">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-      <div>
+      <div data-controller="modal">
         <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">Plant a tree</div>
-        <h3 class="font-serif font-medium text-[28px] text-ink mt-0 mb-6 tracking-[-0.01em]">
+        <h3 class="font-serif font-medium text-[28px] text-ink mt-0 mb-4 tracking-[-0.01em]">
           Add a tree to the map.
         </h3>
-        <%= render "trees/add_tree_form", tree: @new_tree %>
+        <p class="text-[16px] text-muted mb-6 max-w-[440px]">
+          Plant a tree in Chris' memory and pin it to the living map.
+        </p>
+        <button type="button" data-action="modal#open"
+                class="bg-ink text-white-bg text-[15px] font-semibold py-[15px] px-7 rounded-md cursor-pointer hover:bg-ink-deep transition-colors border-0">
+          Add a tree to the map →
+        </button>
+
+        <dialog data-modal-target="dialog" data-action="click->modal#backdrop"
+                class="rounded-[5px] bg-white-bg max-w-[560px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
+          <div class="flex items-start justify-between px-8 pt-6 pb-4 border-b border-ink/8">
+            <h2 class="font-serif font-medium text-[28px] text-ink m-0 tracking-[-0.01em]">Add a tree to the map</h2>
+            <button type="button" data-action="modal#close" aria-label="Close"
+                    class="text-ink/40 hover:text-ink text-3xl leading-none cursor-pointer bg-transparent border-0">&times;</button>
+          </div>
+          <div class="p-8">
+            <%= render "trees/add_tree_form", tree: @new_tree %>
+          </div>
+        </dialog>
       </div>
       <div class="aspect-[4/5] rounded-[3px] border border-ink/8 relative overflow-hidden"
            style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
