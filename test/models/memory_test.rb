@@ -99,6 +99,6 @@ class MemoryTest < ActiveSupport::TestCase
   test "memory has many replies" do
     memory = Memory.create!(date: Date.today, content: "x", name: "A", email: "a@b.com", status: :published)
     reply = memory.replies.create!(name: "B", email: "b@c.com", body: "Yes!", status: :published)
-    assert_equal [reply], memory.replies.to_a
+    assert_equal [ reply ], memory.replies.to_a
   end
 end

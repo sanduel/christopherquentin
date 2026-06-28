@@ -30,6 +30,6 @@ class TributesController < ApplicationController
   private
 
   def tribute_params
-    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo)
+    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo, :video_url)
   end
 end

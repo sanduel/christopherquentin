@@ -16,6 +16,9 @@
             <span class="text-stone-400 text-sm">(<%= tribute.relationship %>)</span>
           <% end %>
           <span class="ml-2"><%= render "admin/shared/status_badge", status: tribute.status %></span>
+          <% if tribute.video? %>
+            <span class="ml-1 text-xs font-medium text-stone-500">▶ Video</span>
+          <% end %>
         </div>
         <span class="text-xs text-stone-400"><%= tribute.created_at.strftime("%b %d, %Y") %></span>
       </div>
