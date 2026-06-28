@@ -18,7 +18,7 @@ namespace :migrate do
     # Also fetch Uncategorized posts that aren't in other categories
     uncategorized = fetch_all_posts(categories: 1)
     # Filter out posts that are also in Recipes (86) or Trees (73)
-    uncategorized.reject! { |p| (p["categories"] & [86, 73]).any? }
+    uncategorized.reject! { |p| (p["categories"] & [ 86, 73 ]).any? }
     posts += uncategorized
 
     # Also fetch Family posts
@@ -107,7 +107,7 @@ namespace :migrate do
     # Disable geocoding during import - addresses will be geocoded later
     Geocoder.configure(lookup: :test, ip_lookup: :test)
     Geocoder::Lookup::Test.set_default_stub(
-      [{ "latitude" => 0.0, "longitude" => 0.0, "address" => "Unknown", "country" => "Unknown" }]
+      [ { "latitude" => 0.0, "longitude" => 0.0, "address" => "Unknown", "country" => "Unknown" } ]
     )
 
     posts = fetch_all_posts(categories: 73)

@@ -17,8 +17,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.string "name", null: false
     t.bigint "record_id", null: false
     t.string "record_type", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index [ "blob_id" ], name: "index_active_storage_attachments_on_blob_id"
+    t.index [ "record_type", "record_id", "name", "blob_id" ], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -30,13 +30,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.string "key", null: false
     t.text "metadata"
     t.string "service_name", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+    t.index [ "key" ], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index [ "blob_id", "variation_digest" ], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "bee_hives", force: :cascade do |t|
@@ -52,7 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.text "story"
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.index ["user_id"], name: "index_bee_hives_on_user_id"
+    t.index [ "user_id" ], name: "index_bee_hives_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -71,9 +71,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.datetime "updated_at", null: false
     t.string "url"
     t.bigint "wp_post_id"
-    t.index ["published", "starts_at"], name: "index_events_on_published_and_starts_at"
-    t.index ["starts_at"], name: "index_events_on_starts_at"
-    t.index ["wp_post_id"], name: "index_events_on_wp_post_id", unique: true
+    t.index [ "published", "starts_at" ], name: "index_events_on_published_and_starts_at"
+    t.index [ "starts_at" ], name: "index_events_on_starts_at"
+    t.index [ "wp_post_id" ], name: "index_events_on_wp_post_id", unique: true
   end
 
   create_table "gallery_photos", force: :cascade do |t|
@@ -86,9 +86,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.string "submitter_name"
     t.datetime "updated_at", null: false
     t.bigint "wp_post_id"
-    t.index ["featured"], name: "index_gallery_photos_on_featured"
-    t.index ["status"], name: "index_gallery_photos_on_status"
-    t.index ["wp_post_id"], name: "index_gallery_photos_on_wp_post_id", unique: true
+    t.index [ "featured" ], name: "index_gallery_photos_on_featured"
+    t.index [ "status" ], name: "index_gallery_photos_on_status"
+    t.index [ "wp_post_id" ], name: "index_gallery_photos_on_wp_post_id", unique: true
   end
 
   create_table "memories", force: :cascade do |t|
@@ -110,8 +110,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.index ["kind"], name: "index_memories_on_kind"
-    t.index ["user_id"], name: "index_memories_on_user_id"
+    t.index [ "kind" ], name: "index_memories_on_kind"
+    t.index [ "user_id" ], name: "index_memories_on_user_id"
   end
 
   create_table "newsletter_subscribers", force: :cascade do |t|
@@ -119,7 +119,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.string "email", null: false
     t.string "name"
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_newsletter_subscribers_on_email", unique: true
+    t.index [ "email" ], name: "index_newsletter_subscribers_on_email", unique: true
   end
 
   create_table "photo_submissions", force: :cascade do |t|
@@ -141,8 +141,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.bigint "wp_post_id"
-    t.index ["user_id"], name: "index_recipes_on_user_id"
-    t.index ["wp_post_id"], name: "index_recipes_on_wp_post_id", unique: true
+    t.index [ "user_id" ], name: "index_recipes_on_user_id"
+    t.index [ "wp_post_id" ], name: "index_recipes_on_wp_post_id", unique: true
   end
 
   create_table "replies", force: :cascade do |t|
@@ -155,9 +155,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.index ["memory_id"], name: "index_replies_on_memory_id"
-    t.index ["status", "created_at"], name: "index_replies_on_status_and_created_at"
-    t.index ["user_id"], name: "index_replies_on_user_id"
+    t.index [ "memory_id" ], name: "index_replies_on_memory_id"
+    t.index [ "status", "created_at" ], name: "index_replies_on_status_and_created_at"
+    t.index [ "user_id" ], name: "index_replies_on_user_id"
   end
 
   create_table "trees", force: :cascade do |t|
@@ -174,7 +174,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.integer "tree_count", default: 1
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.index ["user_id"], name: "index_trees_on_user_id"
+    t.index [ "user_id" ], name: "index_trees_on_user_id"
   end
 
   create_table "tributes", force: :cascade do |t|
@@ -188,9 +188,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.integer "user_id"
     t.string "video_url"
     t.bigint "wp_post_id"
-    t.index ["category"], name: "index_tributes_on_category"
-    t.index ["user_id"], name: "index_tributes_on_user_id"
-    t.index ["wp_post_id"], name: "index_tributes_on_wp_post_id", unique: true
+    t.index [ "category" ], name: "index_tributes_on_category"
+    t.index [ "user_id" ], name: "index_tributes_on_user_id"
+    t.index [ "wp_post_id" ], name: "index_tributes_on_wp_post_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -203,8 +203,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_010524) do
     t.string "reset_password_token"
     t.integer "role", default: 0, null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index [ "email" ], name: "index_users_on_email", unique: true
+    t.index [ "reset_password_token" ], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

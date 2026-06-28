@@ -18,7 +18,7 @@ class Repertoire
       raw = YAML.load_file(Rails.root.join("config/repertoire.yml"))
       {
         conducted: raw["conducted"].map { |g| Group.new(g["composer"], g["works"]) },
-        assisted:  raw["assisted"].map { |g| Group.new(g["composer"], g["works"]) },
+        assisted:  raw["assisted"].map { |g| Group.new(g["composer"], g["works"]) }
       }
     end
   end

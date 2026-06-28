@@ -20,7 +20,7 @@ class PagesController < ApplicationController
     @stats = {
       trees: Tree.published.sum(:tree_count),
       cities: Tree.published.where.not(address: nil).distinct.count(:address),
-      countries: 9,
+      countries: 9
     }
   end
 
@@ -32,5 +32,4 @@ class PagesController < ApplicationController
     @total = PressItem.all.count
     @years = PressItem.years
   end
-
 end
