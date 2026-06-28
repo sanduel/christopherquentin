@@ -1,7 +1,7 @@
 <%# Share-a-Memory dialog — rendered once at the bottom of the application layout.
     Opens via JS on any element with data-action="share-modal-trigger#open". %>
 <dialog id="share-modal"
-        aria-labelledby="share-modal-heading"
+        aria-label="Share a memory"
         data-controller="share-modal"
         data-share-modal-current-step-value="1"
         class="rounded-[5px] bg-white-bg max-w-[640px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
@@ -16,9 +16,6 @@
     </header>
 
     <div data-share-modal-target="step1" class="p-8 space-y-6">
-      <h2 id="share-modal-heading" class="font-serif font-medium text-[34px] tracking-[-0.01em] text-ink m-0 leading-tight">
-        Tell us about a <span class="italic text-accent">moment</span>.
-      </h2>
 
       <div>
         <%= f.label :content, "Your memory", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
