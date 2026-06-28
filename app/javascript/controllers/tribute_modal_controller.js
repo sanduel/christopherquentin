@@ -4,13 +4,18 @@ import { Controller } from "@hotwired/stimulus"
 // the tribute's page, so without JS the click still navigates there.
 // For video tributes the iframe src is set on open and cleared on close, so the
 // player only loads when viewed and stops playing when the dialog is dismissed.
+// Photos are likewise loaded on first open (not on page load) to keep the index
+// from downloading every tribute's image up front.
 export default class extends Controller {
-  static targets = ["dialog", "frame"]
+  static targets = ["dialog", "frame", "image"]
 
   open(event) {
     event.preventDefault()
     if (this.hasFrameTarget && this.frameTarget.dataset.src) {
       this.frameTarget.src = this.frameTarget.dataset.src
+    }
+    if (this.hasImageTarget && !this.imageTarget.src && this.imageTarget.dataset.src) {
+      this.imageTarget.src = this.imageTarget.dataset.src
     }
     this.dialogTarget.showModal()
   }

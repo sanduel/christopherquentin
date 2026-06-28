@@ -1,6 +1,6 @@
 class TributesController < ApplicationController
   def index
-    scope = Tribute.published.order(created_at: :desc)
+    scope = Tribute.published.with_attached_photo.order(created_at: :desc)
     requested = params[:category].presence
     @active_category = (requested if Tribute.categories.key?(requested.to_s))
     @tributes = @active_category ? scope.where(category: @active_category) : scope

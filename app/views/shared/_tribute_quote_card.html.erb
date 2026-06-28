@@ -62,7 +62,12 @@
         </div>
       <% else %>
         <% if tribute.photo.attached? %>
-          <%= image_tag tribute.photo, class: "w-full aspect-[16/9] object-cover rounded-[3px] mb-8" %>
+          <%# Loaded by the Stimulus controller when the modal opens, so the index
+              doesn't download every tribute's photo on page load. %>
+          <img data-tribute-modal-target="image"
+               data-src="<%= url_for(tribute.photo.variant(resize_to_limit: [1200, 1200])) %>"
+               alt="" loading="lazy"
+               class="w-full aspect-[16/9] object-cover rounded-[3px] mb-8 bg-ink/5">
         <% end %>
 
         <span class="block font-serif text-[80px] leading-none text-accent -mb-6" aria-hidden="true">&ldquo;</span>
