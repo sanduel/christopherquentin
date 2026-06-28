@@ -31,11 +31,15 @@
   <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-ink/10"
        aria-hidden="true"></div>
 
-  <% if @memories.any? %>
-    <% @memories.group_by(&:year).each do |year, memories_in_year| %>
+  <% if @timeline_by_year.any? %>
+    <% @timeline_by_year.each do |year, items| %>
       <%= render "memories/year_marker", year: year, age: year - Memory::CHRIS_BIRTH_YEAR %>
-      <% memories_in_year.each do |memory| %>
-        <%= render "memories/memory_card", memory: memory %>
+      <% items.each do |item| %>
+        <% if item.is_a?(Milestone) %>
+          <%= render "memories/milestone", milestone: item %>
+        <% else %>
+          <%= render "memories/memory_card", memory: item %>
+        <% end %>
       <% end %>
     <% end %>
   <% else %>

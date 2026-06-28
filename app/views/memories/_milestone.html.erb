@@ -1,0 +1,18 @@
+<%# Centered biographical milestone marker on the timeline spine. Local: milestone %>
+<div data-milestone-id="<%= milestone.id %>"
+     class="relative flex justify-center my-10 text-center">
+  <div class="max-w-[420px]">
+    <% if milestone.icon.present? %>
+      <div class="flex justify-center mb-3 text-accent">
+        <%= icon milestone.icon, class: "w-6 h-6" %>
+      </div>
+    <% end %>
+    <% if milestone.location.present? %>
+      <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-mono mb-2"><%= milestone.location %></div>
+    <% end %>
+    <h3 class="font-serif font-medium text-[24px] leading-snug text-ink m-0"><%= milestone.headline %></h3>
+    <% if milestone.description.present? %>
+      <p class="text-[15px] leading-[1.55] text-muted mt-2 mb-0"><%= milestone.description %></p>
+    <% end %>
+  </div>
+</div>

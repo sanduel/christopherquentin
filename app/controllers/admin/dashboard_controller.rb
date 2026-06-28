@@ -8,5 +8,6 @@ class Admin::DashboardController < Admin::BaseController
     @total_subscribers = NewsletterSubscriber.count
     @upcoming_events_count = Event.published.upcoming.count
     @pending_bee_hives = BeeHive.pending.count
+    @milestones_count = Milestone.count
   end
 end
