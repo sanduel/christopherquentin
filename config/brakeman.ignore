@@ -1,0 +1,37 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 84,
+      "fingerprint": "382faabcb0095af76ee40edd00e5e99778a051eddd3d4ecb29fd1d2fdf3f428a",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/admin/memories/show.html.erb",
+      "line": 21,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Memory.find(params[:id]).video_url, Memory.find(params[:id]).video_url, :target => \"_blank\", :rel => \"noopener\")",
+      "render_path": null,
+      "location": { "type": "template", "template": "admin/memories/show" },
+      "user_input": "Memory.find(params[:id]).video_url",
+      "confidence": "Weak",
+      "note": "Memory#video_url is normalized and validated by YoutubeEmbeddable to a canonical https://www.youtube.com/watch?v=<id> URL; non-YouTube/non-http links fail validation and cannot be persisted. Admin-only input."
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 84,
+      "fingerprint": "3a3f1b380daffef10a0ca339d0b07464e906de0dd0d122c49520bd02dbbc6294",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/admin/tributes/show.html.erb",
+      "line": 22,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Tribute.find(params[:id]).video_url, Tribute.find(params[:id]).video_url, :target => \"_blank\", :rel => \"noopener\")",
+      "render_path": null,
+      "location": { "type": "template", "template": "admin/tributes/show" },
+      "user_input": "Tribute.find(params[:id]).video_url",
+      "confidence": "Weak",
+      "note": "Tribute#video_url is normalized and validated by YoutubeEmbeddable to a canonical https://www.youtube.com/watch?v=<id> URL; non-YouTube/non-http links fail validation and cannot be persisted. Admin-only input."
+    }
+  ],
+  "brakeman_version": "8.0.5"
+}

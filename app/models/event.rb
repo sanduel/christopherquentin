@@ -11,6 +11,13 @@ class Event < ApplicationRecord
   validates :title, presence: true
   validates :event_type, presence: true
   validates :starts_at, presence: true
+  # Only enforce on new/changed URLs so editing other fields on a legacy row
+  # with a non-conforming URL isn't blocked. Rendering is guarded separately
+  # (see EventsHelper#safe_event_url) so pre-existing rows can't inject script.
+  validates :url,
+            format: { with: %r{\Ahttps?://\S+\z}, message: "must be a valid http or https URL" },
+            allow_blank: true,
+            if: -> { will_save_change_to_url? }
   validate :ends_at_after_starts_at
 
   scope :published, -> { where(published: true) }

@@ -14,14 +14,10 @@
     </div>
   <% end %>
 
-  <span class="font-mono text-[12px] tracking-[0.14em] uppercase text-accent">
-    <%= l(event.starts_at.in_time_zone(Event::DISPLAY_ZONES.first[0]), format: :event_date) %>
-  </span>
+  <%= event_date_tag(event.starts_at, classes: "font-mono text-[12px] tracking-[0.14em] uppercase text-accent") %>
 
   <div class="my-4 text-quote text-[16px] leading-[1.9]">
-    <% Event::DISPLAY_ZONES.each do |zone, label| %>
-      <div><%= label %> · <%= l(event.starts_at.in_time_zone(zone), format: :event_time) %></div>
-    <% end %>
+    <%= event_time_tag(event.starts_at) %>
   </div>
 
   <% if event.location.present? %>
