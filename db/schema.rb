@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_135317) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_175750) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -77,6 +77,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_135317) do
   end
 
   create_table "gallery_photos", force: :cascade do |t|
+    t.boolean "bio_grid", default: false, null: false
     t.string "caption"
     t.datetime "created_at", null: false
     t.boolean "featured", default: false, null: false
@@ -86,6 +87,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_135317) do
     t.string "submitter_name"
     t.datetime "updated_at", null: false
     t.bigint "wp_post_id"
+    t.index ["bio_grid"], name: "index_gallery_photos_on_bio_grid"
     t.index ["featured"], name: "index_gallery_photos_on_featured"
     t.index ["status"], name: "index_gallery_photos_on_status"
     t.index ["wp_post_id"], name: "index_gallery_photos_on_wp_post_id", unique: true
