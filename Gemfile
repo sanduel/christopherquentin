@@ -8,7 +8,9 @@ gem "propshaft"
 gem "sqlite3", ">= 2.1", group: [ :development, :test ]
 gem "pg", "~> 1.5", group: :production
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
+# Pinned to 7.2.x: takes the security patch (>= 7.2.1) without the puma 8.x
+# major bump, which can be evaluated separately.
+gem "puma", "~> 7.2", ">= 7.2.1"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
