@@ -33,13 +33,29 @@ class MemoriesController < ApplicationController
   private
 
   def load_timeline_locals
-    scope = Memory.published.includes(:user, :replies).order(date: :desc)
-    @years = Memory.published.pluck(:date).map(&:year).uniq.sort.reverse
     @active_year = params[:year]&.to_i
-    @memories = @active_year ? scope.where(date: Date.new(@active_year, 1, 1)..Date.new(@active_year, 12, 31)) : scope
+
+    memory_scope    = Memory.published.includes(:user, :replies).order(date: :desc)
+    milestone_scope = Milestone.all
+
+    if @active_year
+      range = Date.new(@active_year, 1, 1)..Date.new(@active_year, 12, 31)
+      memory_scope    = memory_scope.where(date: range)
+      milestone_scope = milestone_scope.where(date: range)
+    end
+
+    @memories         = memory_scope
+    @timeline_by_year = build_timeline_by_year(@memories, milestone_scope)
+    @years            = (Memory.published.pluck(:date) + Milestone.pluck(:date))
+                          .map(&:year).uniq.sort.reverse
+
     @memories_count = @memories.count
     @contributors_count = User.joins(:memories).merge(Memory.published).distinct.count +
                           Memory.published.where(user_id: nil).where.not(email: nil).select(:email).distinct.count
+  end
+
+  def build_timeline_by_year(memories, milestones)
+    (memories.to_a + milestones.to_a).sort_by(&:date).reverse.group_by(&:year)
   end
 
   def memory_params
