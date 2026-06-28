@@ -19,6 +19,8 @@
     <span aria-hidden="true" class="text-ink/30">·</span>
     <a href="#funds" class="text-accent font-semibold no-underline hover:opacity-70 transition-opacity">Memorial Funds</a>
     <span aria-hidden="true" class="text-ink/30">·</span>
+    <a href="#book" class="text-accent font-semibold no-underline hover:opacity-70 transition-opacity">The Book</a>
+    <span aria-hidden="true" class="text-ink/30">·</span>
     <%= link_to "Recipes", recipes_path, class: "text-accent font-semibold no-underline hover:opacity-70 transition-opacity" %>
     <span aria-hidden="true" class="text-ink/30">·</span>
     <%= link_to "Bee Hives", bee_hives_path, class: "text-accent font-semibold no-underline hover:opacity-70 transition-opacity" %>
@@ -78,13 +80,13 @@
     <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Memorial Funds</div>
     <h2 class="font-serif font-medium tracking-[-0.01em] text-ink mt-4"
         style="font-size: clamp(34px, 4.6vw, 58px);">
-      Bees, waste, water, music.
+      Bees, music, waste, water.
     </h2>
 
     <div class="font-serif text-[19px] leading-relaxed text-ink mt-8 space-y-5 max-w-[760px]">
       <p>Join us in continuing Christopher's impact.</p>
       <p>
-        The McMullen family thoughtfully determines grantees based on initiatives that keep Christopher's
+        A group of friends meets monthly and determines grantees based on initiatives that keep Christopher's
         passions alive. Grant amounts are considered in the context of total fund value. Reports of grant
         recipients are shared here on the memorial website.
       </p>
@@ -103,31 +105,54 @@
         <p class="text-[15px] leading-[1.55] text-muted m-0 flex-grow">
           Supporting beekeeping projects and pollinator conservation across his nine countries.
         </p>
-      </article>
-
-      <article class="bg-white-bg border border-ink/8 rounded-[5px] p-[30px_26px_28px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
-        <span class="block w-7 h-0.5 bg-accent mb-6"></span>
-        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">II · Water</span>
-        <h3 class="font-serif font-medium text-[25px] text-ink mt-3 mb-3.5 tracking-[-0.01em]">Water</h3>
-        <p class="text-[15px] leading-[1.55] text-muted m-0 flex-grow">
-          Water-related environmental initiatives — restoration, conservation, access.
-        </p>
-      </article>
-
-      <article class="bg-white-bg border border-ink/8 rounded-[5px] p-[30px_26px_28px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
-        <span class="block w-7 h-0.5 bg-accent mb-6"></span>
-        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">III · Zero Waste</span>
-        <h3 class="font-serif font-medium text-[25px] text-ink mt-3 mb-3.5 tracking-[-0.01em]">Zero Waste</h3>
-        <p class="text-[15px] leading-[1.55] text-muted m-0 flex-grow">
-          Waste reduction and sustainability efforts — the same week-long pledge his friends made for him.
-        </p>
-        <%= link_to "About Zero Waste Week →", zero_waste_path,
+        <%= link_to "Donate →", "https://givebutter.com/chrisbees",
+              target: "_blank", rel: "noopener",
               class: "text-accent text-[15px] font-semibold mt-4 no-underline hover:opacity-70 transition-opacity" %>
       </article>
 
       <article class="bg-white-bg border border-ink/8 rounded-[5px] p-[30px_26px_28px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
         <span class="block w-7 h-0.5 bg-accent mb-6"></span>
-        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">IV · Dartmouth Conducting Endowment</span>
+        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">II · Zero Waste</span>
+        <h3 class="font-serif font-medium text-[25px] text-ink mt-3 mb-3.5 tracking-[-0.01em]">Zero Waste</h3>
+        <p class="text-[15px] leading-[1.55] text-muted m-0 flex-grow">
+          Waste reduction and sustainability efforts — the same week-long pledge his friends made for him.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+          <%= link_to "Donate →", "https://givebutter.com/chriswaste",
+                target: "_blank", rel: "noopener",
+                class: "text-accent text-[15px] font-semibold no-underline hover:opacity-70 transition-opacity" %>
+          <%= link_to "About Zero Waste Week →", zero_waste_path,
+                class: "text-accent text-[15px] font-semibold no-underline hover:opacity-70 transition-opacity" %>
+        </div>
+      </article>
+
+      <article class="bg-white-bg border border-ink/8 rounded-[5px] p-[30px_26px_28px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
+        <span class="block w-7 h-0.5 bg-accent mb-6"></span>
+        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">III · Water</span>
+        <h3 class="font-serif font-medium text-[25px] text-ink mt-3 mb-3.5 tracking-[-0.01em]">Water</h3>
+        <p class="text-[15px] leading-[1.55] text-muted m-0 flex-grow">
+          Water-related environmental initiatives — restoration, conservation, access.
+        </p>
+        <%= link_to "Donate →", "https://givebutter.com/chriswater",
+              target: "_blank", rel: "noopener",
+              class: "text-accent text-[15px] font-semibold mt-4 no-underline hover:opacity-70 transition-opacity" %>
+      </article>
+
+      <article class="bg-white-bg border border-ink/8 rounded-[5px] p-[30px_26px_28px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
+        <span class="block w-7 h-0.5 bg-accent mb-6"></span>
+        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">IV · Music</span>
+        <h3 class="font-serif font-medium text-[25px] text-ink mt-3 mb-3.5 tracking-[-0.01em]">Music</h3>
+        <p class="text-[15px] leading-[1.55] text-muted m-0 flex-grow">
+          Supporting musical performance, education, and the community ensembles that meant so much to Chris.
+        </p>
+        <%= link_to "Donate →", "https://givebutter.com/chrismusic",
+              target: "_blank", rel: "noopener",
+              class: "text-accent text-[15px] font-semibold mt-4 no-underline hover:opacity-70 transition-opacity" %>
+      </article>
+
+      <article class="md:col-span-2 bg-white-bg border border-ink/8 rounded-[5px] p-[30px_26px_28px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.04)]">
+        <span class="block w-7 h-0.5 bg-accent mb-6"></span>
+        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">Dartmouth Conducting Endowment</span>
         <h3 class="font-serif font-medium text-[25px] text-ink mt-3 mb-3.5 tracking-[-0.01em]">Dartmouth Conducting Endowment</h3>
         <div class="text-[15px] leading-[1.55] text-muted flex-grow space-y-3">
           <p class="m-0">
@@ -160,6 +185,31 @@
           </p>
         </div>
       </article>
+    </div>
+  </div>
+</section>
+
+<%# Book section %>
+<section id="book" class="scroll-mt-24 border-t border-ink/10 py-16 lg:py-20">
+  <div class="max-w-[1180px] mx-auto px-6 lg:px-10">
+    <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">The Book</div>
+    <h2 class="font-serif font-medium tracking-[-0.01em] text-ink mt-4"
+        style="font-size: clamp(34px, 4.6vw, 58px);">
+      The book.
+    </h2>
+    <div class="font-serif text-[19px] leading-relaxed text-ink mt-8 space-y-5 max-w-[760px]">
+      <p>
+        A printed memorial gathering Christopher's story, photographs, and the tributes
+        shared by the people who loved him.
+      </p>
+      <p class="text-muted">
+        Reserve a copy and we'll be in touch with details.
+      </p>
+    </div>
+    <div class="mt-8">
+      <%= link_to "Order the book →", "https://christopherquentin.fillout.com/book",
+            target: "_blank", rel: "noopener",
+            class: "inline-block bg-ink text-white-bg text-[15px] font-semibold py-[15px] px-7 rounded-md no-underline hover:bg-ink-deep transition-colors" %>
     </div>
   </div>
 </section>
