@@ -11,13 +11,21 @@ class AdminUsersTest < ActionDispatch::IntegrationTest
 
   test "admin can view users index" do
     admin = sign_in_admin
-    contributor = User.create!(name: "Jane Doe", email: "jane@test.com", password: "password123", role: :contributor)
+    User.create!(name: "Jane Doe", email: "jane@test.com", password: "password123", role: :contributor)
 
     get admin_users_path
     assert_response :success
     assert_select "body", text: /jane@test\.com/
     assert_select "body", text: /#{admin.email}/
-    assert_not_nil contributor
+  end
+
+  test "non-admin cannot change a user's role" do
+    sign_in_contributor
+    user = User.create!(name: "Jane Doe", email: "jane@test.com", password: "password123", role: :contributor)
+
+    patch admin_user_path(user), params: { role: "admin" }
+    assert_redirected_to root_path
+    assert_equal "contributor", user.reload.role
   end
 
   test "admin can promote a contributor to admin" do
@@ -51,6 +59,8 @@ class AdminUsersTest < ActionDispatch::IntegrationTest
     user = User.create!(name: "Jane Doe", email: "jane@test.com", password: "password123", role: :contributor)
 
     patch admin_user_path(user), params: { role: "superuser" }
+    assert_redirected_to admin_users_path
+    assert_equal "Invalid role.", flash[:alert]
     assert_equal "contributor", user.reload.role
   end
 end

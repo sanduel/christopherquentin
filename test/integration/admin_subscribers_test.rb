@@ -18,6 +18,16 @@ class AdminSubscribersTest < ActionDispatch::IntegrationTest
     assert_select "body", text: /fan@test\.com/
   end
 
+  test "non-admin cannot delete a subscriber" do
+    sign_in_contributor
+    subscriber = NewsletterSubscriber.create!(email: "fan@test.com")
+
+    assert_no_difference -> { NewsletterSubscriber.count } do
+      delete admin_newsletter_subscriber_path(subscriber)
+    end
+    assert_redirected_to root_path
+  end
+
   test "admin can delete a subscriber" do
     sign_in_admin
     subscriber = NewsletterSubscriber.create!(email: "fan@test.com")

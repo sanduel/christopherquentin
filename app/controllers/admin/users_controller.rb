@@ -11,11 +11,15 @@ class Admin::UsersController < Admin::BaseController
       return
     end
 
-    if User.roles.key?(params[:role])
-      user.update(role: params[:role])
+    unless User.roles.key?(params[:role])
+      redirect_to admin_users_path, alert: "Invalid role."
+      return
+    end
+
+    if user.update(role: params[:role])
       redirect_to admin_users_path, notice: "#{user.name} is now a#{params[:role] == "admin" ? "n" : ""} #{params[:role]}."
     else
-      redirect_to admin_users_path, alert: "Invalid role."
+      redirect_to admin_users_path, alert: "Could not update #{user.name}."
     end
   end
 end
