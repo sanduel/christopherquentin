@@ -72,6 +72,26 @@ class EventTest < ActiveSupport::TestCase
     assert_equal [ recent, older ], Event.past.to_a
   end
 
+  test "url can be blank" do
+    event = Event.new(title: "X", event_type: :concert, starts_at: 1.day.from_now, url: "")
+    assert event.valid?
+  end
+
+  test "url accepts http and https" do
+    %w[http://example.com https://zoom.us/j/123].each do |url|
+      event = Event.new(title: "X", event_type: :concert, starts_at: 1.day.from_now, url: url)
+      assert event.valid?, "expected #{url} to be valid: #{event.errors.full_messages.inspect}"
+    end
+  end
+
+  test "url rejects non-http schemes (XSS hardening)" do
+    [ "javascript:alert(1)", "data:text/html,evil", "ftp://example.com", "example.com" ].each do |url|
+      event = Event.new(title: "X", event_type: :concert, starts_at: 1.day.from_now, url: url)
+      assert_not event.valid?, "expected #{url} to be invalid"
+      assert_includes event.errors[:url], "must be a valid http or https URL"
+    end
+  end
+
   test "service is a valid event_type" do
     event = Event.new(
       title: "Annual Memorial Recital",

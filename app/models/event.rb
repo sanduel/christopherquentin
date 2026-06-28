@@ -11,6 +11,9 @@ class Event < ApplicationRecord
   validates :title, presence: true
   validates :event_type, presence: true
   validates :starts_at, presence: true
+  validates :url,
+            format: { with: %r{\Ahttps?://\S+\z}, message: "must be a valid http or https URL" },
+            allow_blank: true
   validate :ends_at_after_starts_at
 
   scope :published, -> { where(published: true) }
