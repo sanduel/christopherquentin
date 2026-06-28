@@ -57,11 +57,10 @@ class HomepageTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", funds_path
   end
 
-  test "honor grid cards have eyebrows Plant, Remember, Pollinate, Sustain" do
+  test "get involved cards render their titles" do
     get root_path
-    body = response.body
-    %w[Plant Remember Pollinate Sustain].each do |eyebrow|
-      assert_match eyebrow, body, "Expected eyebrow '#{eyebrow}' in honor grid"
+    [ "Plant a Tree", "Share a Memory", "Adopt a Bee Hive", "Support a Fund" ].each do |title|
+      assert_select "h3", text: title, count: 1
     end
   end
 
