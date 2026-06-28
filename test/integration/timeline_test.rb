@@ -11,11 +11,11 @@ class TimelineTest < ActionDispatch::IntegrationTest
                    name: "Student", email: "s@a.com", kind: :text, status: :published)
   end
 
-  test "timeline renders the header with eyebrow + h1" do
+  test "timeline renders the header eyebrow" do
     get memories_path
     assert_response :success
     assert_match(/Timeline.*memories/m, response.body)
-    assert_select "h1.font-serif", text: /A life, kept by/
+    assert_select "span.font-mono", text: /Timeline/
   end
 
   test "timeline renders the Share a memory CTA" do
