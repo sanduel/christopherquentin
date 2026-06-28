@@ -17,6 +17,9 @@
           <% if photo.featured? %>
             <span class="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800">★ Featured</span>
           <% end %>
+          <% if photo.portrait? %>
+            <span class="px-2 py-1 text-xs font-medium rounded-full bg-sky-100 text-sky-800">◐ Portrait</span>
+          <% end %>
         </div>
         <p class="text-xs text-stone-500 truncate"><%= photo.caption %></p>
         <% if photo.submitted? %>
@@ -27,6 +30,9 @@
           <%= button_to (photo.featured? ? "Unfeature" : "Feature"),
                 admin_gallery_photo_path(photo), params: { featured: !photo.featured }, method: :patch,
                 class: "text-xs px-2 py-1 rounded #{photo.featured? ? 'bg-amber-600 text-white' : 'bg-stone-100 text-stone-700'} hover:opacity-80" %>
+          <%= button_to (photo.portrait? ? "Remove portrait" : "Add portrait"),
+                admin_gallery_photo_path(photo), params: { portrait: !photo.portrait }, method: :patch,
+                class: "text-xs px-2 py-1 rounded #{photo.portrait? ? 'bg-sky-600 text-white' : 'bg-stone-100 text-stone-700'} hover:opacity-80" %>
           <% unless photo.published? %>
             <%= button_to "Approve", admin_gallery_photo_path(photo), params: { status: :published }, method: :patch,
                   class: "text-xs px-2 py-1 rounded bg-green-600 text-white hover:bg-green-500" %>

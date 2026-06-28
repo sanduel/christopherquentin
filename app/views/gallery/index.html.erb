@@ -15,18 +15,28 @@
   </p>
 
   <% if @photos.any? %>
-    <div style="column-count: 4; column-gap: 16px;" class="max-md:!column-count-2 max-sm:!column-count-1 mt-12">
-      <% @photos.each do |photo| %>
-        <% next unless photo.photo.attached? %>
-        <figure class="mb-4" style="break-inside: avoid;">
-          <%= image_tag photo.photo.variant(resize_to_limit: [600, 800]),
-                class: "w-full rounded-[3px]", loading: "lazy",
-                alt: photo.caption.presence || "Memorial photo" %>
-          <% if photo.caption.present? %>
-            <figcaption class="text-[12px] text-muted mt-1.5"><%= photo.caption %></figcaption>
-          <% end %>
-        </figure>
-      <% end %>
+    <div data-controller="lightbox">
+      <div style="column-count: 4; column-gap: 16px;" class="max-md:!column-count-2 max-sm:!column-count-1 mt-12">
+        <% @photos.each do |photo| %>
+          <% next unless photo.photo.attached? %>
+          <figure class="mb-4" style="break-inside: avoid;">
+            <button type="button" class="block w-full cursor-pointer"
+                    data-lightbox-target="item"
+                    data-action="lightbox#open"
+                    data-lightbox-src="<%= url_for(photo.photo.variant(resize_to_limit: [1600, 1600])) %>"
+                    data-lightbox-caption="<%= photo.caption %>">
+              <%= image_tag photo.photo.variant(resize_to_limit: [600, 800]),
+                    class: "w-full rounded-[3px]", loading: "lazy",
+                    alt: photo.caption.presence || "Memorial photo" %>
+            </button>
+            <% if photo.caption.present? %>
+              <figcaption class="text-[12px] text-muted mt-1.5"><%= photo.caption %></figcaption>
+            <% end %>
+          </figure>
+        <% end %>
+      </div>
+
+      <%= render "shared/lightbox" %>
     </div>
 
     <% if @total_pages > 1 %>

@@ -130,24 +130,32 @@
   <h2 class="font-serif font-medium tracking-[-0.01em] text-ink m-0 mb-10"
       style="font-size: clamp(34px, 4.6vw, 58px);">In photographs</h2>
 
-  <div style="column-count: 4; column-gap: 16px;" class="max-md:!column-count-2 max-sm:!column-count-1">
-    <% gradients = %w[#E4E4E4 #EAEAEA #DCDCDC #E8E8E8 #E0E0E0 #ECECEC #DADADA #E6E6E6 #E9E9E9 #DEDEDE #E5E5E5] %>
-    <% heights   = [300, 230, 340, 240, 320, 210, 280, 230, 300, 250, 200] %>
-    <% (0...11).each do |i| %>
-      <% photo = @gallery_photos[i] %>
-      <% if photo&.photo&.attached? %>
-        <div class="mb-4" style="break-inside: avoid;">
-          <%= image_tag photo.photo.variant(resize_to_limit: [500, 800]),
-                class: "block w-full h-auto rounded-[3px]", loading: "lazy",
-                alt: photo.caption.presence || "Memorial photo" %>
-        </div>
-      <% else %>
-        <div class="rounded-[3px] mb-4 relative"
-             style="break-inside: avoid; height: <%= heights[i] %>px; background: <%= gradients[i] %>;">
-          <span class="absolute left-3.5 bottom-3 font-mono text-[11px] tracking-[0.1em] text-ink/40">[ PHOTO ]</span>
-        </div>
+  <div data-controller="lightbox">
+    <div style="column-count: 4; column-gap: 16px;" class="max-md:!column-count-2 max-sm:!column-count-1">
+      <% gradients = %w[#E4E4E4 #EAEAEA #DCDCDC #E8E8E8 #E0E0E0 #ECECEC #DADADA #E6E6E6 #E9E9E9 #DEDEDE #E5E5E5] %>
+      <% heights   = [300, 230, 340, 240, 320, 210, 280, 230, 300, 250, 200] %>
+      <% (0...11).each do |i| %>
+        <% photo = @gallery_photos[i] %>
+        <% if photo&.photo&.attached? %>
+          <button type="button" class="block w-full mb-4 cursor-pointer" style="break-inside: avoid;"
+                  data-lightbox-target="item"
+                  data-action="lightbox#open"
+                  data-lightbox-src="<%= url_for(photo.photo.variant(resize_to_limit: [1600, 1600])) %>"
+                  data-lightbox-caption="<%= photo.caption %>">
+            <%= image_tag photo.photo.variant(resize_to_limit: [500, 800]),
+                  class: "block w-full h-auto rounded-[3px]", loading: "lazy",
+                  alt: photo.caption.presence || "Memorial photo" %>
+          </button>
+        <% else %>
+          <div class="rounded-[3px] mb-4 relative"
+               style="break-inside: avoid; height: <%= heights[i] %>px; background: <%= gradients[i] %>;">
+            <span class="absolute left-3.5 bottom-3 font-mono text-[11px] tracking-[0.1em] text-ink/40">[ PHOTO ]</span>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+
+    <%= render "shared/lightbox" %>
   </div>
 
   <div class="text-center mt-8 flex flex-wrap gap-6 justify-center">

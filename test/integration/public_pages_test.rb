@@ -1,6 +1,11 @@
 require "test_helper"
 
 class PublicPagesTest < ActionDispatch::IntegrationTest
+  def attach_photo(record, filename: "p.png")
+    record.photo.attach(io: File.open(Rails.root.join("test/fixtures/files/wp_sample.png")), filename: filename, content_type: "image/png")
+    record
+  end
+
   test "home page loads" do
     get root_path
     assert_response :success
@@ -25,6 +30,31 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "bio redirects to chris" do
     get "/bio"
     assert_redirected_to "/chris"
+  end
+
+  test "chris page shows portrait-tagged published photos and excludes others" do
+    attach_photo(GalleryPhoto.new(status: :published, portrait: true, caption: "Bio portrait")).save!
+    attach_photo(GalleryPhoto.new(status: :published, portrait: false, caption: "Not a portrait")).save!
+    attach_photo(GalleryPhoto.new(status: :pending, portrait: true, caption: "Pending portrait")).save!
+
+    get chris_path
+    assert_response :success
+    assert_select "img[alt=?]", "Bio portrait"
+    assert_select "img[alt=?]", "Not a portrait", count: 0
+    assert_select "img[alt=?]", "Pending portrait", count: 0
+  end
+
+  test "chris page fills at most the three portrait slots in sort order" do
+    4.times do |i|
+      attach_photo(GalleryPhoto.new(status: :published, portrait: true, sort_order: i, caption: "Portrait #{i}"), filename: "p#{i}.png").save!
+    end
+
+    get chris_path
+    assert_response :success
+    assert_select "img[alt=?]", "Portrait 0"
+    assert_select "img[alt=?]", "Portrait 1"
+    assert_select "img[alt=?]", "Portrait 2"
+    assert_select "img[alt=?]", "Portrait 3", count: 0
   end
 
   test "projects page loads" do

@@ -1,0 +1,25 @@
+<%# Lightbox dialog. Render once inside an element with data-controller="lightbox".
+    The clickable thumbnails are data-lightbox-target="item" elements that carry
+    data-lightbox-src (full-size URL) and data-lightbox-caption. %>
+<dialog data-lightbox-target="dialog"
+        aria-label="Photo viewer"
+        data-action="click->lightbox#backdrop keydown->lightbox#key"
+        class="bg-transparent max-w-none w-screen h-screen max-h-screen m-0 p-0 backdrop:bg-ink/80">
+  <div class="relative w-full h-full flex flex-col items-center justify-center p-4 sm:p-10">
+    <button type="button" data-action="lightbox#close" aria-label="Close"
+            class="absolute top-4 right-4 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white text-2xl leading-none hover:bg-white/20 transition-colors">&times;</button>
+
+    <button type="button" data-action="lightbox#prev" aria-label="Previous photo"
+            class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white text-3xl leading-none hover:bg-white/20 transition-colors">&lsaquo;</button>
+
+    <%# No src at render time — show() sets it on open. An empty src="" would
+        make the browser re-request the current page as an image. %>
+    <img data-lightbox-target="image" alt=""
+         class="max-w-full max-h-[82vh] object-contain rounded-[3px]">
+
+    <button type="button" data-action="lightbox#next" aria-label="Next photo"
+            class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white text-3xl leading-none hover:bg-white/20 transition-colors">&rsaquo;</button>
+
+    <p data-lightbox-target="caption" class="hidden mt-4 max-w-[640px] text-center text-[13px] text-white/80"></p>
+  </div>
+</dialog>

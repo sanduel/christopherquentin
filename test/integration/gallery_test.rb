@@ -7,8 +7,8 @@ class GalleryTest < ActionDispatch::IntegrationTest
     Rack::Test::UploadedFile.new(Rails.root.join("test/fixtures/files/wp_sample.png"), "image/png")
   end
 
-  def make_photo(status: :published, featured: false, caption: nil)
-    gp = GalleryPhoto.new(status: status, featured: featured, caption: caption)
+  def make_photo(status: :published, featured: false, portrait: false, caption: nil)
+    gp = GalleryPhoto.new(status: status, featured: featured, portrait: portrait, caption: caption)
     gp.photo.attach(io: File.open(Rails.root.join("test/fixtures/files/wp_sample.png")), filename: "x.png", content_type: "image/png")
     gp.save!
     gp
@@ -78,5 +78,29 @@ class GalleryTest < ActionDispatch::IntegrationTest
     photo = make_photo(status: :published, featured: false)
     patch admin_gallery_photo_path(photo), params: { featured: true }
     assert photo.reload.featured?
+  end
+
+  test "admin can toggle portrait" do
+    sign_in_admin
+    photo = make_photo(status: :published, portrait: false)
+    patch admin_gallery_photo_path(photo), params: { portrait: true }
+    assert photo.reload.portrait?
+  end
+
+  # --- lightbox wiring ---
+  test "gallery page wires its photos into a lightbox with full-size sources" do
+    make_photo(status: :published, caption: "Clickable")
+    get gallery_path
+    assert_response :success
+    assert_select "[data-controller~=?]", "lightbox"
+    assert_select "[data-lightbox-target=item][data-lightbox-src]", minimum: 1
+  end
+
+  test "home photo strip wires featured photos into a lightbox with full-size sources" do
+    make_photo(status: :published, featured: true, caption: "Featured")
+    get root_path
+    assert_response :success
+    assert_select "[data-controller~=?]", "lightbox"
+    assert_select "[data-lightbox-target=item][data-lightbox-src]", minimum: 1
   end
 end

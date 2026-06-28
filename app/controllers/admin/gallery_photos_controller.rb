@@ -38,6 +38,9 @@ class Admin::GalleryPhotosController < Admin::BaseController
     elsif params.key?(:featured)
       @photo.update!(featured: ActiveModel::Type::Boolean.new.cast(params[:featured]))
       redirect_back fallback_location: admin_gallery_photos_path, notice: (@photo.featured? ? "Marked as featured." : "Removed from featured.")
+    elsif params.key?(:portrait)
+      @photo.update!(portrait: ActiveModel::Type::Boolean.new.cast(params[:portrait]))
+      redirect_back fallback_location: admin_gallery_photos_path, notice: (@photo.portrait? ? "Added to bio portraits." : "Removed from bio portraits.")
     else
       @photo.update!(status: params[:status])
       redirect_back fallback_location: admin_gallery_photos_path, notice: "Photo #{params[:status]}."
@@ -56,6 +59,6 @@ class Admin::GalleryPhotosController < Admin::BaseController
   end
 
   def gallery_photo_params
-    params.require(:gallery_photo).permit(:photo, :caption, :sort_order, :status, :featured, :submitter_name, :submitter_email)
+    params.require(:gallery_photo).permit(:photo, :caption, :sort_order, :status, :featured, :portrait, :submitter_name, :submitter_email)
   end
 end
