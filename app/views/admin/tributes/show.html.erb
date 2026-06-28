@@ -11,13 +11,27 @@
     <%= render "admin/shared/status_badge", status: @tribute.status %>
   </div>
 
+  <% if @tribute.video? %>
+    <div class="aspect-video w-full max-w-xl rounded-lg overflow-hidden bg-stone-900 mb-4">
+      <iframe src="<%= @tribute.youtube_embed_url %>" class="w-full h-full"
+              frameborder="0" allowfullscreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              title="Tribute video"></iframe>
+    </div>
+    <p class="text-xs text-stone-500 mb-4">
+      <%= link_to @tribute.video_url, @tribute.video_url, target: "_blank", rel: "noopener", class: "text-blue-700 underline break-all" %>
+    </p>
+  <% end %>
+
   <% if @tribute.photo.attached? %>
     <div class="mb-4">
       <%= image_tag @tribute.photo.variant(resize_to_limit: [400, 300]), class: "rounded-lg" %>
     </div>
   <% end %>
 
-  <p class="text-stone-600 leading-relaxed mb-6 whitespace-pre-wrap"><%= @tribute.content %></p>
+  <% if @tribute.content.present? %>
+    <p class="text-stone-600 leading-relaxed mb-6 whitespace-pre-wrap"><%= @tribute.content %></p>
+  <% end %>
 
   <%= render "admin/shared/moderation_actions", record: @tribute %>
 </div>

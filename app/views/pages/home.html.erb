@@ -166,18 +166,7 @@
         style="font-size: clamp(34px, 4.6vw, 58px);">In their own words</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <% @recent_tributes.each do |tribute| %>
-        <article class="bg-white-bg rounded-[5px] p-[34px_30px] flex flex-col shadow-[0_1px_2px_rgba(17,17,17,0.05)]">
-          <span class="font-serif text-[50px] leading-[0.5] text-accent h-[30px]" aria-hidden="true">&ldquo;</span>
-          <p class="font-serif italic text-[19px] leading-[1.5] text-quote mt-3.5 mb-0 flex-grow">
-            <%= truncate(tribute.content.to_s, length: 220) %>
-          </p>
-          <div class="border-t border-ink/10 mt-6 pt-4.5">
-            <div class="font-bold text-[15px]"><%= tribute.name %></div>
-            <% if tribute.relationship.present? %>
-              <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-accent mt-1"><%= tribute.relationship %></div>
-            <% end %>
-          </div>
-        </article>
+        <%= render "shared/tribute_quote_card", tribute: tribute %>
       <% end %>
     </div>
     <div class="text-center mt-9">
