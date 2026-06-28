@@ -5,7 +5,7 @@ gem "rails", "~> 8.1.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # SQLite for development + test; PostgreSQL on production (Railway).
-gem "sqlite3", ">= 2.1", group: [:development, :test]
+gem "sqlite3", ">= 2.1", group: [ :development, :test ]
 gem "pg", "~> 1.5", group: :production
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"

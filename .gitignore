@@ -39,3 +39,8 @@
 
 # Worktrees
 .worktrees/
+
+# Local agent tooling / worktrees
+.claude/
+.claire/
+.venv/

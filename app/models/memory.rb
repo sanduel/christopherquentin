@@ -2,6 +2,7 @@ class Memory < ApplicationRecord
   CHRIS_BIRTH_YEAR = 1984
 
   include Mappable
+  include YoutubeEmbeddable
 
   enum :status, { pending: 0, published: 1, rejected: 2 }
   enum :kind,   { text: 0, photo: 1, audio: 2 }, prefix: :kind
@@ -15,7 +16,7 @@ class Memory < ApplicationRecord
   after_validation :geocode, if: ->(m) { m.location_changed? && m.location.present? && m.latitude.blank? }
 
   validates :date,    presence: true
-  validates :content, presence: true, unless: -> { kind_photo? || kind_audio? }
+  validates :content, presence: true, unless: -> { kind_photo? || kind_audio? || video? }
   validates :name,    presence: true, if: -> { user_id.blank? }
   validates :email,   presence: true, if: -> { user_id.blank? }
   validates :email,   format: { with: URI::MailTo::EMAIL_REGEXP, message: "is invalid" }, allow_blank: true

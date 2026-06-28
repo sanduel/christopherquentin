@@ -8,7 +8,7 @@
   </div>
   <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
       style="font-size: clamp(46px, 6.4vw, 80px); line-height: 0.98;">
-    The work he <span class="italic text-accent">left us</span>.
+    Work in <span class="italic text-accent">Chris'</span> memory.
   </h1>
   <p class="text-[16px] text-muted mt-5 max-w-[640px]">
     Christopher gave so much in his 36 years. These projects continue his impact —
@@ -31,25 +31,36 @@
 <section id="trees" class="scroll-mt-24 border-t border-ink/10 pt-12">
   <div class="max-w-[1180px] mx-auto px-6 lg:px-10">
     <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Memorial Trees</div>
-    <h2 class="font-serif font-medium tracking-[-0.01em] text-ink mt-4 mb-4"
-        style="font-size: clamp(34px, 4.6vw, 58px);">
-      A living memorial in <span class="italic text-accent">nine countries</span>.
-    </h2>
-    <p class="text-[16px] text-muted mt-3 max-w-[640px]">
-      One tree per memory. Plant one in his honor.
-    </p>
   </div>
 
   <%= render "trees/world_map_placeholder", trees: @trees, stats: @stats %>
 
   <div class="max-w-[1180px] mx-auto px-6 lg:px-10 py-12">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-      <div>
+      <div data-controller="modal">
         <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent mb-4">Plant a tree</div>
-        <h3 class="font-serif font-medium text-[28px] text-ink mt-0 mb-6 tracking-[-0.01em]">
+        <h3 class="font-serif font-medium text-[28px] text-ink mt-0 mb-4 tracking-[-0.01em]">
           Add a tree to the map.
         </h3>
-        <%= render "trees/add_tree_form", tree: @new_tree %>
+        <p class="text-[16px] text-muted mb-6 max-w-[440px]">
+          Plant a tree in Chris' memory and pin it to the living map.
+        </p>
+        <button type="button" data-action="modal#open"
+                class="bg-ink text-white-bg text-[15px] font-semibold py-[15px] px-7 rounded-md cursor-pointer hover:bg-ink-deep transition-colors border-0">
+          Add a tree to the map →
+        </button>
+
+        <dialog data-modal-target="dialog" data-action="click->modal#backdrop"
+                class="rounded-[5px] bg-white-bg max-w-[560px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
+          <div class="flex items-start justify-between px-8 pt-6 pb-4 border-b border-ink/8">
+            <h2 class="font-serif font-medium text-[28px] text-ink m-0 tracking-[-0.01em]">Add a tree to the map</h2>
+            <button type="button" data-action="modal#close" aria-label="Close"
+                    class="text-ink/40 hover:text-ink text-3xl leading-none cursor-pointer bg-transparent border-0">&times;</button>
+          </div>
+          <div class="p-8">
+            <%= render "trees/add_tree_form", tree: @new_tree %>
+          </div>
+        </dialog>
       </div>
       <div class="aspect-[4/5] rounded-[3px] border border-ink/8 relative overflow-hidden"
            style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
@@ -57,18 +68,6 @@
           [ the first Chris tree — Ann Arbor, planted by his parents ]
         </div>
       </div>
-    </div>
-  </div>
-
-  <%# Why trees — dark pull-quote moment %>
-  <div class="bg-ink text-white-bg px-6 lg:px-10 py-20 lg:py-24">
-    <div class="max-w-[860px] mx-auto text-center">
-      <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-white-bg/50 mb-6">Why trees</div>
-      <blockquote class="font-serif italic text-white-bg m-0"
-                  style="font-size: clamp(26px, 4vw, 48px); line-height: 1.22;">
-        "He'd plant a tree before he'd write a letter. So we plant trees."
-      </blockquote>
-      <footer class="font-mono text-[12px] tracking-[0.14em] uppercase text-white-bg/50 mt-6">&mdash; McMullen family</footer>
     </div>
   </div>
 </section>
@@ -79,7 +78,7 @@
     <div class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Memorial Funds</div>
     <h2 class="font-serif font-medium tracking-[-0.01em] text-ink mt-4"
         style="font-size: clamp(34px, 4.6vw, 58px);">
-      <span class="italic text-accent">Bees</span>, waste, water, music.
+      Bees, waste, water, music.
     </h2>
 
     <div class="font-serif text-[19px] leading-relaxed text-ink mt-8 space-y-5 max-w-[760px]">

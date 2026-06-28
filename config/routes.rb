@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  mount RailsIcons::Engine, at: '/rails_icons'
+  mount RailsIcons::Engine, at: "/rails_icons"
   devise_for :users
 
   root "pages#home"
@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   end
   resources :trees, only: [ :new, :create, :show ]
   resources :recipes, only: [ :index, :new, :create, :show ]
-  resources :photo_submissions, only: [ :new, :create ], path: "submit-photos"
+  get "gallery", to: "gallery#index", as: :gallery
+  get "submit-photos", to: "gallery#new", as: :submit_photos
+  post "submit-photos", to: "gallery#create"
   resources :newsletter_subscribers, only: [ :create ]
   resources :events, only: [ :index, :show ]
   resources :bee_hives, only: [ :index, :new, :create, :show ]
@@ -29,14 +31,13 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#index"
-    resources :tributes, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :memories, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :trees, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :recipes, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :photo_submissions, only: [ :index, :show, :update, :destroy ]
+    resources :tributes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :memories, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :trees, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :recipes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :gallery_photos
     resources :events
-    resources :bee_hives, only: [ :index, :show, :edit, :update, :destroy ]
+    resources :bee_hives, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_020000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -51,6 +51,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.integer "status", default: 0, null: false
     t.text "story"
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_bee_hives_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -68,15 +70,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.string "url"
+    t.bigint "wp_post_id"
     t.index ["published", "starts_at"], name: "index_events_on_published_and_starts_at"
     t.index ["starts_at"], name: "index_events_on_starts_at"
+    t.index ["wp_post_id"], name: "index_events_on_wp_post_id", unique: true
   end
 
   create_table "gallery_photos", force: :cascade do |t|
     t.string "caption"
     t.datetime "created_at", null: false
+    t.boolean "featured", default: false, null: false
     t.integer "sort_order", default: 0
+    t.integer "status", default: 1, null: false
+    t.string "submitter_email"
+    t.string "submitter_name"
     t.datetime "updated_at", null: false
+    t.bigint "wp_post_id"
+    t.index ["featured"], name: "index_gallery_photos_on_featured"
+    t.index ["status"], name: "index_gallery_photos_on_status"
+    t.index ["wp_post_id"], name: "index_gallery_photos_on_wp_post_id", unique: true
   end
 
   create_table "memories", force: :cascade do |t|
@@ -98,6 +110,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.string "video_url"
     t.index ["kind"], name: "index_memories_on_kind"
     t.index ["user_id"], name: "index_memories_on_user_id"
   end
@@ -127,6 +140,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.string "submitter_name", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.bigint "wp_post_id"
+    t.index ["user_id"], name: "index_recipes_on_user_id"
+    t.index ["wp_post_id"], name: "index_recipes_on_wp_post_id", unique: true
   end
 
   create_table "replies", force: :cascade do |t|
@@ -157,17 +174,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
     t.text "story"
     t.integer "tree_count", default: 1
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_trees_on_user_id"
   end
 
   create_table "tributes", force: :cascade do |t|
     t.integer "category", default: 4, null: false
-    t.text "content", null: false
+    t.text "content"
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.string "relationship"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.string "video_url"
+    t.bigint "wp_post_id"
     t.index ["category"], name: "index_tributes_on_category"
+    t.index ["user_id"], name: "index_tributes_on_user_id"
+    t.index ["wp_post_id"], name: "index_tributes_on_wp_post_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -186,7 +210,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_131806) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bee_hives", "users"
   add_foreign_key "memories", "users"
+  add_foreign_key "recipes", "users"
   add_foreign_key "replies", "memories"
   add_foreign_key "replies", "users"
+  add_foreign_key "trees", "users"
+  add_foreign_key "tributes", "users"
 end

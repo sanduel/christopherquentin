@@ -17,7 +17,7 @@ if Rails.env.development?
       location: "Munich, Germany" },
     { date: Date.new(2019, 5, 12), title: "Stavanger rehearsal", kind: "text",
       content: "Watching Chris rehearse Mahler with the Jæren Symfoniorkester. He stopped after eight bars to make a joke about the violas. Everyone laughed. Then the next phrase was perfect.",
-      location: "Stavanger, Norway" },
+      location: "Stavanger, Norway" }
   ]
 
   memories_data.each do |attrs|
@@ -44,7 +44,7 @@ if Rails.env.development?
     { title: "Dartmouth Conducting Endowment — annual recital",
       event_type: :service,
       starts_at: Time.zone.local(2026, 10, 23, 19, 0),
-      location: "Spaulding Auditorium, Hanover, NH" },
+      location: "Spaulding Auditorium, Hanover, NH" }
   ]
 
   events_data.each do |attrs|
@@ -65,7 +65,7 @@ if Rails.env.development?
     { name: "Sigrid Olsen", relationship: "Colleague, Jæren Symfoniorkester", category: "musicians",
       content: "Chris's scintillating charisma and smiling authority inspired singers and musicians alike to surpass themselves. We carry his phrasings with us into every performance." },
     { name: "Anna Lee", relationship: "Student", category: "students",
-      content: "He'd write notes in the margins of my scores that were half pedagogy, half love letters to the music. I still have them all." },
+      content: "He'd write notes in the margins of my scores that were half pedagogy, half love letters to the music. I still have them all." }
   ]
 
   tributes_data.each do |attrs|

@@ -51,8 +51,16 @@
 
     <div>
       <%= f.label :content, "Your tribute", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
-      <%= f.text_area :content, required: true, rows: 8,
+      <%= f.text_area :content, rows: 8,
             class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors leading-relaxed" %>
+      <p class="text-[13px] text-muted mt-2">Share a written tribute, a YouTube video, or both.</p>
+    </div>
+
+    <div>
+      <%= f.label :video_url, "YouTube video (optional)", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+      <%= f.url_field :video_url,
+            placeholder: "https://www.youtube.com/watch?v=…",
+            class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
     </div>
 
     <div>

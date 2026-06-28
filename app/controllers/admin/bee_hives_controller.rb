@@ -28,9 +28,9 @@ class Admin::BeeHivesController < Admin::BaseController
   end
 
   def update
-    if pin_params_present?
-      if @bee_hive.update(pin_params)
-        redirect_to admin_bee_hives_path, notice: "Hive pin updated."
+    if bee_hive_params_present?
+      if @bee_hive.update(bee_hive_params)
+        redirect_to admin_bee_hives_path, notice: "Bee hive updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -56,11 +56,7 @@ class Admin::BeeHivesController < Admin::BaseController
                                      :pin_color, :pin_icon, :user_id, :status)
   end
 
-  def pin_params
-    params.require(:bee_hive).permit(:pin_color, :pin_icon)
-  end
-
-  def pin_params_present?
+  def bee_hive_params_present?
     params[:bee_hive].present?
   end
 end

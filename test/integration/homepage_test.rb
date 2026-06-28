@@ -37,7 +37,7 @@ class HomepageTest < ActionDispatch::IntegrationTest
   # ── Honor grid ────────────────────────────────────────────────────────────
   test "honor grid section renders" do
     get root_path
-    assert_select "h2.font-serif", text: /Honor his memory/
+    assert_select "h2.font-serif", text: /Get involved/
     assert_select "section article", minimum: 1
   end
 
@@ -57,11 +57,10 @@ class HomepageTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", funds_path
   end
 
-  test "honor grid cards have eyebrows Plant, Remember, Pollinate, Sustain" do
+  test "get involved cards render their titles" do
     get root_path
-    body = response.body
-    %w[Plant Remember Pollinate Sustain].each do |eyebrow|
-      assert_match eyebrow, body, "Expected eyebrow '#{eyebrow}' in honor grid"
+    [ "Plant a Tree", "Share a Memory", "Adopt a Bee Hive", "Support a Fund" ].each do |title|
+      assert_select "h3", text: title, count: 1
     end
   end
 
@@ -126,7 +125,7 @@ class HomepageTest < ActionDispatch::IntegrationTest
 
   test "photographs section renders Submit a photo link" do
     get root_path
-    assert_select "a[href=?]", new_photo_submission_path, text: /Submit a photo/
+    assert_select "a[href=?]", submit_photos_path, text: /Submit a photo/
   end
 
   test "photographs section renders 11 placeholder tiles when GalleryPhoto is empty" do

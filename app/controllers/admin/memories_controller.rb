@@ -53,7 +53,7 @@ class Admin::MemoriesController < Admin::BaseController
 
   def memory_params
     params.require(:memory).permit(
-      :date, :title, :content, :location,
+      :date, :title, :content, :location, :video_url,
       :name, :relationship, :email,
       :kind, :audio_label, :audio_length,
       :pin_color, :pin_icon,

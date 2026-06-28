@@ -17,7 +17,7 @@ class Phase3MemoryAndReplies < ActiveRecord::Migration[8.1]
       t.string  :email
       t.text    :body,         null: false
       t.integer :status,       default: 0, null: false
-      t.index   [:status, :created_at]
+      t.index   [ :status, :created_at ]
       t.timestamps
     end
   end

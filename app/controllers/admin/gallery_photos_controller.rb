@@ -1,8 +1,15 @@
 class Admin::GalleryPhotosController < Admin::BaseController
   before_action :set_photo, only: [ :edit, :update, :destroy ]
 
+  PER_PAGE = 60
+
   def index
-    @photos = GalleryPhoto.all
+    @page = [ params[:page].to_i, 1 ].max
+    scope = GalleryPhoto.with_attached_photo
+    scope = scope.where(status: params[:status]) if params[:status].present? && GalleryPhoto.statuses.key?(params[:status])
+    @total = scope.count
+    @total_pages = [ (@total.to_f / PER_PAGE).ceil, 1 ].max
+    @photos = scope.limit(PER_PAGE).offset((@page - 1) * PER_PAGE)
   end
 
   def new
@@ -22,10 +29,18 @@ class Admin::GalleryPhotosController < Admin::BaseController
   end
 
   def update
-    if @photo.update(gallery_photo_params)
-      redirect_to admin_gallery_photos_path, notice: "Photo updated."
+    if params[:gallery_photo].present?
+      if @photo.update(gallery_photo_params)
+        redirect_to admin_gallery_photos_path, notice: "Photo updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    elsif params.key?(:featured)
+      @photo.update!(featured: ActiveModel::Type::Boolean.new.cast(params[:featured]))
+      redirect_back fallback_location: admin_gallery_photos_path, notice: (@photo.featured? ? "Marked as featured." : "Removed from featured.")
     else
-      render :edit, status: :unprocessable_entity
+      @photo.update!(status: params[:status])
+      redirect_back fallback_location: admin_gallery_photos_path, notice: "Photo #{params[:status]}."
     end
   end
 
@@ -41,6 +56,6 @@ class Admin::GalleryPhotosController < Admin::BaseController
   end
 
   def gallery_photo_params
-    params.require(:gallery_photo).permit(:photo, :caption, :sort_order)
+    params.require(:gallery_photo).permit(:photo, :caption, :sort_order, :status, :featured, :submitter_name, :submitter_email)
   end
 end

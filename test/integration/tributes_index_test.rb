@@ -61,4 +61,33 @@ class TributesIndexTest < ActionDispatch::IntegrationTest
     assert_select "[data-category-filter] .bg-ink.text-white-bg", text: "All"
     assert_match "X", response.body
   end
+
+  test "photo attachments are eager-loaded (no N+1 as tributes grow)" do
+    Tribute.delete_all
+    img = Rails.root.join("test/fixtures/files/wp_sample.png")
+    attach = ->(t) { t.photo.attach(io: File.open(img), filename: "x.png", content_type: "image/png") }
+
+    3.times { |i| attach.call(Tribute.create!(name: "A#{i}", content: "c", status: :published)) }
+    baseline = count_queries { get tributes_path }
+
+    5.times { |i| attach.call(Tribute.create!(name: "B#{i}", content: "c", status: :published)) }
+    grown = count_queries { get tributes_path }
+
+    assert_operator grown - baseline, :<, 5,
+      "Query count grew #{baseline}->#{grown} after adding 5 tributes with photos — likely an N+1 on attachments."
+  end
+
+  private
+
+  def count_queries
+    count = 0
+    sub = ActiveSupport::Notifications.subscribe("sql.active_record") do |_, _, _, _, payload|
+      name = payload[:name].to_s
+      count += 1 unless payload[:cached] || name =~ /SCHEMA|TRANSACTION/
+    end
+    yield
+    count
+  ensure
+    ActiveSupport::Notifications.unsubscribe(sub)
+  end
 end

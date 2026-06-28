@@ -52,7 +52,7 @@ class Admin::TributesController < Admin::BaseController
   end
 
   def tribute_params
-    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo, :user_id, :status)
+    params.require(:tribute).permit(:name, :relationship, :content, :category, :photo, :user_id, :status, :video_url)
   end
 
   def tribute_params_present?
