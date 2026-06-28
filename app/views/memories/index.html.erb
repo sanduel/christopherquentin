@@ -6,10 +6,6 @@
     <span class="inline-block w-[34px] h-px bg-accent"></span>
     <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Timeline · <%= pluralize(@memories_count, "memory", plural: "memories") %> · <%= pluralize(@contributors_count, "contributor") %></span>
   </div>
-  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
-      style="font-size: clamp(46px, 6.4vw, 80px); line-height: 0.98;">
-    A life, kept by <span class="italic text-accent">many hands</span>.
-  </h1>
   <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <p class="text-[16px] text-muted m-0">
       <%= pluralize(@memories_count, "memory", plural: "memories") %> · <%= pluralize(@contributors_count, "contributor") %>
