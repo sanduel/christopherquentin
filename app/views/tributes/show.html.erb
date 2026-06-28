@@ -1,8 +1,14 @@
 <% content_for(:title, "Tribute from #{@tribute.name} — Christopher Quentin") %>
 
 <section class="max-w-[760px] mx-auto px-6 lg:px-10 pt-20 pb-24">
-  <%= link_to "← All tributes", tributes_path,
-        class: "font-mono text-[11px] tracking-[0.18em] uppercase text-mono hover:text-accent no-underline transition-colors" %>
+  <div class="flex justify-between items-center gap-4">
+    <%= link_to "← All tributes", tributes_path,
+          class: "font-mono text-[11px] tracking-[0.18em] uppercase text-mono hover:text-accent no-underline transition-colors" %>
+    <% if current_user&.admin? %>
+      <%= link_to "Edit", edit_tribute_path(@tribute),
+            class: "font-mono text-[11px] tracking-[0.18em] uppercase text-accent hover:opacity-70 no-underline transition-opacity" %>
+    <% end %>
+  </div>
 
   <% if @tribute.video? %>
     <div class="aspect-video w-full rounded-[3px] overflow-hidden bg-ink mt-10">

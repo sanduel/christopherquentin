@@ -36,7 +36,11 @@
           data-action="click->tribute-modal#backdropClose close->tribute-modal#reset"
           aria-labelledby="<%= dom_id(tribute, :modal_name) %>"
           class="rounded-[5px] bg-white-bg max-w-[640px] w-[92vw] max-h-[88vh] p-0 m-auto backdrop:bg-ink/40">
-    <div class="flex justify-end px-5 pt-4">
+    <div class="flex <%= current_user&.admin? ? "justify-between" : "justify-end" %> items-center px-5 pt-4">
+      <% if current_user&.admin? %>
+        <%= link_to "Edit", edit_tribute_path(tribute),
+              class: "font-mono text-[11px] tracking-[0.18em] uppercase text-accent hover:opacity-70 no-underline transition-opacity" %>
+      <% end %>
       <button type="button" data-action="tribute-modal#close"
               aria-label="Close"
               class="text-mono hover:text-accent text-[26px] leading-none cursor-pointer transition-colors">&times;</button>

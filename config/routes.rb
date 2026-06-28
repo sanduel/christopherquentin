@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get "bio", to: redirect("/chris")
   get "trees", to: redirect("/projects#trees")
 
-  resources :tributes, only: [ :index, :new, :create, :show ]
+  resources :tributes, only: [ :index, :new, :create, :show, :edit, :update ]
   resources :memories, only: [ :index, :new, :create, :show ], path: "timeline" do
     resources :replies, only: [ :create ]
   end
