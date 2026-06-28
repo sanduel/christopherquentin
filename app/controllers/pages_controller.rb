@@ -11,7 +11,9 @@ class PagesController < ApplicationController
   end
 
   def chris
-    # View renders hardcoded biography prose + Repertoire PORO; no instance vars needed.
+    # Biography prose + Repertoire PORO are hardcoded in the view; the portrait
+    # grid is filled from gallery photos tagged as portraits (first 3 by sort order).
+    @portraits = GalleryPhoto.published.portraits.with_attached_photo.limit(3).to_a
   end
 
   def projects

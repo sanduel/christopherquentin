@@ -6,6 +6,7 @@ class GalleryPhoto < ApplicationRecord
   validates :photo, presence: true
 
   scope :featured, -> { where(featured: true) }
+  scope :portraits, -> { where(portrait: true) }
   scope :newest_first, -> { reorder(created_at: :desc) }
 
   default_scope { order(:sort_order) }

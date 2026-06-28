@@ -57,20 +57,30 @@
     <aside class="lg:sticky lg:top-24 self-start space-y-6">
       <div class="aspect-[1/1.04] rounded-[3px] border border-ink/8 relative overflow-hidden"
            style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
-        <div class="absolute bottom-3 left-3 font-mono text-[11px] tracking-[0.14em] uppercase text-mono">
-          [ portrait — Stavanger 2019 ]
-        </div>
+        <% if (portrait = @portraits[0]) %>
+          <%= image_tag portrait.photo.variant(resize_to_limit: [800, 800]),
+                class: "absolute inset-0 w-full h-full object-cover", loading: "lazy",
+                alt: portrait.caption.presence || "Portrait of Christopher" %>
+        <% else %>
+          <div class="absolute bottom-3 left-3 font-mono text-[11px] tracking-[0.14em] uppercase text-mono">
+            [ portrait — Stavanger 2019 ]
+          </div>
+        <% end %>
       </div>
 
       <div class="grid grid-cols-2 gap-3">
-        <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden"
-             style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
-          <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">[ rehearsal ]</div>
-        </div>
-        <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden"
-             style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
-          <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">[ podium ]</div>
-        </div>
+        <% [ [ 1, "rehearsal" ], [ 2, "podium" ] ].each do |index, label| %>
+          <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden"
+               style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
+            <% if (portrait = @portraits[index]) %>
+              <%= image_tag portrait.photo.variant(resize_to_limit: [500, 500]),
+                    class: "absolute inset-0 w-full h-full object-cover", loading: "lazy",
+                    alt: portrait.caption.presence || "Photo of Christopher" %>
+            <% else %>
+              <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">[ <%= label %> ]</div>
+            <% end %>
+          </div>
+        <% end %>
       </div>
 
       <%= render "pages/chris/quick_facts" %>

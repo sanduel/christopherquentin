@@ -80,6 +80,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_135317) do
     t.string "caption"
     t.datetime "created_at", null: false
     t.boolean "featured", default: false, null: false
+    t.boolean "portrait", default: false, null: false
     t.integer "sort_order", default: 0
     t.integer "status", default: 1, null: false
     t.string "submitter_email"
@@ -87,6 +88,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_135317) do
     t.datetime "updated_at", null: false
     t.bigint "wp_post_id"
     t.index ["featured"], name: "index_gallery_photos_on_featured"
+    t.index ["portrait"], name: "index_gallery_photos_on_portrait"
     t.index ["status"], name: "index_gallery_photos_on_status"
     t.index ["wp_post_id"], name: "index_gallery_photos_on_wp_post_id", unique: true
   end
