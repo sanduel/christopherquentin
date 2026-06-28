@@ -136,15 +136,18 @@
     <% heights   = [300, 230, 340, 240, 320, 210, 280, 230, 300, 250, 200] %>
     <% (0...11).each do |i| %>
       <% photo = @gallery_photos[i] %>
-      <div class="rounded-[3px] mb-4 relative"
-           style="break-inside: avoid; height: <%= heights[i] %>px; background: <%= gradients[i] %>;">
-        <% if photo&.photo&.attached? %>
-          <%= image_tag photo.photo,
-                style: "width:100%; height:#{heights[i]}px; object-fit:cover; border-radius:3px;",
+      <% if photo&.photo&.attached? %>
+        <div class="mb-4" style="break-inside: avoid;">
+          <%= image_tag photo.photo.variant(resize_to_limit: [500, 800]),
+                class: "block w-full h-auto rounded-[3px]", loading: "lazy",
                 alt: photo.caption.presence || "Memorial photo" %>
-        <% end %>
-        <span class="absolute left-3.5 bottom-3 font-mono text-[11px] tracking-[0.1em] text-ink/40">[ PHOTO ]</span>
-      </div>
+        </div>
+      <% else %>
+        <div class="rounded-[3px] mb-4 relative"
+             style="break-inside: avoid; height: <%= heights[i] %>px; background: <%= gradients[i] %>;">
+          <span class="absolute left-3.5 bottom-3 font-mono text-[11px] tracking-[0.1em] text-ink/40">[ PHOTO ]</span>
+        </div>
+      <% end %>
     <% end %>
   </div>
 
