@@ -47,6 +47,13 @@ module EventsHelper
     )
   end
 
+  # Returns the URL only if it is an http(s) link, else nil. Guards `link_to`
+  # hrefs against javascript:/data: schemes in values that bypassed model
+  # validation (legacy/imported rows, console writes).
+  def safe_event_url(url)
+    url if url.to_s.match?(%r{\Ahttps?://}i)
+  end
+
   def event_type_label(event)
     event.event_type.titleize
   end

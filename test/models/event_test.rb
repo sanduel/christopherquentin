@@ -92,6 +92,20 @@ class EventTest < ActiveSupport::TestCase
     end
   end
 
+  test "url validation does not block editing other fields on a legacy bad url" do
+    event = Event.create!(title: "Legacy", event_type: :concert, starts_at: 1.day.from_now, url: "https://ok.com")
+    event.update_column(:url, "javascript:alert(1)") # bypasses validation, simulates imported/legacy row
+
+    assert event.reload.update(title: "Renamed"), event.errors.full_messages.inspect
+    assert_equal "Renamed", event.reload.title
+  end
+
+  test "url validation fires when the url itself is changed" do
+    event = Event.create!(title: "X", event_type: :concert, starts_at: 1.day.from_now)
+    assert_not event.update(url: "javascript:alert(1)")
+    assert_includes event.errors[:url], "must be a valid http or https URL"
+  end
+
   test "service is a valid event_type" do
     event = Event.new(
       title: "Annual Memorial Recital",

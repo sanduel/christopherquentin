@@ -39,7 +39,11 @@
   <% if @event.url.present? %>
     <div>
       <span class="text-sm font-medium text-stone-500 uppercase tracking-wide">URL:</span>
-      <%= link_to @event.url, @event.url, target: "_blank", rel: "noopener", class: "ml-2 text-blue-700 hover:text-blue-600 underline break-all" %>
+      <% if (event_url = safe_event_url(@event.url)) %>
+        <%= link_to event_url, event_url, target: "_blank", rel: "noopener", class: "ml-2 text-blue-700 hover:text-blue-600 underline break-all" %>
+      <% else %>
+        <span class="ml-2 text-stone-700 break-all"><%= @event.url %></span>
+      <% end %>
     </div>
   <% end %>
   <% if @event.description.present? %>

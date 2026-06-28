@@ -55,10 +55,10 @@
     </div>
   <% end %>
 
-  <% if @event.url.present? %>
+  <% if (event_url = safe_event_url(@event.url)) %>
     <div class="mt-10">
       <%= link_to @event.concert? ? "Tickets / Details →" : "Join #{@event.event_type.titleize} →",
-            @event.url,
+            event_url,
             target: "_blank", rel: "noopener",
             class: "inline-block bg-ink text-white-bg rounded-md px-6 py-3 font-semibold text-[15px] hover:bg-accent transition-colors no-underline cursor-pointer" %>
     </div>

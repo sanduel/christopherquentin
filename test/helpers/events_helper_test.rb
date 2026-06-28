@@ -42,6 +42,15 @@ class EventsHelperTest < ActionView::TestCase
     assert_equal "", event_time_tag(nil)
   end
 
+  test "safe_event_url returns http(s) urls and nil for unsafe schemes" do
+    assert_equal "https://zoom.us/j", safe_event_url("https://zoom.us/j")
+    assert_equal "http://example.com", safe_event_url("http://example.com")
+    assert_nil safe_event_url("javascript:alert(1)")
+    assert_nil safe_event_url("data:text/html,x")
+    assert_nil safe_event_url("example.com")
+    assert_nil safe_event_url(nil)
+  end
+
   test "event_timezone_select renders a select wired to the timezone controller" do
     html = event_timezone_select
 
