@@ -59,7 +59,7 @@ class PublicPagesTest < ActionDispatch::IntegrationTest
   test "timeline page loads" do
     get memories_path
     assert_response :success
-    assert_select "h1.font-serif", /A life, kept by/
+    assert_select "span.font-mono", /Timeline/
   end
 
   test "trees redirects to projects#trees" do
