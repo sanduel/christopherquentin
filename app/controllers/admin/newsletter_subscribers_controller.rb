@@ -26,8 +26,15 @@ class Admin::NewsletterSubscribersController < Admin::BaseController
     CSV.generate do |csv|
       csv << [ "Email", "Subscribed at" ]
       subscribers.each do |subscriber|
-        csv << [ subscriber.email, subscriber.created_at.iso8601 ]
+        csv << [ csv_safe(subscriber.email), subscriber.created_at.iso8601 ]
       end
     end
+  end
+
+  # Prefix values that a spreadsheet would treat as a formula so they render as
+  # plain text instead of executing on open (CSV/formula injection).
+  def csv_safe(value)
+    string = value.to_s
+    string.match?(/\A[=+\-@\t\r]/) ? "'#{string}" : string
   end
 end

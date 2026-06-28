@@ -47,4 +47,16 @@ class AdminSubscribersTest < ActionDispatch::IntegrationTest
     assert_equal "text/csv", response.media_type
     assert_includes response.body, "fan@test.com"
   end
+
+  test "CSV export neutralizes formula-injection in subscriber email" do
+    sign_in_admin
+    # A formula-prefixed local part still passes URI::MailTo::EMAIL_REGEXP.
+    NewsletterSubscriber.create!(email: "=1+1@x.com")
+
+    get admin_newsletter_subscribers_path(format: :csv)
+    assert_response :success
+    # The cell must be prefixed so spreadsheet apps treat it as text, not a formula.
+    assert_includes response.body, "'=1+1@x.com"
+    refute_match(/(^|,)"?=1\+1/, response.body)
+  end
 end
