@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     root "dashboard#index"
     resources :tributes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :memories, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :milestones, only: [ :index, :new, :create, :edit, :update, :destroy ]
     resources :trees, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :recipes, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
     resources :gallery_photos
