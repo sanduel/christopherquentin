@@ -68,8 +68,8 @@ class HomepageTest < ActionDispatch::IntegrationTest
   test "timeline band renders From the timeline eyebrow + h2" do
     get root_path
     assert_match(/From the timeline/i, response.body)
-    assert_select "h2.font-serif", text: /A life, kept by/
-    assert_select "h2 span.italic.text-accent", text: /many hands/
+    assert_select "h2.font-serif", text: /Memories from/
+    assert_select "h2 span.italic.text-accent", text: /friends and family/
   end
 
   test "timeline band renders View full timeline link to memories_path" do

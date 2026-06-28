@@ -40,4 +40,9 @@
     <p class="text-3xl font-bold text-blue-800"><%= @pending_bee_hives %></p>
     <p class="text-stone-500">Pending Bee Hives</p>
   <% end %>
+
+  <%= link_to admin_milestones_path, class: "block bg-white p-6 rounded-lg shadow-sm border border-stone-200 hover:border-blue-300 transition" do %>
+    <p class="text-3xl font-bold text-stone-700"><%= @milestones_count %></p>
+    <p class="text-stone-500">Milestones</p>
+  <% end %>
 </div>

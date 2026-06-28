@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_28_030000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_135317) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -115,6 +115,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_28_030000) do
     t.string "video_url"
     t.index ["kind"], name: "index_memories_on_kind"
     t.index ["user_id"], name: "index_memories_on_user_id"
+  end
+
+  create_table "milestones", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.text "description"
+    t.string "headline", null: false
+    t.string "icon"
+    t.string "location"
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_milestones_on_date"
   end
 
   create_table "newsletter_subscribers", force: :cascade do |t|

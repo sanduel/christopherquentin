@@ -31,6 +31,21 @@ if Rails.env.development?
     end
   end
 
+  # ---- Milestones (biographical) ----
+  milestones_data = [
+    { date: Date.new(1984, 1, 1), headline: "Born", location: "Tokyo, Japan",
+      description: "The beginning of a life that would touch people across nine countries." },
+    { date: Date.new(2002, 9, 1), headline: "Began studies at Dartmouth", location: "Hanover, NH" },
+    { date: Date.new(2019, 5, 1), headline: "Appointed at the Stavanger Symphony", location: "Stavanger, Norway" }
+  ]
+
+  milestones_data.each do |attrs|
+    Milestone.find_or_create_by!(date: attrs[:date], headline: attrs[:headline]) do |m|
+      m.location = attrs[:location]
+      m.description = attrs[:description]
+    end
+  end
+
   # ---- Events ----
   events_data = [
     { title: "Chris's Memorial Call — five years on",
@@ -88,5 +103,5 @@ if Rails.env.development?
     t.status = :published
   end
 
-  puts "Sample data created (#{Memory.count} memories, #{Event.count} events, #{Tribute.count} tributes, #{Tree.count} trees)."
+  puts "Sample data created (#{Memory.count} memories, #{Milestone.count} milestones, #{Event.count} events, #{Tribute.count} tributes, #{Tree.count} trees)."
 end
