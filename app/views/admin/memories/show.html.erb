@@ -16,6 +16,12 @@
     <p class="text-stone-600 leading-relaxed mb-6 whitespace-pre-wrap"><%= @memory.content %></p>
   <% end %>
 
+  <% if @memory.video? %>
+    <p class="mb-6"><span class="text-stone-500">Video:</span>
+      <%= link_to @memory.video_url, @memory.video_url, target: "_blank", rel: "noopener", class: "text-blue-700 hover:text-blue-600 underline" %>
+    </p>
+  <% end %>
+
   <% if @memory.photos.attached? %>
     <div class="grid grid-cols-2 gap-4 mb-6">
       <% @memory.photos.each do |photo| %>

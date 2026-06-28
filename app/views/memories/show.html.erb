@@ -21,6 +21,15 @@
     </h1>
   <% end %>
 
+  <% if @memory.video? %>
+    <div class="aspect-video w-full rounded-[3px] overflow-hidden bg-ink mt-10">
+      <iframe src="<%= @memory.youtube_embed_url %>"
+              class="w-full h-full" frameborder="0" allowfullscreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              title="Memory video from <%= @memory.display_name %>"></iframe>
+    </div>
+  <% end %>
+
   <% if @memory.kind_audio? %>
     <%# Audio player block %>
     <div class="mt-10 bg-white-bg rounded-[5px] border border-ink/8 overflow-hidden">

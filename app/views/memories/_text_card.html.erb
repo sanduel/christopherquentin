@@ -6,9 +6,19 @@
   <div class="font-mono text-[11px] tracking-[0.16em] uppercase text-accent">
     <%= l(memory.date, format: :memory) %><% if memory.location.present? %> · <%= memory.location %><% end %>
   </div>
-  <blockquote class="font-serif text-[20px] leading-relaxed text-ink mt-4 mb-0">
-    <%= simple_format("“#{memory.content}”") %>
-  </blockquote>
+  <% if memory.video? %>
+    <div class="aspect-video w-full rounded-[3px] overflow-hidden bg-ink mt-4">
+      <iframe src="<%= memory.youtube_embed_url %>" loading="lazy"
+              class="w-full h-full" frameborder="0" allowfullscreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              title="Memory video from <%= memory.display_name %>"></iframe>
+    </div>
+  <% end %>
+  <% if memory.content.present? %>
+    <blockquote class="font-serif text-[20px] leading-relaxed text-ink mt-4 mb-0">
+      <%= simple_format("“#{memory.content}”") %>
+    </blockquote>
+  <% end %>
   <%= render "memories/card_footer", memory: memory %>
   <% memory.replies.published.each do |reply| %>
     <%= render "memories/reply", reply: reply %>

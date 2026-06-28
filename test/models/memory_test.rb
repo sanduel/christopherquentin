@@ -8,6 +8,28 @@ class MemoryTest < ActiveSupport::TestCase
     assert_equal "text", memory.kind
   end
 
+  test "valid with a YouTube video and no written content" do
+    memory = Memory.new(date: Date.today, name: "Alex", email: "alex@example.com",
+                        video_url: "https://youtu.be/dQw4w9WgXcQ")
+    assert memory.valid?, memory.errors.full_messages.inspect
+    assert memory.video?
+    assert_equal "https://www.youtube.com/watch?v=dQw4w9WgXcQ", memory.video_url
+    assert_equal "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0", memory.youtube_embed_url
+  end
+
+  test "invalid with a non-YouTube video url" do
+    memory = Memory.new(date: Date.today, content: "x", name: "Alex", email: "alex@example.com",
+                        video_url: "https://vimeo.com/12345")
+    assert_not memory.valid?
+    assert_includes memory.errors[:video_url], "must be a valid YouTube link"
+  end
+
+  test "still invalid with neither content nor video" do
+    memory = Memory.new(date: Date.today, name: "Alex", email: "alex@example.com")
+    assert_not memory.valid?
+    assert_includes memory.errors[:content], "can't be blank"
+  end
+
   test "invalid without date" do
     memory = Memory.new(content: "A great day.", name: "Alex", email: "alex@example.com")
     assert_not memory.valid?

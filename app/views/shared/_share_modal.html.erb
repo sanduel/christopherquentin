@@ -24,6 +24,13 @@
               placeholder: "A photo, a story, a recording — something specific you want to keep." %>
       </div>
 
+      <div>
+        <%= f.label :video_url, "YouTube video (optional)", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
+        <%= f.url_field :video_url,
+              placeholder: "https://www.youtube.com/watch?v=…",
+              class: "w-full border border-ink/15 rounded-md px-4 py-3 text-[15px] text-ink bg-white-bg focus:border-ink outline-none transition-colors" %>
+      </div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <%= f.label :date, "When did it happen?", class: "font-mono text-[12px] tracking-[0.18em] uppercase text-mono block mb-2" %>
