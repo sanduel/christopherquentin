@@ -1,0 +1,21 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "382faabcb0095af76ee40edd00e5e99778a051eddd3d4ecb29fd1d2fdf3f428a",
+      "note": "Admin-only view; video_url is curator-entered, not visitor input. Weak-confidence LinkToHref. Pre-existing, unrelated to this branch."
+    },
+    {
+      "fingerprint": "3a3f1b380daffef10a0ca339d0b07464e906de0dd0d122c49520bd02dbbc6294",
+      "note": "Admin-only view; video_url is curator-entered, not visitor input. Weak-confidence LinkToHref. Pre-existing, unrelated to this branch."
+    },
+    {
+      "fingerprint": "b6c034749745dfeb39e181fb180ff7aa9d27bcf9e9822f243f075e55de8ce84d",
+      "note": "Admin-only view; event url is curator-entered, not visitor input. Weak-confidence LinkToHref. Pre-existing, unrelated to this branch."
+    },
+    {
+      "fingerprint": "d7478402aaa8078d4fe84f79f88d845eb87bc95ea718a8b2515092eb45d1b70f",
+      "note": "Event url is curator-entered, not visitor input. Weak-confidence LinkToHref. Pre-existing, unrelated to this branch."
+    }
+  ],
+  "brakeman_version": "8.0.5"
+}
