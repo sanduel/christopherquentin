@@ -1,0 +1,38 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-3xl font-title text-stone-800">Users</h1>
+  <span class="text-sm text-stone-400"><%= pluralize(@users.size, "user") %></span>
+</div>
+
+<div class="space-y-4">
+  <% @users.each do |user| %>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+      <div class="flex justify-between items-center gap-4">
+        <div>
+          <span class="font-medium text-stone-800"><%= user.name %></span>
+          <% if user == current_user %>
+            <span class="ml-1 text-xs text-stone-400">(you)</span>
+          <% end %>
+          <span class="ml-2 inline-block px-2 py-0.5 rounded text-xs font-medium <%= user.admin? ? "bg-blue-100 text-blue-800" : "bg-stone-100 text-stone-700" %>">
+            <%= user.role.capitalize %>
+          </span>
+          <div class="text-sm text-stone-500 mt-1"><%= user.email %></div>
+        </div>
+        <div>
+          <% if user == current_user %>
+            <span class="text-xs text-stone-400 italic">Can't change your own role</span>
+          <% elsif user.admin? %>
+            <%= button_to "Make contributor", admin_user_path(user), params: { role: "contributor" }, method: :patch,
+                  class: "px-3 py-1 bg-stone-600 text-white text-sm rounded hover:bg-stone-500 transition" %>
+          <% else %>
+            <%= button_to "Make admin", admin_user_path(user), params: { role: "admin" }, method: :patch,
+                  class: "px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-600 transition" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @users.empty? %>
+    <p class="text-stone-400 italic">No users yet.</p>
+  <% end %>
+</div>

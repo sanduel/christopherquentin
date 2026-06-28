@@ -39,6 +39,8 @@ Rails.application.routes.draw do
     resources :gallery_photos
     resources :events
     resources :bee_hives, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
+    resources :users, only: [ :index, :update ]
+    resources :newsletter_subscribers, only: [ :index, :destroy ]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
