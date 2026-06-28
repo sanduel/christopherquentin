@@ -1,35 +1,161 @@
 conducted:
+  - composer: Cherubini
+    works:
+      - "Le porteur d'eau (world premiere of the new critical edition 2008)"
+  - composer: Gershwin
+    works:
+      - "Blue Monday/135th Street Blues (Jazz Opera)"
+  - composer: "Griffeath-Loeb, B."
+    works:
+      - "Sicut erat (world premiere 2004)"
+  - composer: Hamlisch
+    works:
+      - "A Chorus Line"
+  - composer: Humperdinck
+    works:
+      - "Hänsel und Gretel (in German, excerpts)"
+  - composer: "Ishita, E."
+    works:
+      - "The Town in the Sky"
+  - composer: "Jenkins, K."
+    works:
+      - "Eloise, an opera for young people"
+  - composer: "Kleiberg, S."
+    works:
+      - "David and Bathsheba (first fully-staged production 2015)"
+  - composer: Lehár
+    works:
+      - "The Merry Widow (in English)"
+  - composer: Purcell
+    works:
+      - "The Tempest"
   - composer: Mozart
     works:
-      - Die Entführung aus dem Serail
-      - Le nozze di Figaro
-  - composer: Beethoven
+      - "Bastien und Bastienne"
+      - "La clemenza di Tito (excerpts)"
+      - "Le nozze di Figaro (excerpts)"
+  - composer: Sibata
     works:
-      - Symphony No. 7
-      - Fidelio (excerpts)
-  - composer: Mahler
+      - "Forgotten Boys (German premiere 2011)"
+  - composer: Weber
     works:
-      - Symphony No. 4
-      - Lieder eines fahrenden Gesellen
-  - composer: Verdi
-    works:
-      - La traviata (Cape Cod Opera)
-      - Rigoletto (Opera Providence)
-  - composer: Wagner
-    works:
-      - Tristan und Isolde (excerpts, Bayerische Staatsoper)
+      - "Abu Hassan"
 
 assisted:
-  - composer: Strauss
+  - composer: Beethoven
     works:
-      - Der Rosenkavalier (with Kirill Petrenko)
-      - Salome (with Kent Nagano)
+      - "Fidelio"
+  - composer: Bellini
+    works:
+      - "I Capuleti e i Montecchi"
+  - composer: Berlioz
+    works:
+      - "Roméo et Juliette (Chorus master)"
+  - composer: Bernstein
+    works:
+      - "Candide (Chorus master)"
   - composer: Britten
     works:
-      - Peter Grimes (Royal Ballet adaptation)
-  - composer: Stravinsky
+      - "A Midsummer Night's Dream"
+  - composer: Bizet
     works:
-      - The Rite of Spring (Rambert Dance)
+      - "Carmen"
+  - composer: Donizetti
+    works:
+      - "L'elisir d'amore"
+      - "Lucrezia Borgia"
+      - "Roberto Devereux"
+  - composer: Dvořák
+    works:
+      - "Rusalka"
+  - composer: Handel
+    works:
+      - "Alcina"
+  - composer: Henze
+    works:
+      - "Elegie für junge Liebende (German)"
+  - composer: Humperdinck
+    works:
+      - "Hänsel und Gretel"
+  - composer: Janáček
+    works:
+      - "Jenůfa"
+      - "Věc Makropulos"
+  - composer: "Lloyd-Weber, A."
+    works:
+      - "Evita"
+  - composer: Mayr
+    works:
+      - "Medea in Corinto"
+  - composer: Messiaen
+    works:
+      - "St. François d'Assise"
+  - composer: Mozart
+    works:
+      - "La clemenza di Tito"
+      - "Così fan tutte"
+      - "Die Entführung aus dem Serail"
+      - "Don Giovanni"
+      - "Le nozze di Figaro"
+      - "Die Zauberflöte"
+  - composer: Mussorgsky
+    works:
+      - "Boris Godunov"
+      - "Khovanshchina"
+  - composer: Poulenc
+    works:
+      - "Les dialogues des Carmélites"
   - composer: Puccini
     works:
-      - La bohème (Bayerische Staatsoper Education)
+      - "La Bohème"
+      - "Tosca"
+      - "Turandot"
+  - composer: Ravel
+    works:
+      - "L'enfant et les sortilèges"
+  - composer: Rossini
+    works:
+      - "La Cenerentola"
+      - "Il barbiere di Siviglia"
+  - composer: "Srnka, M."
+    works:
+      - "South Pole (world premiere 2016)"
+  - composer: "Strauss, J."
+    works:
+      - "Die Fledermaus"
+  - composer: "Strauss, R."
+    works:
+      - "Arabella"
+      - "Ariadne auf Naxos"
+      - "Der Rosenkavalier"
+      - "Die schweigsame Frau"
+  - composer: Tchaikovsky
+    works:
+      - "Eugen Onegin"
+  - composer: Verdi
+    works:
+      - "Falstaff"
+      - "Otello"
+      - "Rigoletto"
+      - "Simone Boccanegra"
+      - "La Traviata"
+  - composer: Wagner
+    works:
+      - "Der fliegende Holländer"
+      - "Götterdämmerung"
+      - "Das Rheingold"
+      - "Lohengrin"
+      - "Siegfried"
+      - "Tannhäuser"
+      - "Tristan und Isolde"
+      - "Die Walküre"
+      - "Oberon"
+  - composer: Weber
+    works:
+      - "Der Freischütz"
+  - composer: Widmann
+    works:
+      - "Babylon"
+  - composer: Zemlinsky
+    works:
+      - "Der Zwerg"

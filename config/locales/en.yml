@@ -36,4 +36,6 @@ en:
   time:
     formats:
       event_date: "%A %b %-d, %Y"   # e.g. "Sunday Jun 14, 2026"
-      event_time: "%-l:%M %p %Z"    # e.g. "3:00 PM EDT"
+      # Bare time; the friendly zone label (ET/London/…) is appended by the
+      # events helper / timezone Stimulus controller.
+      event_time_bare: "%-l:%M %p"  # e.g. "3:00 PM"
