@@ -11,7 +11,7 @@ class PagesController < ApplicationController
   end
 
   def chris
-    # View renders hardcoded biography prose + Repertoire PORO; no instance vars needed.
+    @bio_photos = GalleryPhoto.published.bio_grid.with_attached_photo.limit(3).to_a
   end
 
   def projects
