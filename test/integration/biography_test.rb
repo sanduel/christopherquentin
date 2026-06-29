@@ -37,4 +37,30 @@ class BiographyTest < ActionDispatch::IntegrationTest
       assert_select "*", text: /Mozart|Beethoven|Mahler/
     end
   end
+
+  def attach_bio_photo(**attrs)
+    gp = GalleryPhoto.new(**attrs)
+    gp.photo.attach(io: File.open(Rails.root.join("test/fixtures/files/wp_sample.png")),
+                    filename: "b.png", content_type: "image/png")
+    gp.save!
+    gp
+  end
+
+  test "bio grid renders flagged published photos in the sidebar" do
+    3.times { |i| attach_bio_photo(sort_order: i, caption: "Bio #{i}", bio_grid: true, status: :published) }
+
+    get chris_path
+    assert_response :success
+    assert_select "aside img", 3
+  end
+
+  test "bio grid keeps placeholders for unfilled slots and excludes unpublished/unflagged photos" do
+    attach_bio_photo(sort_order: 0, caption: "shown", bio_grid: true, status: :published)
+    attach_bio_photo(sort_order: 1, caption: "pending", bio_grid: true, status: :pending)
+    attach_bio_photo(sort_order: 2, caption: "unflagged", bio_grid: false, status: :published)
+
+    get chris_path
+    assert_response :success
+    assert_select "aside img", 1
+  end
 end

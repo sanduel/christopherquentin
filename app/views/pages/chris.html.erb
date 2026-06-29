@@ -55,22 +55,42 @@
 
     <%# Right column — sticky sidebar %>
     <aside class="lg:sticky lg:top-24 self-start space-y-6">
-      <div class="aspect-[1/1.04] rounded-[3px] border border-ink/8 relative overflow-hidden"
-           style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
-        <div class="absolute bottom-3 left-3 font-mono text-[11px] tracking-[0.14em] uppercase text-mono">
-          [ portrait — Stavanger 2019 ]
+      <%# Large portrait slot — first flagged photo, else placeholder %>
+      <% if (portrait = @bio_photos&.first) %>
+        <div class="aspect-[1/1.04] rounded-[3px] border border-ink/8 relative overflow-hidden">
+          <%= image_tag portrait.photo.variant(resize_to_fill: [560, 582]),
+                class: "absolute inset-0 w-full h-full object-cover", alt: portrait.caption.to_s, loading: "lazy" %>
+          <% if portrait.caption.present? %>
+            <div class="absolute bottom-3 left-3 font-mono text-[11px] tracking-[0.14em] uppercase text-white" style="text-shadow: 0 1px 3px rgba(0,0,0,.6)"><%= portrait.caption %></div>
+          <% end %>
         </div>
-      </div>
+      <% else %>
+        <div class="aspect-[1/1.04] rounded-[3px] border border-ink/8 relative overflow-hidden"
+             style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
+          <div class="absolute bottom-3 left-3 font-mono text-[11px] tracking-[0.14em] uppercase text-mono">
+            [ portrait — Stavanger 2019 ]
+          </div>
+        </div>
+      <% end %>
 
+      <%# Two small square slots — second and third flagged photos, else placeholders %>
       <div class="grid grid-cols-2 gap-3">
-        <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden"
-             style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
-          <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">[ rehearsal ]</div>
-        </div>
-        <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden"
-             style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
-          <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">[ podium ]</div>
-        </div>
+        <% [ [ @bio_photos&.[](1), "rehearsal" ], [ @bio_photos&.[](2), "podium" ] ].each do |photo, label| %>
+          <% if photo %>
+            <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden">
+              <%= image_tag photo.photo.variant(resize_to_fill: [320, 320]),
+                    class: "absolute inset-0 w-full h-full object-cover", alt: photo.caption.to_s, loading: "lazy" %>
+              <% if photo.caption.present? %>
+                <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-white" style="text-shadow: 0 1px 3px rgba(0,0,0,.6)"><%= photo.caption %></div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="aspect-square rounded-[3px] border border-ink/8 relative overflow-hidden"
+                 style="background: repeating-linear-gradient(135deg, #E6E6E6 0 11px, #EFEFEF 11px 22px);">
+              <div class="absolute bottom-2 left-2 font-mono text-[10px] tracking-[0.14em] uppercase text-mono">[ <%= label %> ]</div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
 
       <%= render "pages/chris/quick_facts" %>

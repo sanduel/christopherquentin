@@ -32,6 +32,11 @@
     <span class="text-sm font-medium text-stone-700">Featured on home page</span>
   </label>
 
+  <label class="flex items-center gap-2">
+    <%= f.check_box :bio_grid, class: "h-4 w-4" %>
+    <span class="text-sm font-medium text-stone-700">Show in biography photo grid</span>
+  </label>
+
   <% if @photo.submitted? %>
     <p class="text-sm text-stone-500">Submitted by <%= @photo.submitter_name.presence %> <%= "(#{@photo.submitter_email})" if @photo.submitter_email.present? %></p>
   <% end %>
