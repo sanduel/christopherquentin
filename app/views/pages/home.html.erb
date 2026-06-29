@@ -76,18 +76,23 @@
             class: "whitespace-nowrap no-underline text-ink text-[15px] font-semibold py-3.5 px-6 rounded-md border border-ink/22 hover:border-ink transition-colors" %>
     </div>
 
-    <%# Single memory card — most recent published memory if any %>
-    <% if (memory = @timeline_preview_memories&.first) %>
-      <article class="bg-white-bg rounded-[5px] p-[30px_32px] max-w-[460px] shadow-[0_1px_2px_rgba(17,17,17,0.05)]">
-        <span class="font-mono text-[12px] tracking-[0.16em] uppercase text-accent"><%= l(memory.date, format: :memory) %></span>
-        <p class="font-serif text-[20px] leading-[1.5] text-ink mt-4 mb-6"><%= truncate(memory.content.to_s, length: 220) %></p>
-        <div class="border-t border-ink/10 pt-4 flex justify-between items-center">
-          <span class="font-bold text-[15px]"><%= memory.display_name %></span>
-          <span class="font-mono text-[11px] tracking-[0.16em] uppercase text-mono">
-            <%= { "text" => "Letter", "photo" => "Photograph", "audio" => "Recording" }[memory.kind] %>
-          </span>
-        </div>
-      </article>
+    <%# Horizontal scroll row of recent memories %>
+    <% if @timeline_preview_memories.present? %>
+      <div data-memory-scroll role="region" aria-label="Recent memories" tabindex="0"
+           class="flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-6 lg:-mx-10 px-6 lg:px-10 pb-2">
+        <% @timeline_preview_memories.each do |memory| %>
+          <article class="snap-start shrink-0 w-[340px] flex flex-col bg-white-bg rounded-[5px] p-[30px_32px] shadow-[0_1px_2px_rgba(17,17,17,0.05)]">
+            <span class="font-mono text-[12px] tracking-[0.16em] uppercase text-accent"><%= l(memory.date, format: :memory) %></span>
+            <p class="font-serif text-[20px] leading-[1.5] text-ink mt-4 mb-6 flex-grow"><%= truncate(memory.content.to_s, length: 220) %></p>
+            <div class="border-t border-ink/10 pt-4 flex justify-between items-center">
+              <span class="font-bold text-[15px]"><%= memory.display_name %></span>
+              <span class="font-mono text-[11px] tracking-[0.16em] uppercase text-mono">
+                <%= { "text" => "Letter", "photo" => "Photograph", "audio" => "Recording" }[memory.kind] %>
+              </span>
+            </div>
+          </article>
+        <% end %>
+      </div>
     <% else %>
       <article class="bg-white-bg rounded-[5px] p-[30px_32px] max-w-[460px] text-center">
         <p class="font-serif italic text-[19px] text-muted m-0">No memories yet. Be the first to share one.</p>

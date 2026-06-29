@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @timeline_preview_memories = Memory.published.order(date: :desc, created_at: :desc).limit(3)
+    @timeline_preview_memories = Memory.published.order(date: :desc, created_at: :desc).limit(8)
     @memories_count = Memory.published.count
     @upcoming_events = Event.published.upcoming.limit(3)
     featured = GalleryPhoto.published.featured.with_attached_photo.limit(11).to_a
