@@ -57,6 +57,12 @@ class TimelineTest < ActionDispatch::IntegrationTest
     assert_match "he was 35", response.body
   end
 
+  test "year markers use tightened vertical spacing" do
+    get memories_path
+    # Year markers carry the reduced top/bottom margins rather than the original airier ones.
+    assert_select "div.flex.justify-center.mt-12.mb-8", minimum: 1
+  end
+
   test "memory cards render content, name, location" do
     get memories_path
     assert_match "Mass Row", response.body

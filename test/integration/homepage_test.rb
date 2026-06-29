@@ -87,6 +87,25 @@ class HomepageTest < ActionDispatch::IntegrationTest
     assert_match(/Mass Row|Beethoven|Mahler/, response.body)
   end
 
+  test "timeline band renders a horizontal scroll container of memories" do
+    get root_path
+    assert_select "[data-memory-scroll].overflow-x-auto"
+  end
+
+  test "timeline band scroll shows multiple recent memories, not just the most recent" do
+    get root_path
+    # All three published fixtures should appear in the scroll row, not only the newest
+    assert_match(/Mass Row/, response.body)
+    assert_match(/Beethoven/, response.body)
+    assert_match(/Mahler/, response.body)
+  end
+
+  test "timeline band scroll renders one card per previewed memory, capped at the limit" do
+    get root_path
+    expected = [ Memory.published.count, 8 ].min
+    assert_select "[data-memory-scroll] article", count: expected
+  end
+
   test "timeline band empty state shows Be the first message" do
     Memory.update_all(status: Memory.statuses[:pending])
     get root_path
