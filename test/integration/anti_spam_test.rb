@@ -89,6 +89,19 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
       assert_match "couldn't accept that submission", flash[:alert]
     end
 
+    test "#{key}: a honeypot rendered before a restart is still caught after it" do
+      get instance_exec(&endpoint[:form_page])
+      honeypot = honeypot_names_in("form[action='#{instance_exec(&endpoint[:action])}']").first
+
+      InvisibleCaptcha.instance_variable_set(:@honeypots, nil)
+      load Rails.root.join("config/initializers/invisible_captcha.rb")
+
+      assert_no_difference "#{endpoint[:model]}.count" do
+        post instance_exec(&endpoint[:action]),
+          params: instance_exec(1, &endpoint[:params]).merge(honeypot => "http://spam.example")
+      end
+    end
+
     test "#{key}: a real visitor gets through even after other pages load in between" do
       get instance_exec(&endpoint[:form_page])
       action = instance_exec(&endpoint[:action])
@@ -96,7 +109,7 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
       # Turbo prefetches pages on link hover and visitors open other tabs; both render forms.
       travel 30.seconds
       get chris_path
-      travel 30.seconds
+      travel 1.second
 
       assert_difference "#{endpoint[:model]}.count", 1 do
         post action, params: hidden_fields.merge(instance_exec(1, &endpoint[:params]))

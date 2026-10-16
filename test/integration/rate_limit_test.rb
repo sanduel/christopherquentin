@@ -92,6 +92,16 @@ class RateLimitTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "a bot cannot dodge the limit by prepending fake addresses to X-Forwarded-For" do
+    endpoint = ENDPOINTS[:newsletter_subscriber]
+    (endpoint[:limit] + 1).times do |i|
+      post newsletter_subscribers_path, params: { email: "reader#{i}@example.com" },
+        headers: { "X-Forwarded-For" => "198.18.0.#{i}, 203.0.113.9, #{RAILWAY_PROXY_IP}" }
+    end
+
+    assert_equal endpoint[:limit], NewsletterSubscriber.where("email LIKE ?", "reader%").count
+  end
+
   test "the limit resets after the window passes" do
     endpoint = ENDPOINTS[:newsletter_subscriber]
     endpoint[:limit].times { |i| submit(endpoint, i, client_ip: "203.0.113.9") }
