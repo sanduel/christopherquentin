@@ -1,4 +1,6 @@
 class TreesController < ApplicationController
+  protect_from_spam limit: 10, within: 10.minutes
+
   def index
     @trees = Tree.published.order(created_at: :desc)
     @new_tree = Tree.new

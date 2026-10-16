@@ -1,5 +1,6 @@
 <%# Inline single-step add-tree form. Local: tree %>
 <%= form_with model: tree, class: "space-y-4" do |f| %>
+  <%= invisible_captcha %>
   <% if tree.errors.any? %>
     <div class="bg-band border-l-2 border-accent text-ink p-3 text-[14px] rounded-md">
       <% tree.errors.full_messages.each do |msg| %>

@@ -2,6 +2,7 @@
     Local: memory %>
 <div data-reply-toggle-target="composer" hidden class="mt-4 p-4 bg-band rounded-md">
   <%= form_with model: [memory, Reply.new], local: true, class: "space-y-3" do |f| %>
+    <%= invisible_captcha %>
     <%= f.text_area :body, required: true, rows: 3,
           class: "w-full border border-ink/15 rounded-md p-3 text-sm focus:border-accent outline-none bg-white-bg",
           placeholder: "Write a reply..." %>
