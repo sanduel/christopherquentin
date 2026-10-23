@@ -1,0 +1,21 @@
+<% content_for :title, "Confirm Subscription — Christopher Quentin" %>
+
+<section class="max-w-[760px] mx-auto px-6 lg:px-10 pt-20 pb-24">
+  <div class="flex items-center gap-3">
+    <span class="inline-block w-[34px] h-px bg-accent"></span>
+    <span class="font-mono text-[12px] tracking-[0.2em] uppercase text-accent">Updates</span>
+  </div>
+
+  <h1 class="font-serif font-medium tracking-[-0.02em] text-ink mt-6 mb-0"
+      style="font-size: clamp(40px, 5.5vw, 64px); line-height: 1.0;">
+    Confirm your subscription.
+  </h1>
+
+  <p class="text-[16px] text-muted mt-5 max-w-[560px]">
+    Confirm that <%= @subscriber.email %> should receive occasional updates about Christopher Quentin.
+  </p>
+
+  <%= button_to "Confirm subscription", newsletter_confirmation_path(params[:token]), method: :post,
+        form_class: "mt-10",
+        class: "bg-ink text-white-bg no-underline text-[15px] font-semibold py-[15px] px-7 rounded-md hover:bg-ink-deep transition-colors cursor-pointer border-0" %>
+</section>

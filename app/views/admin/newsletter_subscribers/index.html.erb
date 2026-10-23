@@ -12,6 +12,11 @@
       <div>
         <span class="font-medium text-stone-800"><%= subscriber.email %></span>
         <span class="ml-3 text-xs text-stone-400"><%= subscriber.created_at.strftime("%b %d, %Y") %></span>
+        <% if subscriber.confirmed? %>
+          <span class="ml-3 text-xs px-2 py-0.5 rounded bg-green-100 text-green-800">Confirmed</span>
+        <% else %>
+          <span class="ml-3 text-xs px-2 py-0.5 rounded bg-stone-100 text-stone-500">Pending</span>
+        <% end %>
       </div>
       <%= button_to "Delete", admin_newsletter_subscriber_path(subscriber), method: :delete,
             data: { turbo_confirm: "Remove #{subscriber.email}?" },

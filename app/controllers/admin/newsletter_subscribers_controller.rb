@@ -17,6 +17,7 @@ class Admin::NewsletterSubscribersController < Admin::BaseController
   def destroy
     subscriber = NewsletterSubscriber.find(params[:id])
     subscriber.destroy
+    ResendNewsletterRemoveJob.perform_later(subscriber.email) if subscriber.confirmed?
     redirect_to admin_newsletter_subscribers_path, notice: "Subscriber removed."
   end
 

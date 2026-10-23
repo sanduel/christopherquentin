@@ -81,3 +81,7 @@ group :test do
 end
 
 gem "invisible_captcha", "~> 2.3"
+
+gem "resend", "~> 1.18"
+
+gem "webmock", "~> 3.34", group: :test
