@@ -1,6 +1,11 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require "webmock/minitest"
+
+WebMock.disable_net_connect!(allow_localhost: true)
+Resend.api_key = "re_test_key"
+ENV["RESEND_NEWSLETTER_SEGMENT_ID"] = "seg_newsletter"
 
 Geocoder.configure(lookup: :test, ip_lookup: :test)
 Geocoder::Lookup::Test.set_default_stub(
@@ -52,5 +57,23 @@ module SignInHelper
     user = User.create!(name: "Contributor", email: "contributor@test.com", password: "password123", role: :contributor)
     sign_in_as(user)
     user
+  end
+end
+
+module NewsletterHelper
+  RESEND_API = "https://api.resend.com".freeze
+  SEGMENT_ID = ENV.fetch("RESEND_NEWSLETTER_SEGMENT_ID")
+
+  def confirmation_path_from(mail)
+    mail.text_part.body.to_s[%r{https?://[^/\s]+(/newsletter/confirm/\S+)}, 1] ||
+      flunk("no confirmation link in email:\n#{mail.text_part.body}")
+  end
+
+  def resend_contact_url(email)
+    "#{RESEND_API}/contacts/#{email}"
+  end
+
+  def resend_segment_membership_url(email)
+    "#{RESEND_API}/contacts/#{email}/segments/#{SEGMENT_ID}"
   end
 end

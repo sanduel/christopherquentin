@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   get "submit-photos", to: "gallery#new", as: :submit_photos
   post "submit-photos", to: "gallery#create"
   resources :newsletter_subscribers, only: [ :create ]
+  get "newsletter/confirm/:token", to: "newsletter_confirmations#show", as: :newsletter_confirmation
+  post "newsletter/confirm/:token", to: "newsletter_confirmations#create"
   resources :events, only: [ :index, :show ]
   resources :bee_hives, only: [ :index, :new, :create, :show ]
   get "map", to: "map#index", as: :map

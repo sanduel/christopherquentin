@@ -1,7 +1,9 @@
 require "test_helper"
 
 class AdminSubscribersTest < ActionDispatch::IntegrationTest
+  include ActionView::RecordIdentifier
   include SignInHelper
+  include NewsletterHelper
 
   test "non-admin cannot access subscribers index" do
     sign_in_contributor
@@ -36,6 +38,38 @@ class AdminSubscribersTest < ActionDispatch::IntegrationTest
       delete admin_newsletter_subscriber_path(subscriber)
     end
     assert_redirected_to admin_newsletter_subscribers_path
+  end
+
+  test "admin sees whether each subscriber has confirmed" do
+    sign_in_admin
+    confirmed = NewsletterSubscriber.create!(email: "confirmed@test.com", confirmed_at: 1.day.ago)
+    pending = NewsletterSubscriber.create!(email: "pending@test.com")
+
+    get admin_newsletter_subscribers_path
+    assert_select "##{dom_id(confirmed)}", text: /Confirmed/
+    assert_select "##{dom_id(confirmed)}", text: /Pending/, count: 0
+    assert_select "##{dom_id(pending)}", text: /Pending/
+    assert_select "##{dom_id(pending)}", text: /Confirmed/, count: 0
+  end
+
+  test "deleting a confirmed subscriber removes them from the Resend newsletter segment" do
+    sign_in_admin
+    subscriber = NewsletterSubscriber.create!(email: "fan@test.com", confirmed_at: 1.day.ago)
+    remove = stub_request(:delete, resend_segment_membership_url("fan@test.com"))
+      .to_return(status: 200, body: { id: SEGMENT_ID, deleted: true }.to_json, headers: { "Content-Type" => "application/json" })
+
+    perform_enqueued_jobs { delete admin_newsletter_subscriber_path(subscriber) }
+
+    assert_requested remove
+  end
+
+  test "deleting an unconfirmed subscriber makes no Resend call" do
+    sign_in_admin
+    subscriber = NewsletterSubscriber.create!(email: "fan@test.com")
+
+    perform_enqueued_jobs { delete admin_newsletter_subscriber_path(subscriber) }
+
+    assert_not_requested :any, /api\.resend\.com/
   end
 
   test "admin can export subscribers as CSV" do
