@@ -1,14 +1,16 @@
 namespace :newsletter do
-  desc "Email a confirmation link to every unconfirmed subscriber who hasn't been sent one"
-  task send_confirmations: :environment do
-    sent = 0
+  desc "Mark the given subscribers confirmed and add them to the Resend segment without emailing them (IDS=1,2,3)"
+  task import_existing: :environment do
+    ids = ENV.fetch("IDS").split(",").map(&:strip)
+    imported = 0
     failed = 0
 
-    NewsletterSubscriber.unconfirmed.where(confirmation_sent_at: nil).find_each do |subscriber|
+    NewsletterSubscriber.unconfirmed.where(id: ids).find_each do |subscriber|
       attempts = 0
       begin
-        subscriber.send_confirmation(deliver: :deliver_now)
-        sent += 1
+        ResendNewsletterSyncJob.new.perform(subscriber.email)
+        subscriber.update!(confirmed_at: Time.current)
+        imported += 1
       rescue Resend::Error::RateLimitExceededError => e
         attempts += 1
         sleep(e.retry_after || 1)
@@ -17,12 +19,12 @@ namespace :newsletter do
         warn "Rate limited, skipped #{subscriber.email}"
       rescue Resend::Error => e
         failed += 1
-        warn "Failed to send to #{subscriber.email}: #{e.message}"
+        warn "Failed to import #{subscriber.email}: #{e.message}"
       end
       sleep 0.25 # stay under Resend's per-second rate limit
     end
 
-    puts "Sent #{sent} confirmation emails, #{failed} failed."
+    puts "Imported #{imported}, #{failed} failed."
   end
 
   desc "Re-queue every confirmed subscriber for the Resend newsletter segment"
