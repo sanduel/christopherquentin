@@ -77,4 +77,22 @@ class NewsletterConfirmationTest < ActionDispatch::IntegrationTest
     get "/newsletter/confirm/not-a-token"
     assert_response :not_found
   end
+
+  test "a confirmed subscriber who signs up again and confirms is synced to Resend again" do
+    stub_request(:get, resend_contact_url("fan@test.com"))
+      .to_return(status: 200, body: { object: "contact", id: "c_1", email: "fan@test.com" }.to_json,
+                 headers: { "Content-Type" => "application/json" })
+    stub_request(:patch, resend_contact_url("fan@test.com"))
+      .to_return(status: 200, body: { id: "c_1" }.to_json, headers: { "Content-Type" => "application/json" })
+    add_to_segment = stub_request(:post, resend_segment_membership_url("fan@test.com"))
+      .to_return(status: 200, body: { id: SEGMENT_ID }.to_json, headers: { "Content-Type" => "application/json" })
+    perform_enqueued_jobs { post @path }
+
+    travel 2.hours
+    post newsletter_subscribers_path, params: { email: "fan@test.com" }
+    perform_enqueued_jobs
+    perform_enqueued_jobs { post confirmation_path_from(ActionMailer::Base.deliveries.last) }
+
+    assert_requested add_to_segment, times: 2
+  end
 end

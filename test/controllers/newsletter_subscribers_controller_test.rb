@@ -44,15 +44,37 @@ class NewsletterSubscribersControllerTest < ActionDispatch::IntegrationTest
     assert_match(/check your email/i, flash[:notice])
   end
 
-  test "a confirmed email signing up again sees the same message and is not emailed" do
+  test "a confirmed email signing up again is sent a confirmation so its owner can re-subscribe" do
     NewsletterSubscriber.create!(email: "fan@test.com", confirmed_at: 1.day.ago)
 
     assert_no_difference "NewsletterSubscriber.count" do
-      assert_no_enqueued_emails do
+      assert_enqueued_emails 1 do
         subscribe "fan@test.com"
       end
     end
     assert_match(/check your email/i, flash[:notice])
+  end
+
+  test "an address is sent at most one confirmation per hour however often it is submitted" do
+    NewsletterSubscriber.create!(email: "victim@test.com", confirmation_sent_at: 10.minutes.ago)
+
+    assert_no_enqueued_emails do
+      subscribe "victim@test.com"
+    end
+    assert_match(/check your email/i, flash[:notice])
+
+    travel 1.hour
+    assert_enqueued_emails 1 do
+      subscribe "victim@test.com"
+    end
+  end
+
+  test "addresses with characters that are unsafe in Resend API paths are rejected" do
+    %w[a/b@x.com a?b@x.com a#b@x.com a%2fb@x.com].each do |email|
+      assert_no_difference "NewsletterSubscriber.count", email do
+        subscribe email
+      end
+    end
   end
 
   test "an invalid email is rejected and nothing is sent" do

@@ -1,6 +1,7 @@
 require "test_helper"
 
 class AdminSubscribersTest < ActionDispatch::IntegrationTest
+  include ActionView::RecordIdentifier
   include SignInHelper
   include NewsletterHelper
 
@@ -41,12 +42,14 @@ class AdminSubscribersTest < ActionDispatch::IntegrationTest
 
   test "admin sees whether each subscriber has confirmed" do
     sign_in_admin
-    NewsletterSubscriber.create!(email: "confirmed@test.com", confirmed_at: 1.day.ago)
-    NewsletterSubscriber.create!(email: "pending@test.com")
+    confirmed = NewsletterSubscriber.create!(email: "confirmed@test.com", confirmed_at: 1.day.ago)
+    pending = NewsletterSubscriber.create!(email: "pending@test.com")
 
     get admin_newsletter_subscribers_path
-    assert_select "div", text: /confirmed@test\.com.*Confirmed/m
-    assert_select "div", text: /pending@test\.com.*Pending/m
+    assert_select "##{dom_id(confirmed)}", text: /Confirmed/
+    assert_select "##{dom_id(confirmed)}", text: /Pending/, count: 0
+    assert_select "##{dom_id(pending)}", text: /Pending/
+    assert_select "##{dom_id(pending)}", text: /Confirmed/, count: 0
   end
 
   test "deleting a confirmed subscriber removes them from the Resend newsletter segment" do

@@ -9,9 +9,11 @@ class MailerDefaultsTest < ActionDispatch::IntegrationTest
   test "password reset emails come from the site address with replies to a real inbox" do
     User.create!(name: "Jane", email: "jane@test.com", password: "password123")
 
-    assert_emails 1 do
+    assert_enqueued_emails 1 do
       post user_password_path, params: { user: { email: "jane@test.com" } }
     end
+    assert_redirected_to new_user_session_path
+    perform_enqueued_jobs
 
     mail = ActionMailer::Base.deliveries.last
     assert_equal [ FROM ], mail.from

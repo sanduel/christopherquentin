@@ -1,14 +1,16 @@
 class ResendNewsletterSyncJob < ApplicationJob
-  retry_on Resend::Error::RateLimitExceededError, wait: :polynomially_longer, attempts: 10
+  retry_on Resend::Error::RateLimitExceededError, Resend::Error::InternalServerError,
+           Net::OpenTimeout, Net::ReadTimeout, SocketError, Errno::ECONNREFUSED, Errno::ECONNRESET,
+           wait: :polynomially_longer, attempts: 10
 
-  def perform(subscriber)
+  def perform(email)
     segment_id = ENV.fetch("RESEND_NEWSLETTER_SEGMENT_ID")
 
-    if contact_exists?(subscriber.email)
-      Resend::Contacts.update(email: subscriber.email, unsubscribed: false)
-      Resend::Contacts::Segments.add(email: subscriber.email, segment_id: segment_id)
+    if contact_exists?(email)
+      Resend::Contacts.update(email: email, unsubscribed: false)
+      Resend::Contacts::Segments.add(email: email, segment_id: segment_id)
     else
-      Resend::Contacts.create(email: subscriber.email, unsubscribed: false, segments: [ { id: segment_id } ])
+      Resend::Contacts.create(email: email, unsubscribed: false, segments: [ { id: segment_id } ])
     end
   end
 
