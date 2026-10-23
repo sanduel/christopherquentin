@@ -37,7 +37,19 @@ The `admin` namespace is not covered; `Admin::BaseController` inherits from `App
 
 **View side.** Each public form renders `<%= invisible_captcha %>` inside the form element. This includes forms that appear on many pages (the newsletter form in the site footer partial and the share modal), the reply composer on the timeline, the tree form partial embedded on the projects page, each `new` submission page, and the Devise registration page. The honeypot check only works when the helper is rendered in the form that posts to a protected action.
 
+**Newsletter double opt-in.** Signing up does not subscribe anyone; it only sends a confirmation email. The full lifecycle (model, mailer, Resend sync) is described in [@/app/mailers/docs.md](../mailers/docs.md); the controller side is:
+
+| Step | Controller | Behavior |
+|---|---|---|
+| `POST /newsletter_subscribers` | [@/app/controllers/newsletter_subscribers_controller.rb](newsletter_subscribers_controller.rb) | `find_or_initialize_by(email:)`. Already confirmed: no email sent. New or pending: saved and `send_confirmation` (re)sends the link. All success paths redirect with the same "check your email" notice. |
+| `GET /newsletter/confirm/:token` | [@/app/controllers/newsletter_confirmations_controller.rb](newsletter_confirmations_controller.rb) `#show` | Renders a page with a "Confirm subscription" button. Does not change state. |
+| `POST /newsletter/confirm/:token` | same, `#create` | Calls `confirm!` and renders `confirmed`. |
+| Invalid/expired/used token (either verb) | `set_subscriber` `before_action` | Renders `expired` with status 404. |
+| Admin delete | [@/app/controllers/admin/newsletter_subscribers_controller.rb](admin/newsletter_subscribers_controller.rb) `#destroy` | Destroys the row and, only if it was confirmed, enqueues `ResendNewsletterRemoveJob` to drop the address from the Resend segment. |
+
 ### Things to Know
+- The identical signup response for new, pending, and confirmed addresses exists so the form cannot be used to discover who is on the list. Bots submitting real people's addresses was the motivation for double opt-in.
+- Confirmation is split into GET (show button) and POST (confirm) because email link scanners such as Outlook Safe Links prefetch every link in incoming mail; a confirming GET would let them confirm addresses that bots signed up. `NewsletterConfirmationsController` does not call `protect_from_spam`; the signed, expiring token is the only gate.
 - Adding a new public form requires both halves: `protect_from_spam` in the controller and `invisible_captcha` in the form. The integration tests in [@/test/integration/anti_spam_test.rb](../../test/integration/anti_spam_test.rb) and [@/test/integration/rate_limit_test.rb](../../test/integration/rate_limit_test.rb) are table-driven; a new endpoint is covered by adding an entry to their tables.
 - invisible_captcha's timestamp and spinner checks are intentionally disabled. Both store per-session state that is rewritten each time any protected form renders. Because the footer newsletter form and the share modal render on every page, and Turbo 8 prefetches pages on link hover, hovering a link or opening another tab overwrote that state and caused real visitors' submissions to be rejected. The design is honeypot-only plus per-IP rate limits.
 - `request.remote_ip` is only correct because `100.64.0.0/10` (Railway's edge proxy, carrier-grade NAT shared address space) is added to `ActionDispatch::RemoteIp::TRUSTED_PROXIES`. The production path is Railway edge -> Thruster (with `FORWARD_HEADERS` on, since TLS terminates at the edge; it appends the edge hop to `X-Forwarded-For`) -> Puma on localhost. Without trusting that range, `remote_ip` resolved to a `100.64.0.x` proxy address and every visitor shared a single rate-limit bucket. The setting affects `remote_ip` everywhere in the app, not just rate limiting.
