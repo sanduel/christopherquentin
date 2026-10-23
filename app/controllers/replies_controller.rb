@@ -1,5 +1,6 @@
 class RepliesController < ApplicationController
   before_action :set_memory
+  protect_from_spam limit: 10, within: 10.minutes
 
   def create
     @reply = @memory.replies.build(reply_params)

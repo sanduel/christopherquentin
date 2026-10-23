@@ -1,4 +1,6 @@
 class BeeHivesController < ApplicationController
+  protect_from_spam limit: 10, within: 10.minutes
+
   def index
     @bee_hives = BeeHive.published.order(created_at: :desc)
   end

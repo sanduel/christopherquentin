@@ -1,5 +1,6 @@
 class GalleryController < ApplicationController
   PER_PAGE = 48
+  protect_from_spam limit: 10, within: 10.minutes
 
   def index
     @page = [ params[:page].to_i, 1 ].max

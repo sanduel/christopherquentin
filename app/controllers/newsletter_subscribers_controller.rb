@@ -1,4 +1,6 @@
 class NewsletterSubscribersController < ApplicationController
+  protect_from_spam limit: 5, within: 10.minutes
+
   def create
     @subscriber = NewsletterSubscriber.new(subscriber_params)
 

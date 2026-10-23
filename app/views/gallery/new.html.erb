@@ -16,6 +16,7 @@
   </p>
 
   <%= form_with url: submit_photos_path, method: :post, class: "space-y-6 mt-12", multipart: true do |f| %>
+    <%= invisible_captcha %>
     <% if flash[:alert] %>
       <div class="bg-band border-l-2 border-[#b91c1c] text-[#b91c1c] px-4 py-3 text-sm"><%= flash[:alert] %></div>
     <% end %>

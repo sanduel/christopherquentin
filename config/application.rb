@@ -35,5 +35,10 @@ module Christopherquentin
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Railway's edge proxy connects from the shared address space (100.64.0.0/10).
+    # Trusting it lets request.remote_ip resolve to the visitor's real IP.
+    config.action_dispatch.trusted_proxies =
+      ActionDispatch::RemoteIp::TRUSTED_PROXIES + [ IPAddr.new("100.64.0.0/10") ]
   end
 end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount RailsIcons::Engine, at: "/rails_icons"
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
 
   root "pages#home"
 

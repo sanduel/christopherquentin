@@ -11,6 +11,27 @@ module ActiveSupport
   class TestCase
     parallelize(workers: :number_of_processors)
     fixtures :all
+
+    setup { Rails.cache.clear }
+  end
+end
+
+module AntiSpamHelper
+  def honeypot_names_in(form_selector)
+    names = []
+    assert_select form_selector do
+      assert_select "input" do |inputs|
+        names = inputs.map { |input| input["name"] } & InvisibleCaptcha.honeypots
+      end
+    end
+    names
+  end
+
+  def hidden_fields_in(form_selector)
+    css_select("#{form_selector} input[type=hidden]")
+      .select { |input| input["name"] }
+      .to_h { |input| [ input["name"], input["value"] ] }
+      .except("_method", "authenticity_token")
   end
 end
 

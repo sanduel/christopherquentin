@@ -1,5 +1,6 @@
 class TributesController < ApplicationController
   before_action :require_admin!, only: [ :edit, :update ]
+  protect_from_spam limit: 10, within: 10.minutes
 
   def index
     scope = Tribute.published.with_attached_photo.order(created_at: :desc)

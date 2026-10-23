@@ -7,6 +7,7 @@
         class="rounded-[5px] bg-white-bg max-w-[640px] w-[92vw] p-0 m-auto backdrop:bg-ink/40">
   <%= form_with model: Memory.new, url: memories_path, multipart: true,
         local: true, data: { share_modal_target: "form" }, html: { class: "block" } do |f| %>
+    <%= invisible_captcha %>
 
     <header class="px-8 pt-7 pb-4 border-b border-ink/8">
       <div class="font-mono text-[12px] tracking-[0.18em] uppercase text-accent" data-share-modal-target="stepLabel">Step 1 of 2 · The memory</div>
