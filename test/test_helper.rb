@@ -22,6 +22,17 @@ module ActiveSupport
 end
 
 module AntiSpamHelper
+  # Loads a page as a visitor would, takes the form render token from the form that posts
+  # to `action`, and waits long enough for it to be accepted.
+  def form_token_fields(page, action)
+    get page
+    fields = css_select("form[action='#{action}'] input[name='#{FormRenderToken::PARAM}']")
+      .to_h { |input| [ input["name"], input["value"] ] }
+    flunk("form posting to #{action} on #{page} has no #{FormRenderToken::PARAM} field") if fields.empty?
+    travel FormRenderToken::MIN_AGE + 1.second
+    fields
+  end
+
   def honeypot_names_in(form_selector)
     names = []
     assert_select form_selector do
@@ -61,17 +72,14 @@ module SignInHelper
 end
 
 module NewsletterHelper
+  include AntiSpamHelper
+
   RESEND_API = "https://api.resend.com".freeze
   SEGMENT_ID = ENV.fetch("RESEND_NEWSLETTER_SEGMENT_ID")
 
   # Loads the footer form as a visitor would and waits long enough to submit it.
   def newsletter_form_fields
-    get root_path
-    fields = css_select("footer form[action='#{newsletter_subscribers_path}'] input[name='#{FormRenderToken::PARAM}']")
-      .to_h { |input| [ input["name"], input["value"] ] }
-    flunk("footer newsletter form has no #{FormRenderToken::PARAM} field") if fields.empty?
-    travel FormRenderToken::MIN_AGE + 1.second
-    fields
+    form_token_fields(root_path, newsletter_subscribers_path)
   end
 
   def subscribe_to_newsletter(email, headers: {})
