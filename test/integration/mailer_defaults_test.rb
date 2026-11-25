@@ -2,6 +2,7 @@ require "test_helper"
 
 class MailerDefaultsTest < ActionDispatch::IntegrationTest
   include ActionMailer::TestHelper
+  include NewsletterHelper
 
   FROM = "hello@send.christopherquentin.com".freeze
   REPLY_TO = "samuelmcmullen@gmail.com".freeze
@@ -22,7 +23,7 @@ class MailerDefaultsTest < ActionDispatch::IntegrationTest
   end
 
   test "newsletter confirmation emails come from the site address with replies to a real inbox" do
-    post newsletter_subscribers_path, params: { email: "fan@test.com" }
+    subscribe_to_newsletter "fan@test.com"
     perform_enqueued_jobs
 
     mail = ActionMailer::Base.deliveries.last

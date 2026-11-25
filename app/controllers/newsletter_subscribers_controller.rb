@@ -1,5 +1,6 @@
 class NewsletterSubscribersController < ApplicationController
   protect_from_spam limit: 5, within: 10.minutes
+  before_action :require_form_render_token, only: :create
 
   # Responds identically whether or not the address is already subscribed, so the
   # form can't be used to discover who is on the list. Confirmed subscribers are

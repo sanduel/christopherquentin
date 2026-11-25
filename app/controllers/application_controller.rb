@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def require_form_render_token
+    reject_spam unless FormRenderToken.redeem(params[FormRenderToken::PARAM])
+  end
+
   def reject_spam
     redirect_back fallback_location: root_path, status: :see_other,
       alert: "Sorry, we couldn't accept that submission. Please try again."

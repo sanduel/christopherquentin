@@ -64,6 +64,20 @@ module NewsletterHelper
   RESEND_API = "https://api.resend.com".freeze
   SEGMENT_ID = ENV.fetch("RESEND_NEWSLETTER_SEGMENT_ID")
 
+  # Loads the footer form as a visitor would and waits long enough to submit it.
+  def newsletter_form_fields
+    get root_path
+    fields = css_select("footer form[action='#{newsletter_subscribers_path}'] input[name='#{FormRenderToken::PARAM}']")
+      .to_h { |input| [ input["name"], input["value"] ] }
+    flunk("footer newsletter form has no #{FormRenderToken::PARAM} field") if fields.empty?
+    travel FormRenderToken::MIN_AGE + 1.second
+    fields
+  end
+
+  def subscribe_to_newsletter(email, headers: {})
+    post newsletter_subscribers_path, params: newsletter_form_fields.merge(email: email), headers: headers
+  end
+
   def confirmation_path_from(mail)
     mail.text_part.body.to_s[%r{https?://[^/\s]+(/newsletter/confirm/\S+)}, 1] ||
       flunk("no confirmation link in email:\n#{mail.text_part.body}")
