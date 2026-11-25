@@ -66,6 +66,7 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
       form_page: -> { new_user_registration_path },
       action: -> { user_registration_path },
       params: ->(i) { { user: { name: "Jane", email: "jane#{i}@example.com", password: "password123", password_confirmation: "password123" } } },
+      needs_form_token: true,
       model: "User"
     }
   }.freeze
@@ -74,10 +75,7 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
   def token_fields_for(endpoint)
     return {} unless endpoint[:needs_form_token]
 
-    get instance_exec(&endpoint[:form_page])
-    fields = hidden_fields_in("form[action='#{instance_exec(&endpoint[:action])}']").slice(FormRenderToken::PARAM)
-    travel FormRenderToken::MIN_AGE + 1.second
-    fields
+    form_token_fields(instance_exec(&endpoint[:form_page]), instance_exec(&endpoint[:action]))
   end
 
   ENDPOINTS.each do |key, endpoint|

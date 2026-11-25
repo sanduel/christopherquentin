@@ -54,12 +54,15 @@ class RateLimitTest < ActionDispatch::IntegrationTest
     newsletter_subscriber: {
       limit: 5,
       needs_form_token: true,
+      form_page: -> { root_path },
       action: -> { newsletter_subscribers_path },
       params: ->(i) { { email: "reader#{i}@example.com" } },
       model: "NewsletterSubscriber"
     },
     registration: {
       limit: 3,
+      needs_form_token: true,
+      form_page: -> { new_user_registration_path },
       action: -> { user_registration_path },
       params: ->(i) { { user: { name: "Jane", email: "jane#{i}@example.com", password: "password123", password_confirmation: "password123" } } },
       model: "User"
@@ -70,7 +73,9 @@ class RateLimitTest < ActionDispatch::IntegrationTest
   # appends that hop to X-Forwarded-For before passing the request to Puma on localhost.
   def submit(endpoint, i, client_ip:)
     params = instance_exec(i, &endpoint[:params])
-    params = newsletter_form_fields.merge(params) if endpoint[:needs_form_token]
+    if endpoint[:needs_form_token]
+      params = form_token_fields(instance_exec(&endpoint[:form_page]), instance_exec(&endpoint[:action])).merge(params)
+    end
     post instance_exec(&endpoint[:action]),
       params: params,
       headers: { "X-Forwarded-For" => "#{client_ip}, #{RAILWAY_PROXY_IP}" }
