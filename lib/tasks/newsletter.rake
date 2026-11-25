@@ -27,6 +27,12 @@ namespace :newsletter do
     puts "Imported #{imported}, #{failed} failed."
   end
 
+  desc "Delete unconfirmed sign-ups whose confirmation link has expired (never-emailed rows are kept)"
+  task purge_expired: :environment do
+    deleted = NewsletterSubscriber.confirmation_expired.delete_all
+    puts "Deleted #{deleted} expired unconfirmed sign-ups."
+  end
+
   desc "Re-queue every confirmed subscriber for the Resend newsletter segment"
   task resync: :environment do
     emails = NewsletterSubscriber.confirmed.pluck(:email)

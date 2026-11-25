@@ -53,6 +53,7 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
       form_page: -> { root_path },
       action: -> { newsletter_subscribers_path },
       params: ->(i) { { email: "reader#{i}@example.com" } },
+      needs_form_token: true,
       model: "NewsletterSubscriber"
     },
     bee_hive: {
@@ -69,6 +70,16 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
     }
   }.freeze
 
+  # Valid form-token fields where an endpoint requires them, so only the honeypot can reject.
+  def token_fields_for(endpoint)
+    return {} unless endpoint[:needs_form_token]
+
+    get instance_exec(&endpoint[:form_page])
+    fields = hidden_fields_in("form[action='#{instance_exec(&endpoint[:action])}']").slice(FormRenderToken::PARAM)
+    travel FormRenderToken::MIN_AGE + 1.second
+    fields
+  end
+
   ENDPOINTS.each do |key, endpoint|
     test "#{key}: the form includes a honeypot field" do
       get instance_exec(&endpoint[:form_page])
@@ -80,7 +91,9 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
     end
 
     test "#{key}: a submission with the honeypot filled in is rejected" do
-      params = instance_exec(1, &endpoint[:params]).merge(InvisibleCaptcha.honeypots.first => "http://spam.example")
+      params = token_fields_for(endpoint)
+        .merge(instance_exec(1, &endpoint[:params]))
+        .merge(InvisibleCaptcha.honeypots.first => "http://spam.example")
 
       assert_no_difference "#{endpoint[:model]}.count" do
         post instance_exec(&endpoint[:action]), params: params
@@ -92,13 +105,15 @@ class AntiSpamTest < ActionDispatch::IntegrationTest
     test "#{key}: a honeypot rendered before a restart is still caught after it" do
       get instance_exec(&endpoint[:form_page])
       honeypot = honeypot_names_in("form[action='#{instance_exec(&endpoint[:action])}']").first
+      token = hidden_fields_in("form[action='#{instance_exec(&endpoint[:action])}']").slice(FormRenderToken::PARAM)
+      travel FormRenderToken::MIN_AGE + 1.second
 
       InvisibleCaptcha.instance_variable_set(:@honeypots, nil)
       load Rails.root.join("config/initializers/invisible_captcha.rb")
 
       assert_no_difference "#{endpoint[:model]}.count" do
         post instance_exec(&endpoint[:action]),
-          params: instance_exec(1, &endpoint[:params]).merge(honeypot => "http://spam.example")
+          params: token.merge(instance_exec(1, &endpoint[:params])).merge(honeypot => "http://spam.example")
       end
     end
 

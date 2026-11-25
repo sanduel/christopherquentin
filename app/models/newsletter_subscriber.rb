@@ -9,7 +9,13 @@ class NewsletterSubscriber < ApplicationRecord
   scope :confirmed, -> { where.not(confirmed_at: nil) }
   scope :unconfirmed, -> { where(confirmed_at: nil) }
 
-  generates_token_for :confirmation, expires_in: 14.days do
+  CONFIRMATION_LINK_LIFETIME = 14.days
+
+  # The link is generated when the queued email renders, just after confirmation_sent_at
+  # is stamped, so allow a day of margin before treating it as expired.
+  scope :confirmation_expired, -> { unconfirmed.where(confirmation_sent_at: ...(CONFIRMATION_LINK_LIFETIME + 1.day).ago) }
+
+  generates_token_for :confirmation, expires_in: CONFIRMATION_LINK_LIFETIME do
     confirmed_at
   end
 

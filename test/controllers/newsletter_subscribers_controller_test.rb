@@ -5,7 +5,7 @@ class NewsletterSubscribersControllerTest < ActionDispatch::IntegrationTest
   include NewsletterHelper
 
   def subscribe(email)
-    post newsletter_subscribers_path, params: { email: email }, headers: { "HTTP_REFERER" => root_path }
+    subscribe_to_newsletter email, headers: { "HTTP_REFERER" => root_path }
   end
 
   test "a new email creates an unconfirmed subscriber and is sent a confirmation link" do

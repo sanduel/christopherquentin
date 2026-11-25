@@ -1,6 +1,8 @@
 require "test_helper"
 
 class RateLimitTest < ActionDispatch::IntegrationTest
+  include NewsletterHelper
+
   RAILWAY_PROXY_IP = "100.64.0.5".freeze
 
   ENDPOINTS = {
@@ -51,6 +53,7 @@ class RateLimitTest < ActionDispatch::IntegrationTest
     },
     newsletter_subscriber: {
       limit: 5,
+      needs_form_token: true,
       action: -> { newsletter_subscribers_path },
       params: ->(i) { { email: "reader#{i}@example.com" } },
       model: "NewsletterSubscriber"
@@ -66,8 +69,10 @@ class RateLimitTest < ActionDispatch::IntegrationTest
   # In production, Railway's edge proxy (100.64.0.0/10) forwards to Thruster, which
   # appends that hop to X-Forwarded-For before passing the request to Puma on localhost.
   def submit(endpoint, i, client_ip:)
+    params = instance_exec(i, &endpoint[:params])
+    params = newsletter_form_fields.merge(params) if endpoint[:needs_form_token]
     post instance_exec(&endpoint[:action]),
-      params: instance_exec(i, &endpoint[:params]),
+      params: params,
       headers: { "X-Forwarded-For" => "#{client_ip}, #{RAILWAY_PROXY_IP}" }
     # Registration signs the new user in; sign out so the next attempt is anonymous again.
     delete destroy_user_session_path if endpoint[:model] == "User"
@@ -95,7 +100,7 @@ class RateLimitTest < ActionDispatch::IntegrationTest
   test "a bot cannot dodge the limit by prepending fake addresses to X-Forwarded-For" do
     endpoint = ENDPOINTS[:newsletter_subscriber]
     (endpoint[:limit] + 1).times do |i|
-      post newsletter_subscribers_path, params: { email: "reader#{i}@example.com" },
+      post newsletter_subscribers_path, params: newsletter_form_fields.merge(email: "reader#{i}@example.com"),
         headers: { "X-Forwarded-For" => "198.18.0.#{i}, 203.0.113.9, #{RAILWAY_PROXY_IP}" }
     end
 

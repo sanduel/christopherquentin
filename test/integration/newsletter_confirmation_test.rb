@@ -5,7 +5,7 @@ class NewsletterConfirmationTest < ActionDispatch::IntegrationTest
   include NewsletterHelper
 
   setup do
-    post newsletter_subscribers_path, params: { email: "fan@test.com" }
+    subscribe_to_newsletter "fan@test.com"
     perform_enqueued_jobs
     @subscriber = NewsletterSubscriber.find_by!(email: "fan@test.com")
     @path = confirmation_path_from(ActionMailer::Base.deliveries.last)
@@ -89,7 +89,7 @@ class NewsletterConfirmationTest < ActionDispatch::IntegrationTest
     perform_enqueued_jobs { post @path }
 
     travel 2.hours
-    post newsletter_subscribers_path, params: { email: "fan@test.com" }
+    subscribe_to_newsletter "fan@test.com"
     perform_enqueued_jobs
     perform_enqueued_jobs { post confirmation_path_from(ActionMailer::Base.deliveries.last) }
 
